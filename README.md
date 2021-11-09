@@ -11,7 +11,7 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
  ```
 
 ## Screenshots
-![ScreenShot 1](https://github.com/Md7tz/"Running Lizard"/Screenshots/sc1.PNG)
+![ScreenShot_1](https://github.com/Md7tz/"Running-Lizard"/main/blob/Screenshots/sc1.PNG)
 
 ### TODO
 ```
@@ -20,3 +20,5 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
 3. Create a poison class inherited from food class through polymorphism
 4. Add a popup message upon winning/losing with a retry prompt with the keystroke R (Keystroke Added without popup)
 ```
+
+**Note** run the same configuration provided in *.vscode* folder for vscode to avoid debugging issues
