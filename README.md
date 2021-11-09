@@ -38,7 +38,7 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
 9. Create a pull request to the master branch and issue a review without merging
 
 > Download [Github Desktop](https://desktop.github.com/ "Github Desktop") for easier workflow
-> If you have any issues request a tutorial in a google meeting through my email [mailto](mailto:medhatusama@gmail.com)
+> If you have any issues request a tutorial in a google meeting through my email [mailto](mailto:medhatusama@gmail.com "medhatusama@gmail.com")
 
 
 **Important Notes** 
