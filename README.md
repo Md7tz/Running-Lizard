@@ -1,4 +1,5 @@
 # Running-Lizard 
+#omar
 
 This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6.0
 [Documentation](https://home.cs.colorado.edu/~main/cs1300/doc/bgi/ "WinBGIm Doc")
