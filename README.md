@@ -11,7 +11,7 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
  ```
 
 ## Screenshots
-![ScreenShot_1](https://github.com/Md7tz/"Running-Lizard"/main/blob/Screenshots/sc1.PNG)
+![ScreenShot_1](https://github.com/Md7tz/Running-Lizard/blob/master/Screenshots/sc1.PNG)
 
 ### TODO
 ```
