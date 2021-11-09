@@ -19,6 +19,11 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
 2. Add a life counter with a 3 image sprite 
 3. Create a poison class inherited from food class through polymorphism
 4. Add a popup message upon winning/losing with a retry prompt with the keystroke R (Keystroke Added without popup)
+5. Add an fps counter on top right (optional)
+6. instantiate more than one fruit(red apple) as an array of objects with randomized position
+7. instatiate one poisonous apple at a time (no array of objects needed)
 ```
 
-**Note** run the same configuration provided in *.vscode* folder for vscode to avoid debugging issues
+**Notes** 
+* run the same configuration provided in *.vscode* folder for vscode to avoid debugging issues
+* Add [DONE] for every achievement in the todo list
