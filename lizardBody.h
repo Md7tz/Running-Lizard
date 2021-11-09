@@ -93,9 +93,11 @@ int LizardBody::update() {                                            // THIS FU
         }
         if (direction == LEFT)
         {
+                int offsetX = 30;
                 arr[0].x -= 30;
-                if (arr[0].x == 0)
+                if (arr[0].x+offsetX == 0)
                 {
+                        // arr[0].x -= 30;
                         arr[0].x = 780; // 510 - 60
                 }
         }
