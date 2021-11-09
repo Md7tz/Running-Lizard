@@ -106,6 +106,8 @@ start:
           else
           {
                outtextxy(160, 545, "GAME OVER");
+               settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
+               outtextxy(250, 200, "Press R to Retry");
           }
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
           outtextxy(580, 545, "PRESS 'ESC' to EXIT");
@@ -146,7 +148,7 @@ void drawGrid() {
      int size = 30; // box size in grid
      int left = 0, top = 0, right = 30, bottom = 30;
      int x = 5, y = 5;
-     int i = 0;
+     int i = 1;
 
      // Color A: 229 255 204
      // Color B: 204 255 204

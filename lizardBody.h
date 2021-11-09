@@ -18,6 +18,7 @@ private:
         Position arr[31];            // ThiS ARRAY IS GOING TO CONTAIN THE POSITIONS OF WHOLE lizard
         int direction;
         int length;
+        int offset;
 public:
         LizardBody()
         {
@@ -25,6 +26,7 @@ public:
                 arr[0].y = 30;        // PROVIDING THE lizardHEAD ITS INITIAL VALUE
                 length = 2;           // INITILAL LENGTH = 2
                 direction = RIGHT;    // GOING IN RIGHT DIRECTION
+                offset = 30;          // offset between object origin and x, y position
         }
         void drawLizard();
         void appendLizard();         // IT IS RESPONSIBLE FOR INCREMENT IN lizard'S LENGTH
@@ -93,9 +95,8 @@ int LizardBody::update() {                                            // THIS FU
         }
         if (direction == LEFT)
         {
-                int offsetX = 30;
                 arr[0].x -= 30;
-                if (arr[0].x+offsetX == 0)
+                if (arr[0].x+offset == 0)
                 {
                         // arr[0].x -= 30;
                         arr[0].x = 780; // 510 - 60
@@ -112,7 +113,7 @@ int LizardBody::update() {                                            // THIS FU
         else if (direction == UP)
         {
                 arr[0].y -= 30;
-                if (arr[0].y == 0)
+                if (arr[0].y+offset == 0)
                 {
                         arr[0].y = 510;
                 }
