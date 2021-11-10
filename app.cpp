@@ -5,6 +5,7 @@
 #include "lizardBody.h"
 #include "food.h"
 #include "poison.h"
+#include "menu.h"
 
 // void drawBorders();
 void drawGrid();
@@ -14,7 +15,6 @@ using namespace std;
 const int WIDTH = 810;
 const int HEIGHT = 600;
 // bool gridDrawn = false;
-
 
 int main()
 {
@@ -30,16 +30,23 @@ start:
      int page = 0;
 
      fruit.generate(body.getPosx(), body.getPosy());
+	 bool start1=true;
+	  here: 
+	          cleardevice();
+		      setcolor(WHITE);
+			  menu m1;
+              m1.start(303,299,454,349);
+		
 
      while (true)
      {
           setactivepage(page);
           setvisualpage(1 - page);
           cleardevice();
+          
+		 
           setcolor(BLUE);
-
           setfillstyle(SOLID_FILL, BLUE);
-
 
           if (GetAsyncKeyState(VK_LEFT))
           {
@@ -58,7 +65,9 @@ start:
                body.changeDirTo(DOWN);
           }
           if (GetAsyncKeyState(VK_ESCAPE))
-               break;
+          {
+               goto here;
+          }
           if (GetAsyncKeyState(0x52)) // 0x52 R key
                goto start;
 
@@ -72,13 +81,11 @@ start:
           drawGrid();
           body.drawLizard();
 
-
           if (fruit.update(body.getPosx(), body.getPosy()))
           {
                fruit.generate(body.getPosx(), body.getPosy());
                body.appendLizard();
           }
-
 
           // SCORE
           settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 2);
@@ -89,7 +96,6 @@ start:
 
           outtextxy(50, 545, "SCORE");
           outtextxy(120, 545, score);
-
 
           // STATUS
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
@@ -127,24 +133,26 @@ start:
 }
 
 // initial state grid with no borders
-void drawBorders() {
+void drawBorders()
+{
      setcolor(DARKGRAY);
-     rectangle(0, 0, 30, 600);      // LEFT BORDER
-     rectangle(780, 0, 810, 610);   // RIGHT BORDER
-     rectangle(30, 0, 780, 30);     // TOP BORDER
-     rectangle(30, 570, 780, 600);  // BOT BORDER
-     rectangle(30, 540, 780, 550);  // STATS-BOT BORDER
+     rectangle(0, 0, 30, 600);     // LEFT BORDER
+     rectangle(780, 0, 810, 610);  // RIGHT BORDER
+     rectangle(30, 0, 780, 30);    // TOP BORDER
+     rectangle(30, 570, 780, 600); // BOT BORDER
+     rectangle(30, 540, 780, 550); // STATS-BOT BORDER
 
      setfillstyle(SOLID_FILL, colors::DARKGRAY);
-     floodfill(1, 1, colors::DARKGRAY);      // Fill LEFT
-     floodfill(781, 1, colors::DARKGRAY);    // Fill RIGHT
-     floodfill(31, 1, colors::DARKGRAY);     // Fill TOP
-     floodfill(31, 571, colors::DARKGRAY);   // Fill BOT
-     floodfill(31, 541, colors::DARKGRAY);   // Fill STATS-BOT
+     floodfill(1, 1, colors::DARKGRAY);    // Fill LEFT
+     floodfill(781, 1, colors::DARKGRAY);  // Fill RIGHT
+     floodfill(31, 1, colors::DARKGRAY);   // Fill TOP
+     floodfill(31, 571, colors::DARKGRAY); // Fill BOT
+     floodfill(31, 541, colors::DARKGRAY); // Fill STATS-BOT
 }
 
-// Draw Box Grid with texture 
-void drawGrid() {
+// Draw Box Grid with texture
+void drawGrid()
+{
      int size = 30; // box size in grid
      int left = 0, top = 0, right = 30, bottom = 30;
      int x = 5, y = 5;
@@ -155,16 +163,20 @@ void drawGrid() {
 
      // Divide background to grid containers
      setcolor(COLOR(229, 255, 204));
-     for (int row = 0; row < HEIGHT / size; row++) {
-          for (int col = 0; col < WIDTH / size; col++) {
+     for (int row = 0; row < HEIGHT / size; row++)
+     {
+          for (int col = 0; col < WIDTH / size; col++)
+          {
                rectangle(left, top, right, bottom);
                left += size;
                right += size;
-               if (i % 2 == 0) {
+               if (i % 2 == 0)
+               {
                     setfillstyle(fill_styles::SOLID_FILL, COLOR(229, 255, 204));
                     floodfill(x, y, COLOR(229, 255, 204));
                }
-               else {
+               else
+               {
                     setcolor(COLOR(204, 255, 204));
                     setfillstyle(fill_styles::SOLID_FILL, COLOR(204, 255, 204));
                     floodfill(x, y, COLOR(204, 255, 204));
