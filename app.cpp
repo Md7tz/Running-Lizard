@@ -108,10 +108,12 @@ start:
                outtextxy(250, 200, "Press R to Retry");
           }
 
-          // Controls
-          outtextxy(270, 545, " W ");
-          outtextxy(255, 565, " A  S  D ");
+          // Controls - WASD
+          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+          outtextxy(280, 545, " W ");
+          outtextxy(265, 565, " A  S  D ");
 
+          // Controls - Arrows
 
 
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
