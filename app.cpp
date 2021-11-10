@@ -36,10 +36,9 @@ start:
           setactivepage(page);
           setvisualpage(1 - page);
           cleardevice();
+
           setcolor(BLUE);
-
           setfillstyle(SOLID_FILL, BLUE);
-
 
           if (GetAsyncKeyState(VK_LEFT))
           {
@@ -59,7 +58,7 @@ start:
           }
           if (GetAsyncKeyState(VK_ESCAPE))
                break;
-          if (GetAsyncKeyState(0x52)) // 0x52 R key
+          if (GetAsyncKeyState('R')) // 0x52 R key
                goto start;
 
           if (playing == true && !body.update())
@@ -81,7 +80,7 @@ start:
 
 
           // SCORE
-          settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 2);
+          settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 1);
           setcolor(WHITE);
 
           length = body.getlength();
@@ -90,9 +89,8 @@ start:
           outtextxy(50, 545, "SCORE");
           outtextxy(120, 545, score);
 
-
           // STATUS
-          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
+          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
           // outtextxy(520, 300, "STATUS :-");
           if (body.getlength() == 32)
           {
@@ -109,7 +107,14 @@ start:
                settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
                outtextxy(250, 200, "Press R to Retry");
           }
-          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
+
+          // Controls
+          outtextxy(270, 545, " W ");
+          outtextxy(255, 565, " A  S  D ");
+
+
+
+          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
           outtextxy(580, 545, "PRESS 'ESC' to EXIT");
 
           fruit.draw();
