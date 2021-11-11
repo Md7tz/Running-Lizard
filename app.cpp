@@ -40,19 +40,19 @@ start:
           setcolor(BLUE);
           setfillstyle(SOLID_FILL, BLUE);
 
-          if (GetAsyncKeyState(VK_LEFT))
+          if (GetAsyncKeyState(VK_LEFT)||GetAsyncKeyState(0x41))
           {
                body.changeDirTo(LEFT);
           }
-          if (GetAsyncKeyState(VK_UP))
+          if (GetAsyncKeyState(VK_UP)||GetAsyncKeyState(0x57))
           {
                body.changeDirTo(UP);
           }
-          if (GetAsyncKeyState(VK_RIGHT))
+          if (GetAsyncKeyState(VK_RIGHT)||GetAsyncKeyState(0x44))
           {
                body.changeDirTo(RIGHT);
           }
-          if (GetAsyncKeyState(VK_DOWN))
+          if (GetAsyncKeyState(VK_DOWN)||GetAsyncKeyState(0x53))
           {
                body.changeDirTo(DOWN);
           }
