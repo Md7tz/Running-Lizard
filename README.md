@@ -29,7 +29,7 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
 4.  [Done] Add a popup message upon winning/losing with a retry prompt with the keystroke R (Keystroke Added without popup)
 5.  instantiate more than one fruit(red apple) as an array of objects with randomized position
 6.  instatiate one poisonous apple at a time (no array of objects needed)
-7.  Fix First couple of tiles that has color filling issue
+7.  [DONE] Fix First couple of tiles that has color filling issue
 8.  [DONE] Change lizard color to blend
 9.  [DONE] Add controls UI for the player
 10. [DONE] Set max score to be 300 when the lizard reaches length of 32

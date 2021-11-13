@@ -143,11 +143,11 @@ start:
           outtextxy(580, 545, (char*)"PRESS 'ESC' to EXIT");
 
           // Progressive speed
-          if (atoi (score) >= 100) {
+          if (atoi(score) >= 100) {
                delaySpeed = 40;
                strcpy(speed, "Fast");
           }
-          if (atoi (score) >= 200) {
+          if (atoi(score) >= 200) {
                delaySpeed = 25;
                strcpy(speed, "Insane");
           }
@@ -206,6 +206,10 @@ void drawGrid()
      // Color A: 229 255 204
      // Color B: 204 255 204
 
+     // fill background with color first
+     setfillstyle(fill_styles::SOLID_FILL, COLOR(204, 255, 204));
+     floodfill(x, y, COLOR(204, 255, 204));
+
      // Divide background to grid containers and fill with color
      setcolor(COLOR(229, 255, 204));
      for (int row = 0; row < HEIGHT / size; row++)
@@ -220,12 +224,13 @@ void drawGrid()
                     setfillstyle(fill_styles::SOLID_FILL, COLOR(229, 255, 204));
                     floodfill(x, y, COLOR(229, 255, 204));
                }
-               else
-               {
-                    setcolor(COLOR(204, 255, 204));
-                    setfillstyle(fill_styles::SOLID_FILL, COLOR(204, 255, 204));
-                    floodfill(x, y, COLOR(204, 255, 204));
-               }
+               // refactored for optimization
+               // else
+               // {
+               //      setcolor(COLOR(204, 255, 204));
+               //      setfillstyle(fill_styles::SOLID_FILL, COLOR(204, 255, 204));
+               //      floodfill(x, y, COLOR(204, 255, 204));
+               // }
                x += 30;
                i++;
           }
