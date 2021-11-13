@@ -1,6 +1,7 @@
 /*----------Running lizard GAME----------*/
 
 #include <graphics.h>
+#include <stdlib.h>
 #include <iostream>
 #include "lizardBody.h"
 #include "food.h"
@@ -8,7 +9,7 @@
 
 // void drawBorders();
 void drawGrid();
-void draw_4_key(int x, int y); // draw 4 keys
+void draw_4_key(int, int); // draw 4 keys
 
 using namespace std;
 
@@ -24,9 +25,11 @@ start:
      Food fruit;
      int length, count = 0;
      bool playing = true;
-     char score[4];
-     char fpsCounter[4];
+     char score[4] = "0";
+     // char fpsCounter[4];
+     char speed[10] = "Normal";
      int page = 0;
+     int delaySpeed = 50;
 
      fruit.generate(body.getPosx(), body.getPosy());
 
@@ -65,7 +68,7 @@ start:
                playing = false;
           }
 
-          // UI
+          /*-UI-*/
           // drawBorders();
           drawGrid();
           body.drawLizard();
@@ -83,15 +86,17 @@ start:
           length = body.getlength();
           strncpy(score, to_string((length - 2) * 10).c_str(), 4);
 
-          outtextxy(50, 545, (char*)"SCORE");
-          outtextxy(120, 545, score);
+          outtextxy(20, 545, (char*)"SCORE");
+          outtextxy(90, 545, score);
 
           // STATUS
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
           // outtextxy(520, 300, "STATUS :-");
           if (body.getlength() == 32)
           {
-               outtextxy(160, 545, (char*)"YOU WON !");
+               outtextxy(160, 545, (char*)"Victory!");
+               settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
+               outtextxy(155, 200, (char*)"You Won! Press R to Restart");
                playing = false;
           }
           else if (playing)
@@ -107,39 +112,60 @@ start:
 
           // Controls - WASD
           setcolor(GREEN);
-          draw_4_key(295, 538);
+          draw_4_key(295, 543);
 
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(295, 538, (char*)" W ");
-          outtextxy(270, 563, (char*)" A  ");
-          outtextxy(295, 563, (char*)" S  ");
-          outtextxy(320, 563, (char*)" D  ");
+          outtextxy(295, 543, (char*)" W ");
+          outtextxy(270, 568, (char*)" A  ");
+          outtextxy(295, 568, (char*)" S  ");
+          outtextxy(320, 568, (char*)" D  ");
 
           setcolor(GREEN);
-          draw_4_key(385, 538);
+          draw_4_key(385, 543);
 
           setcolor(BLACK);
           // up arrow key
-          line(388, 553, 395, 543);
-          line(395, 543, 402, 553);
+          line(388, 559, 395, 549);
+          line(395, 549, 402, 559);
           // down arrow key
-          line(388, 568, 395, 578);
-          line(395, 578, 402, 568);
+          line(388, 574, 395, 584);
+          line(395, 584, 402, 574);
           // right arrow key
-          line(415, 568, 428, 573);
-          line(428, 573, 416, 578);
+          line(415, 574, 428, 579);
+          line(428, 579, 416, 584);
           // left arrow key
-          line(378, 568, 365, 573);
-          line(365, 573, 378, 578);
+          line(378, 574, 365, 579);
+          line(365, 579, 378, 584);
           setcolor(WHITE);
 
           // Controls - Arrows
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
           outtextxy(580, 545, (char*)"PRESS 'ESC' to EXIT");
 
+          // Progressive speed
+          if (atoi (score) >= 100) {
+               delaySpeed = 25;
+               strcpy(speed, "Fast");
+          }
+          if (atoi (score) >= 200) {
+               delaySpeed = 10;
+               strcpy(speed, "Insane");
+          }
+          // else {
+          //      delaySpeed = 50;
+          //      strcpy(speed, "Normal");
+          // }
+
+          outtextxy(20, 575, (char*)"Speed");
+          outtextxy(90, 575, speed);
+
+
           fruit.draw();
           page = 1 - page;
-          delay(100);
+          delay(delaySpeed);
+          // cout << delaySpeed << endl;
+          // cout << score << endl;
+          // cout << speed << endl;
      }
 
      // fps.update();

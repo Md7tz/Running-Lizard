@@ -23,17 +23,17 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
 
 ### TODO
 ```
-1.[DONE] fix left wall to right transition border (make the lizard appear on the right side when position of head is on X is 0) 
-2. Add a life counter with a 3 image sprite 
-3. Create a poison class inherited from food class through polymorphism
-4.[Done] Add a popup message upon winning/losing with a retry prompt with the keystroke R (Keystroke Added without popup)
-<!-- 5. Add an fps counter on top right (optional) -->
-5. instantiate more than one fruit(red apple) as an array of objects with randomized position
-6. instatiate one poisonous apple at a time (no array of objects needed)
-7. Fix First couple of tiles that has color filling issue
-8. [DONE] Change lizard color to blend
-9. [DONE] Add controls UI for the player
-10. Set max score to be 300 when the lizard reaches length of 32
+1.  [DONE] fix left wall to right transition border (make the lizard appear on the right side when position of head is on X is 0) 
+2.  Add a life counter with a 3 image sprite 
+3.  Create a poison class inherited from food class through polymorphism
+4.  [Done] Add a popup message upon winning/losing with a retry prompt with the keystroke R (Keystroke Added without popup)
+5.  instantiate more than one fruit(red apple) as an array of objects with randomized position
+6.  instatiate one poisonous apple at a time (no array of objects needed)
+7.  Fix First couple of tiles that has color filling issue
+8.  [DONE] Change lizard color to blend
+9.  [DONE] Add controls UI for the player
+10. [DONE] Set max score to be 300 when the lizard reaches length of 32
+11. [DONE] Add progressive speed
 ```
 
 ### Contribution
