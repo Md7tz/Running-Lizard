@@ -4,11 +4,8 @@
 #include <iostream>
 #include "lizardBody.h"
 #include "food.h"
-#include "poison.h"
 
-// void drawBorders();
-void drawGrid();
-void draw_4_key(int x, int y); // draw 4 keys
+void drawBorders();
 
 using namespace std;
 
@@ -24,9 +21,7 @@ start:
      Food fruit;
      int length, count = 0;
      bool playing = true;
-     char score[4];
-     char fpsCounter[4];
-     int page = 0;
+     int page = 1;
 
      fruit.generate(body.getPosx(), body.getPosy());
 
@@ -39,19 +34,19 @@ start:
           setcolor(BLUE);
           setfillstyle(SOLID_FILL, BLUE);
 
-          if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState(0x41))
+          if (GetAsyncKeyState(VK_LEFT))
           {
                body.changeDirTo(LEFT);
           }
-          if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState(0x57))
+          if (GetAsyncKeyState(VK_UP))
           {
                body.changeDirTo(UP);
           }
-          if (GetAsyncKeyState(VK_RIGHT) || GetAsyncKeyState(0x44))
+          if (GetAsyncKeyState(VK_RIGHT))
           {
                body.changeDirTo(RIGHT);
           }
-          if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState(0x53))
+          if (GetAsyncKeyState(VK_DOWN))
           {
                body.changeDirTo(DOWN);
           }
@@ -66,8 +61,7 @@ start:
           }
 
           // UI
-          // drawBorders();
-          drawGrid();
+          drawBorders();
           body.drawLizard();
 
           if (fruit.update(body.getPosx(), body.getPosy()))
@@ -76,64 +70,7 @@ start:
                body.appendLizard();
           }
 
-          // SCORE
-          settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 1);
-          setcolor(WHITE);
-
-          length = body.getlength();
-          strncpy(score, to_string((length - 2) * 10).c_str(), 4);
-
-          outtextxy(50, 545, (char*)"SCORE");
-          outtextxy(120, 545, score);
-
-          // STATUS
-          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          // outtextxy(520, 300, "STATUS :-");
-          if (body.getlength() == 32)
-          {
-               outtextxy(160, 545, (char*)"YOU WON !");
-               playing = false;
-          }
-          else if (playing)
-          {
-               outtextxy(160, 545, (char*)"PLAYING");
-          }
-          else
-          {
-               outtextxy(160, 545, (char*)"GAME OVER");
-               settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-               outtextxy(250, 200, (char*)"Press R to Retry");
-          }
-
-          // Controls - WASD
-          setcolor(GREEN);
-          draw_4_key(295, 538);
-
-          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(295, 538, (char*)" W ");
-          outtextxy(270, 563, (char*)" A  ");
-          outtextxy(295, 563, (char*)" S  ");
-          outtextxy(320, 563, (char*)" D  ");
-
-          setcolor(GREEN);
-          draw_4_key(385, 538);
-
-          setcolor(BLACK);
-          // up arrow key
-          line(388, 553, 395, 543);
-          line(395, 543, 402, 553);
-          // down arrow key
-          line(388, 568, 395, 578);
-          line(395, 578, 402, 568);
-          // right arrow key
-          line(415, 568, 428, 573);
-          line(428, 573, 416, 578);
-          // left arrow key
-          line(378, 568, 365, 573);
-          line(365, 573, 378, 578);
-          setcolor(WHITE);
-
-          // Controls - Arrows
+          // Exit the game
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
           outtextxy(580, 545, (char*)"PRESS 'ESC' to EXIT");
 
@@ -141,11 +78,6 @@ start:
           page = 1 - page;
           delay(100);
      }
-
-     // fps.update();
-     // settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-     // strncpy(fpsCounter, to_string(fps.get()).c_str(), 4);
-     // outtextxy(30, 30, fpsCounter);
 
      getch();
      closegraph();
@@ -167,64 +99,4 @@ void drawBorders()
      floodfill(31, 1, colors::DARKGRAY);   // Fill TOP
      floodfill(31, 571, colors::DARKGRAY); // Fill BOT
      floodfill(31, 541, colors::DARKGRAY); // Fill STATS-BOT
-}
-
-// Draw Box Grid with texture
-void drawGrid()
-{
-     int size = 30; // box size in grid
-     int left = 0, top = 0, right = 30, bottom = 30;
-     int x = 5, y = 5;
-     int i = 0;
-
-     // Color A: 229 255 204
-     // Color B: 204 255 204
-
-     // Divide background to grid containers and fill with color
-     setcolor(COLOR(229, 255, 204));
-     for (int row = 0; row < HEIGHT / size; row++)
-     {
-          for (int col = 0; col < WIDTH / size; col++)
-          {
-               rectangle(left, top, right, bottom);
-               left += size;
-               right += size;
-               if (i % 2 == 0)
-               {
-                    setfillstyle(fill_styles::SOLID_FILL, COLOR(229, 255, 204));
-                    floodfill(x, y, COLOR(229, 255, 204));
-               }
-               else
-               {
-                    setcolor(COLOR(204, 255, 204));
-                    setfillstyle(fill_styles::SOLID_FILL, COLOR(204, 255, 204));
-                    floodfill(x, y, COLOR(204, 255, 204));
-               }
-               x += 30;
-               i++;
-          }
-          left = 0;
-          right = size;
-          top += size;
-          bottom += size;
-          x = 5;
-          y += 30;
-     }
-     // cout << "grid ready";
-     // gridDrawn = true;
-}
-
-// Draw key boxes
-void draw_4_key(int x, int y)
-{
-     for (int i = 0; i < 4; i++)
-     {
-          rectangle(x, y, x + 22, y + 20);
-          if (i == 0)
-          {
-               y += 25;
-               x -= 50;
-          }
-          x += 25;
-     }
 }

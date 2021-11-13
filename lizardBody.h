@@ -18,7 +18,6 @@ private:
         Position arr[31];            // ThiS ARRAY IS GOING TO CONTAIN THE POSITIONS OF WHOLE lizard
         int direction;
         int length;
-        int offset;
 public:
         LizardBody()
         {
@@ -26,7 +25,6 @@ public:
                 arr[0].y = 30;        // PROVIDING THE lizardHEAD ITS INITIAL VALUE
                 length = 2;           // INITILAL LENGTH = 2
                 direction = RIGHT;    // GOING IN RIGHT DIRECTION
-                offset = 30;          // offset between object origin and x, y position
         }
         void drawLizard();
         void appendLizard();         // IT IS RESPONSIBLE FOR INCREMENT IN lizard'S LENGTH
@@ -74,13 +72,13 @@ void LizardBody::changeDirTo(int newdir) {
         }
 }
 
-int LizardBody::update() {                                            // THIS FUNCTION ENFORCES THE BASIC
-                                                                      // ALGORITHM FOR MOVING lizard
-        for (int i = 1; i < length; ++i)                              // BY PROVIDING ALL THE PREVIOUS PARTS
-        {                                                             // THE COORDINATES OF CURRENT PART
-                if (arr[0].x == arr[i].x && arr[0].y == arr[i].y)     // HENCE [1] GETS THE POSITION OF [0]
-                {                                                     // [2] GETS THE POSITION OF [1] AND SO ON...
-                        return 0;                                     // AND LASTLY HEAD([0]) IS GIVEN LATEST VALUES
+int LizardBody::update() {                                            
+                                                                      
+        for (int i = 1; i < length; ++i)                              
+        {                                                             
+                if (arr[0].x == arr[i].x && arr[0].y == arr[i].y)     
+                {                                                     
+                        return 0;                                     
                 }
         }
         for (int i = length; i >= 0; --i)
@@ -99,24 +97,23 @@ int LizardBody::update() {                                            // THIS FU
         if (direction == LEFT)
         {
                 arr[0].x -= 30;
-                if (arr[0].x+offset == 0)
+                if (arr[0].x == 0)
                 {
-                        // arr[0].x -= 30;
-                        arr[0].x = 780; // 510 - 60
+                        arr[0].x = 750; // -30
                 }
         }
         else if (direction == RIGHT)
         {
                 arr[0].x += 30;
-                if (arr[0].x == 810) // 510 - 30
+                if (arr[0].x == 780) //  -30
                 {
-                        arr[0].x = 0;
+                        arr[0].x = 30;
                 }
         }
         else if (direction == UP)
         {
                 arr[0].y -= 30;
-                if (arr[0].y+offset == 0)
+                if (arr[0].y == 0)
                 {
                         arr[0].y = 510;
                 }
@@ -126,7 +123,7 @@ int LizardBody::update() {                                            // THIS FU
                 arr[0].y += 30;
                 if (arr[0].y == 540)
                 {
-                        arr[0].y = 0;
+                        arr[0].y = 30;
                 }
         }
         return 1;
