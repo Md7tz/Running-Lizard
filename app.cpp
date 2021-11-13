@@ -30,6 +30,8 @@ start:
      char speed[10] = "Normal";
      int page = 0;
      int delaySpeed = 70;
+     int lifeCount = 3;
+     int lifePadding = 0;
 
      fruit.generate(body.getPosx(), body.getPosy());
 
@@ -107,7 +109,7 @@ start:
           {
                outtextxy(160, 545, (char*)"GAME OVER");
                settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-               outtextxy(250, 200, (char*)"Press R to Retry");
+               outtextxy(245, 200, (char*)"Press R to Retry");
           }
 
           // Controls - WASD
@@ -140,7 +142,7 @@ start:
 
           // Controls - Arrows
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(580, 545, (char*)"PRESS 'ESC' to EXIT");
+          outtextxy(640, 545, (char*)"PRESS 'ESC' to EXIT");
 
           // Progressive speed
           if (atoi(score) >= 100) {
@@ -159,13 +161,26 @@ start:
           outtextxy(20, 575, (char*)"Speed");
           outtextxy(90, 575, speed);
 
+          
+          // Draw lives
+          setcolor(RED);
+          for (int i = 0; i < lifeCount; i++) {
+               arc(500 + lifePadding, 555, 0, 180, 10);
+               arc(480 + lifePadding, 555, 0, 180, 10);
+               arc(490 + lifePadding, 555, 180, 360, 20);
+               setfillstyle(SOLID_FILL, RED);
+               floodfill(490 + lifePadding, 560, RED);
+               lifePadding += 50;
+          }
+          lifePadding = 0;
+
 
           fruit.draw();
           page = 1 - page;
           delay(delaySpeed);
-          cout << delaySpeed << endl;
-          cout << score << endl;
-          cout << speed << endl;
+          // cout << delaySpeed << endl;
+          // cout << score << endl;
+          // cout << speed << endl;
      }
 
      // fps.update();
