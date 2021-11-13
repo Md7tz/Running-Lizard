@@ -15,7 +15,7 @@ struct Position {
 class LizardBody
 {
 private:
-        Position arr[31];            // ThiS ARRAY IS GOING TO CONTAIN THE POSITIONS OF WHOLE lizard
+        Position arr[32];            // ThiS ARRAY IS GOING TO CONTAIN THE POSITIONS OF WHOLE lizard
         int direction;
         int length;
         int offset;
@@ -28,32 +28,35 @@ public:
                 direction = RIGHT;    // GOING IN RIGHT DIRECTION
                 offset = 30;          // offset between object origin and x, y position
         }
-        void drawLizard();
+        void drawLizard() const;
         void appendLizard();         // IT IS RESPONSIBLE FOR INCREMENT IN lizard'S LENGTH
         void changeDirTo(int);
         int update();
-        int getPosx();              // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
-        int getPosy();              // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
-        int getlength();            // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
+        int getPosx () const;              // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
+        int getPosy() const;              // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
+        int getlength() const;            // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
 
 };
 
-void LizardBody::drawLizard() {    // DRAWING THE WHOLE lizard
+void LizardBody::drawLizard() const {    // DRAWING THE WHOLE lizard
 
+        // Colors
+        // 179, 170, 0
+        // 245, 232, 0
         for (int i = 0; i < length; i++)
         {
-                setcolor(BLUE);
+                setcolor(YELLOW);
                 rectangle(arr[i].x, arr[i].y, arr[i].x + 30, arr[i].y + 30);
                 if (i == 0)
-                        setfillstyle(SOLID_FILL, GREEN);        // HEAD IS OF DIFFERENT COLOR
+                        setfillstyle(SOLID_FILL, COLOR(179, 170, 0));        // HEAD IS OF DIFFERENT COLOR
                 else                                            // REST OF THE BODY
-                        setfillstyle(SOLID_FILL, LIGHTGREEN);
-                floodfill(arr[i].x + 15, arr[i].y + 15, BLUE);
+                        setfillstyle(SOLID_FILL, COLOR(245, 232, 0));
+                floodfill(arr[i].x + 15, arr[i].y + 15, YELLOW);
         }
 }
 
 void LizardBody::appendLizard() {
-        if (length < 30)                            // PREVENTS THE LENGTH FROM GOING GREATER THAN 29
+        if (length < 33)                            // PREVENTS THE LENGTH FROM GOING GREATER THAN 32
                 length++;
 }
 
@@ -129,17 +132,17 @@ int LizardBody::update() {                                            // THIS FU
         return 1;
 }
 
-int LizardBody::getPosx()
+int LizardBody::getPosx() const
 {
         return arr[0].x;
 }
 
-int LizardBody::getPosy()
+int LizardBody::getPosy() const
 {
         return arr[0].y;
 }
 
-int LizardBody::getlength()
+int LizardBody::getlength() const
 {
         return length;
 }
