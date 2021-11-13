@@ -8,13 +8,12 @@
 
 // void drawBorders();
 void drawGrid();
-void draw_4_key(int x, int y); //draw 4 keys
+void draw_4_key(int x, int y); // draw 4 keys
 
 using namespace std;
 
 const int WIDTH = 810;
 const int HEIGHT = 600;
-// bool gridDrawn = false;
 
 int main()
 {
@@ -108,34 +107,33 @@ start:
 
           // Controls - WASD
           setcolor(GREEN);
-          draw_4_key(275, 538);
+          draw_4_key(295, 538);
 
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(275, 538, (char*)" W ");
-          outtextxy(250, 563, (char*)" A  ");
-          outtextxy(275, 563, (char*)" S  ");
-          outtextxy(300, 563, (char*)" D  ");
+          outtextxy(295, 538, (char*)" W ");
+          outtextxy(270, 563, (char*)" A  ");
+          outtextxy(295, 563, (char*)" S  ");
+          outtextxy(320, 563, (char*)" D  ");
 
           setcolor(GREEN);
-          draw_4_key(365, 538);
+          draw_4_key(385, 538);
 
           setcolor(BLACK);
           // up arrow key
-          line(368, 553, 375, 543);
-          line(375, 543, 382, 553);
+          line(388, 553, 395, 543);
+          line(395, 543, 402, 553);
           // down arrow key
-          line(368, 568, 375, 578);
-          line(375, 578, 382, 568);
+          line(388, 568, 395, 578);
+          line(395, 578, 402, 568);
           // right arrow key
-          line(395, 568, 408, 573);
-          line(408, 573, 396, 578);
+          line(415, 568, 428, 573);
+          line(428, 573, 416, 578);
           // left arrow key
-          line(358, 568, 345, 573);
-          line(345, 573, 358, 578);
+          line(378, 568, 365, 573);
+          line(365, 573, 378, 578);
           setcolor(WHITE);
 
           // Controls - Arrows
-
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
           outtextxy(580, 545, (char*)"PRESS 'ESC' to EXIT");
 
@@ -153,7 +151,7 @@ start:
      closegraph();
 }
 
-// initial state grid with no borders
+// Initial state grid with no borders
 void drawBorders()
 {
      setcolor(DARKGRAY);
@@ -182,7 +180,7 @@ void drawGrid()
      // Color A: 229 255 204
      // Color B: 204 255 204
 
-     // Divide background to grid containers
+     // Divide background to grid containers and fill with color
      setcolor(COLOR(229, 255, 204));
      for (int row = 0; row < HEIGHT / size; row++)
      {
@@ -215,6 +213,8 @@ void drawGrid()
      // cout << "grid ready";
      // gridDrawn = true;
 }
+
+// Draw key boxes
 void draw_4_key(int x, int y)
 {
      for (int i = 0; i < 4; i++)

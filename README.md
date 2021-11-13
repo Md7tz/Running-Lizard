@@ -14,8 +14,12 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
 
 ## Screenshots
 > Stage 1
-![stage_1](https://github.com/Md7tz/Running-Lizard/blob/master/Screenshots/sc1.PNG)
-![stage_1](https://github.com/Md7tz/Running-Lizard/blob/master/Screenshots/sc2.PNG)
+![stage_1](https://github.com/Md7tz/Running-Lizard/blob/master/Screenshots/stage_1/sc1.PNG)
+![stage_1](https://github.com/Md7tz/Running-Lizard/blob/master/Screenshots/stage_2/sc2.PNG)
+
+> Stage 2
+![stage_2](https://github.com/Md7tz/Running-Lizard/blob/master/Screenshots/stage_2/sc1.PNG)
+![stage_2](https://github.com/Md7tz/Running-Lizard/blob/master/Screenshots/stage_2/sc2.PNG)
 
 ### TODO
 ```
@@ -23,10 +27,13 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
 2. Add a life counter with a 3 image sprite 
 3. Create a poison class inherited from food class through polymorphism
 4.[Done] Add a popup message upon winning/losing with a retry prompt with the keystroke R (Keystroke Added without popup)
-5. Add an fps counter on top right (optional)
-6. instantiate more than one fruit(red apple) as an array of objects with randomized position
-7. instatiate one poisonous apple at a time (no array of objects needed)
-8. Fix First couple of tiles that has color filling issue
+<!-- 5. Add an fps counter on top right (optional) -->
+5. instantiate more than one fruit(red apple) as an array of objects with randomized position
+6. instatiate one poisonous apple at a time (no array of objects needed)
+7. Fix First couple of tiles that has color filling issue
+8. [DONE] Change lizard color to blend
+9. [DONE] Add controls UI for the player
+10. Set max score to be 300 when the lizard reaches length of 32
 ```
 
 ### Contribution
@@ -38,6 +45,7 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
 7. Commit your changes with a message declaring the changes `git commit -m "message"`
 8. push changes to the remote repo on your branch `git push`
 9. Create a pull request to the master branch and issue a review without merging
+
 
 > Download [Github Desktop](https://desktop.github.com/ "Github Desktop") for easier workflow
 <!-- > If you have any issues request a tutorial in a google meeting through my email [medhatusama@gmail.com](mailto:medhatusama@gmail.com) -->

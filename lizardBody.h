@@ -40,15 +40,18 @@ public:
 
 void LizardBody::drawLizard() {    // DRAWING THE WHOLE lizard
 
+        // Colors
+        // 179, 170, 0
+        // 245, 232, 0
         for (int i = 0; i < length; i++)
         {
-                setcolor(BLUE);
+                setcolor(YELLOW);
                 rectangle(arr[i].x, arr[i].y, arr[i].x + 30, arr[i].y + 30);
                 if (i == 0)
-                        setfillstyle(SOLID_FILL, GREEN);        // HEAD IS OF DIFFERENT COLOR
+                        setfillstyle(SOLID_FILL, COLOR(179, 170, 0));        // HEAD IS OF DIFFERENT COLOR
                 else                                            // REST OF THE BODY
-                        setfillstyle(SOLID_FILL, LIGHTGREEN);
-                floodfill(arr[i].x + 15, arr[i].y + 15, BLUE);
+                        setfillstyle(SOLID_FILL, COLOR(245, 232, 0));
+                floodfill(arr[i].x + 15, arr[i].y + 15, YELLOW);
         }
 }
 
