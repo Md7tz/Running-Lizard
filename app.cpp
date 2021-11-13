@@ -8,7 +8,7 @@
 
 // void drawBorders();
 void drawGrid();
-void Draw_4_key(int x, int y); //draw 4 keys
+void draw_4_key(int x, int y); //draw 4 keys
 
 using namespace std;
 
@@ -84,7 +84,7 @@ start:
           length = body.getlength();
           strncpy(score, to_string((length - 2) * 10).c_str(), 4);
 
-          outtextxy(50, 545, "SCORE");
+          outtextxy(50, 545, (char*)"SCORE");
           outtextxy(120, 545, score);
 
           // STATUS
@@ -92,49 +92,52 @@ start:
           // outtextxy(520, 300, "STATUS :-");
           if (body.getlength() == 32)
           {
-               outtextxy(160, 545, "YOU WON !");
+               outtextxy(160, 545, (char*)"YOU WON !");
                playing = false;
           }
           else if (playing)
           {
-               outtextxy(160, 545, "PLAYING");
+               outtextxy(160, 545, (char*)"PLAYING");
           }
           else
           {
-               outtextxy(160, 545, "GAME OVER");
+               outtextxy(160, 545, (char*)"GAME OVER");
                settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-               outtextxy(250, 200, "Press R to Retry");
+               outtextxy(250, 200, (char*)"Press R to Retry");
           }
 
           // Controls - WASD
-          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(278, 520, " W ");
-          outtextxy(253, 545, " A  ");
-          outtextxy(277, 545, " S  ");
-          outtextxy(302, 545, " D  ");
           setcolor(GREEN);
-          Draw_4_key(278, 520);
+          draw_4_key(275, 538);
+
+          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+          outtextxy(275, 538, (char*)" W ");
+          outtextxy(250, 563, (char*)" A  ");
+          outtextxy(275, 563, (char*)" S  ");
+          outtextxy(300, 563, (char*)" D  ");
+
+          setcolor(GREEN);
+          draw_4_key(365, 538);
+
           setcolor(BLACK);
           // up arrow key
-          line(368, 535, 375, 525);
-          line(375, 525, 382, 535);
+          line(368, 553, 375, 543);
+          line(375, 543, 382, 553);
           // down arrow key
-          line(368, 550, 375, 560);
-          line(375, 560, 382, 550);
+          line(368, 568, 375, 578);
+          line(375, 578, 382, 568);
           // right arrow key
-          line(395, 550, 408, 555);
-          line(408, 555, 396, 560);
+          line(395, 568, 408, 573);
+          line(408, 573, 396, 578);
           // left arrow key
-          line(358, 550, 345, 555);
-          line(345, 555, 358, 560);
-          setcolor(GREEN);
-          Draw_4_key(365, 520);
+          line(358, 568, 345, 573);
+          line(345, 573, 358, 578);
           setcolor(WHITE);
 
           // Controls - Arrows
 
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(580, 545, "PRESS 'ESC' to EXIT");
+          outtextxy(580, 545, (char*)"PRESS 'ESC' to EXIT");
 
           fruit.draw();
           page = 1 - page;
@@ -174,7 +177,7 @@ void drawGrid()
      int size = 30; // box size in grid
      int left = 0, top = 0, right = 30, bottom = 30;
      int x = 5, y = 5;
-     int i = 1;
+     int i = 0;
 
      // Color A: 229 255 204
      // Color B: 204 255 204
@@ -212,22 +215,16 @@ void drawGrid()
      // cout << "grid ready";
      // gridDrawn = true;
 }
-void Draw_4_key(int x, int y)
+void draw_4_key(int x, int y)
 {
-     bool start = false;
-     for (int i = 0; i < 5; i++)
+     for (int i = 0; i < 4; i++)
      {
           rectangle(x, y, x + 22, y + 20);
-          if (i == 1)
+          if (i == 0)
           {
-
                y += 25;
                x -= 50;
-               start = true;
           }
-          if (start)
-          {
-               x += 25;
-          }
+          x += 25;
      }
 }
