@@ -5,10 +5,10 @@
 #include "lizardBody.h"
 #include "food.h"
 #include "poison.h"
-#include "menu.h"
 
 // void drawBorders();
 void drawGrid();
+void Draw_4_key(int x, int y); //draw 4 keys
 
 using namespace std;
 
@@ -30,45 +30,35 @@ start:
      int page = 0;
 
      fruit.generate(body.getPosx(), body.getPosy());
-	 bool start1=true;
-	  here: 
-	          cleardevice();
-		      setcolor(WHITE);
-			  menu m1;
-              m1.start(303,299,454,349);
-		
 
      while (true)
      {
           setactivepage(page);
           setvisualpage(1 - page);
           cleardevice();
-          
-		 
+
           setcolor(BLUE);
           setfillstyle(SOLID_FILL, BLUE);
 
-          if (GetAsyncKeyState(VK_LEFT))
+          if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState(0x41))
           {
                body.changeDirTo(LEFT);
           }
-          if (GetAsyncKeyState(VK_UP))
+          if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState(0x57))
           {
                body.changeDirTo(UP);
           }
-          if (GetAsyncKeyState(VK_RIGHT))
+          if (GetAsyncKeyState(VK_RIGHT) || GetAsyncKeyState(0x44))
           {
                body.changeDirTo(RIGHT);
           }
-          if (GetAsyncKeyState(VK_DOWN))
+          if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState(0x53))
           {
                body.changeDirTo(DOWN);
           }
           if (GetAsyncKeyState(VK_ESCAPE))
-          {
-               goto here;
-          }
-          if (GetAsyncKeyState(0x52)) // 0x52 R key
+               break;
+          if (GetAsyncKeyState('R')) // 0x52 R key
                goto start;
 
           if (playing == true && !body.update())
@@ -88,7 +78,7 @@ start:
           }
 
           // SCORE
-          settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 2);
+          settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 1);
           setcolor(WHITE);
 
           length = body.getlength();
@@ -98,7 +88,7 @@ start:
           outtextxy(120, 545, score);
 
           // STATUS
-          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
+          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
           // outtextxy(520, 300, "STATUS :-");
           if (body.getlength() == 32)
           {
@@ -115,7 +105,35 @@ start:
                settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
                outtextxy(250, 200, "Press R to Retry");
           }
-          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
+
+          // Controls - WASD
+          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+          outtextxy(278, 520, " W ");
+          outtextxy(253, 545, " A  ");
+          outtextxy(277, 545, " S  ");
+          outtextxy(302, 545, " D  ");
+          setcolor(GREEN);
+          Draw_4_key(278, 520);
+          setcolor(BLACK);
+          // up arrow key
+          line(368, 535, 375, 525);
+          line(375, 525, 382, 535);
+          // down arrow key
+          line(368, 550, 375, 560);
+          line(375, 560, 382, 550);
+          // right arrow key
+          line(395, 550, 408, 555);
+          line(408, 555, 396, 560);
+          // left arrow key
+          line(358, 550, 345, 555);
+          line(345, 555, 358, 560);
+          setcolor(GREEN);
+          Draw_4_key(365, 520);
+          setcolor(WHITE);
+
+          // Controls - Arrows
+
+          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
           outtextxy(580, 545, "PRESS 'ESC' to EXIT");
 
           fruit.draw();
@@ -193,4 +211,23 @@ void drawGrid()
      }
      // cout << "grid ready";
      // gridDrawn = true;
+}
+void Draw_4_key(int x, int y)
+{
+     bool start = false;
+     for (int i = 0; i < 5; i++)
+     {
+          rectangle(x, y, x + 22, y + 20);
+          if (i == 1)
+          {
+
+               y += 25;
+               x -= 50;
+               start = true;
+          }
+          if (start)
+          {
+               x += 25;
+          }
+     }
 }
