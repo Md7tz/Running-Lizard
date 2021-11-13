@@ -29,7 +29,7 @@ start:
      // char fpsCounter[4];
      char speed[10] = "Normal";
      int page = 0;
-     int delaySpeed = 50;
+     int delaySpeed = 70;
 
      fruit.generate(body.getPosx(), body.getPosy());
 
@@ -144,11 +144,11 @@ start:
 
           // Progressive speed
           if (atoi (score) >= 100) {
-               delaySpeed = 25;
+               delaySpeed = 40;
                strcpy(speed, "Fast");
           }
           if (atoi (score) >= 200) {
-               delaySpeed = 10;
+               delaySpeed = 25;
                strcpy(speed, "Insane");
           }
           // else {
@@ -163,9 +163,9 @@ start:
           fruit.draw();
           page = 1 - page;
           delay(delaySpeed);
-          // cout << delaySpeed << endl;
-          // cout << score << endl;
-          // cout << speed << endl;
+          cout << delaySpeed << endl;
+          cout << score << endl;
+          cout << speed << endl;
      }
 
      // fps.update();
