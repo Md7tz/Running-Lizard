@@ -21,14 +21,17 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
 ![stage_2](https://github.com/Md7tz/Running-Lizard/blob/master/Screenshots/stage_2/sc1.PNG)
 ![stage_2](https://github.com/Md7tz/Running-Lizard/blob/master/Screenshots/stage_2/sc2.PNG)
 
+> Final Stage
+![Final](https://github.com/Md7tz/Running-Lizard/blob/master/Screenshots/final/sc.PNG)
+
 ### TODO
 ```
 1.  [DONE] fix left wall to right transition border (make the lizard appear on the right side when position of head is on X is 0) 
 2.  [DONE] Add a life counter with a 3 image sprite 
-3.  Create a poison class inherited from food class through polymorphism
+3.  [DONE] Create a poison class inherited from food class through polymorphism
 4.  [Done] Add a popup message upon winning/losing with a retry prompt with the keystroke R (Keystroke Added without popup)
 5.  [Done] instantiate more than one fruit(red apple) as an array of objects with randomized position
-6.  instantiate one poisonous apple at a time (no array of objects needed)
+6.  [DONE] instantiate one poisonous apple at a time (no array of objects needed)
 7.  [DONE] Fix First couple of tiles that has color filling issue
 8.  [DONE] Change lizard color to blend
 9.  [DONE] Add controls UI for the player

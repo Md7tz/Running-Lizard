@@ -22,8 +22,8 @@ Food::Food(int _randInt) {
      // count++;
      randInt = _randInt;
 }
-Food::Food()
-{}
+Food::Food(){}
+
 void Food::draw() {
      setcolor(RED);
      rectangle(foodPos.x, foodPos.y, foodPos.x + 30, foodPos.y + 30);
