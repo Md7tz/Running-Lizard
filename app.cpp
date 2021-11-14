@@ -2,7 +2,7 @@
 
 #include <graphics.h>
 #include <iostream>
-#include "lizardBody.h"
+#include "lizard.h"
 #include "food.h"
 
 void drawBorders();
@@ -17,7 +17,7 @@ int main()
      initwindow(WIDTH, HEIGHT, "Running Lizard");
 
 start:
-     LizardBody body;
+     Lizard body;
      Food fruit;
      int length, count = 0;
      bool playing = true;
@@ -75,7 +75,7 @@ start:
 
           fruit.draw();
           page = 1 - page;
-          delay(100);
+          delay(150);
      }
 
      getch();

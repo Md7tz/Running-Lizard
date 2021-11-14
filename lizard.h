@@ -19,7 +19,7 @@ struct Position
 };
 
 ////// lizard CLASS //////
-class LizardBody
+class Lizard
 {
 private:
         Position arr[31]; // ThiS ARRAY IS GOING TO CONTAIN THE POSITIONS OF WHOLE lizard
@@ -27,7 +27,7 @@ private:
         int length;
 
 public:
-        LizardBody()
+        Lizard()
         {
                 arr[0].x = 30;     // PROVIDING THE lizardHEAD ITS INITIAL VALUE
                 arr[0].y = 30;     // PROVIDING THE lizardHEAD ITS INITIAL VALUE
@@ -43,7 +43,7 @@ public:
         int getlength(); // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
 };
 
-void LizardBody::drawLizard()
+void Lizard::drawLizard()
 { // DRAWING THE WHOLE lizard
 
         // Colors
@@ -61,7 +61,7 @@ void LizardBody::drawLizard()
         }
 }
 
-void LizardBody::changeDirTo(int newdir)
+void Lizard::changeDirTo(int newdir)
 {
 
         if (newdir == LEFT || newdir == RIGHT)
@@ -76,7 +76,7 @@ void LizardBody::changeDirTo(int newdir)
         }
 }
 
-int LizardBody::update()
+int Lizard::update()
 {
 
         for (int i = 1; i < length; ++i)
@@ -134,17 +134,17 @@ int LizardBody::update()
         return 1;
 }
 
-int LizardBody::getPosx()
+int Lizard::getPosx()
 {
         return arr[0].x;
 }
 
-int LizardBody::getPosy()
+int Lizard::getPosy()
 {
         return arr[0].y;
 }
 
-int LizardBody::getlength()
+int Lizard::getlength()
 {
         return length;
 }
