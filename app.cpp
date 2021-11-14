@@ -67,7 +67,6 @@ start:
           if (fruit.update(body.getPosx(), body.getPosy()))
           {
                fruit.generate(body.getPosx(), body.getPosy());
-               body.appendLizard();
           }
 
           // Exit the game
