@@ -32,7 +32,7 @@ public:
         void appendLizard();         // IT IS RESPONSIBLE FOR INCREMENT IN lizard'S LENGTH
         void changeDirTo(int);
         int update();
-        int getPosx () const;              // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
+        int getPosx() const;              // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
         int getPosy() const;              // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
         int getlength() const;            // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
 
@@ -99,7 +99,7 @@ int LizardBody::update() {                                            // THIS FU
         if (direction == LEFT)
         {
                 arr[0].x -= 30;
-                if (arr[0].x+offset == 0)
+                if (arr[0].x + offset == 0)
                 {
                         // arr[0].x -= 30;
                         arr[0].x = 780; // 510 - 60
@@ -116,7 +116,7 @@ int LizardBody::update() {                                            // THIS FU
         else if (direction == UP)
         {
                 arr[0].y -= 30;
-                if (arr[0].y+offset == 0)
+                if (arr[0].y + offset == 0)
                 {
                         arr[0].y = 510;
                 }

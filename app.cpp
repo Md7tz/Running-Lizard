@@ -10,7 +10,8 @@
 // void drawBorders();
 void drawGrid();
 void draw_4_key(int, int); // draw 4 keys
-
+void drawLives(const int, int&);
+ 
 using namespace std;
 
 const int WIDTH = 810;
@@ -22,16 +23,23 @@ int main()
 
 start:
      LizardBody body;
-     Food fruit;
+     Food fruit[2] = { Food(1), Food(5) };
      int length, count = 0;
-     bool playing = true;
-     char score[4] = "0";
-     // char fpsCounter[4];
-     char speed[10] = "Normal";
      int page = 0;
      int delaySpeed = 70;
+     const int fruitCount = fruit[0].getCount();
+     int lifeCount = 3;
+     int lifePadding = 0;
 
-     fruit.generate(body.getPosx(), body.getPosy());
+     char score[4] = "0";
+     char speed[10] = "Normal";
+
+     bool playing = true;
+
+     for (int i = 0; i < fruitCount; i++) {
+          fruit[i].generate(body.getPosx(), body.getPosy());
+     }
+     // cout << "test";
 
      while (true)
      {
@@ -73,10 +81,13 @@ start:
           drawGrid();
           body.drawLizard();
 
-          if (fruit.update(body.getPosx(), body.getPosy()))
-          {
-               fruit.generate(body.getPosx(), body.getPosy());
-               body.appendLizard();
+          for (int i = 0; i < fruitCount; i++) {
+               if (fruit[i].update(body.getPosx(), body.getPosy()))
+               {
+                    fruit[i].generate(body.getPosx(), body.getPosy());
+                    body.appendLizard();
+                    // fruits[i].getCount()--;
+               }
           }
 
           // SCORE
@@ -107,7 +118,7 @@ start:
           {
                outtextxy(160, 545, (char*)"GAME OVER");
                settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-               outtextxy(250, 200, (char*)"Press R to Retry");
+               outtextxy(245, 200, (char*)"Press R to Retry");
           }
 
           // Controls - WASD
@@ -140,14 +151,14 @@ start:
 
           // Controls - Arrows
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(580, 545, (char*)"PRESS 'ESC' to EXIT");
+          outtextxy(640, 545, (char*)"PRESS 'ESC' to EXIT");
 
           // Progressive speed
-          if (atoi (score) >= 100) {
+          if (atoi(score) >= 100) {
                delaySpeed = 40;
                strcpy(speed, "Fast");
           }
-          if (atoi (score) >= 200) {
+          if (atoi(score) >= 200) {
                delaySpeed = 25;
                strcpy(speed, "Insane");
           }
@@ -159,41 +170,41 @@ start:
           outtextxy(20, 575, (char*)"Speed");
           outtextxy(90, 575, speed);
 
+          // Draw lives
+          drawLives(lifeCount, lifePadding);
 
-          fruit.draw();
+               for (int i = 0; i < fruitCount; i++)
+                    fruit[i].draw();
+
+          // fruits[0].getCount();
           page = 1 - page;
           delay(delaySpeed);
-          cout << delaySpeed << endl;
-          cout << score << endl;
-          cout << speed << endl;
+          // cout << delaySpeed << endl;
+          // cout << score << endl;
+          // cout << speed << endl;
      }
-
-     // fps.update();
-     // settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 2);
-     // strncpy(fpsCounter, to_string(fps.get()).c_str(), 4);
-     // outtextxy(30, 30, fpsCounter);
 
      getch();
      closegraph();
 }
 
 // Initial state grid with no borders
-void drawBorders()
-{
-     setcolor(DARKGRAY);
-     rectangle(0, 0, 30, 600);     // LEFT BORDER
-     rectangle(780, 0, 810, 610);  // RIGHT BORDER
-     rectangle(30, 0, 780, 30);    // TOP BORDER
-     rectangle(30, 570, 780, 600); // BOT BORDER
-     rectangle(30, 540, 780, 550); // STATS-BOT BORDER
+// void drawBorders()
+// {
+//      setcolor(DARKGRAY);
+//      rectangle(0, 0, 30, 600);     // LEFT BORDER
+//      rectangle(780, 0, 810, 610);  // RIGHT BORDER
+//      rectangle(30, 0, 780, 30);    // TOP BORDER
+//      rectangle(30, 570, 780, 600); // BOT BORDER
+//      rectangle(30, 540, 780, 550); // STATS-BOT BORDER
 
-     setfillstyle(SOLID_FILL, colors::DARKGRAY);
-     floodfill(1, 1, colors::DARKGRAY);    // Fill LEFT
-     floodfill(781, 1, colors::DARKGRAY);  // Fill RIGHT
-     floodfill(31, 1, colors::DARKGRAY);   // Fill TOP
-     floodfill(31, 571, colors::DARKGRAY); // Fill BOT
-     floodfill(31, 541, colors::DARKGRAY); // Fill STATS-BOT
-}
+//      setfillstyle(SOLID_FILL, colors::DARKGRAY);
+//      floodfill(1, 1, colors::DARKGRAY);    // Fill LEFT
+//      floodfill(781, 1, colors::DARKGRAY);  // Fill RIGHT
+//      floodfill(31, 1, colors::DARKGRAY);   // Fill TOP
+//      floodfill(31, 571, colors::DARKGRAY); // Fill BOT
+//      floodfill(31, 541, colors::DARKGRAY); // Fill STATS-BOT
+// }
 
 // Draw Box Grid with texture
 void drawGrid()
@@ -205,6 +216,10 @@ void drawGrid()
 
      // Color A: 229 255 204
      // Color B: 204 255 204
+
+     // fill background with color first
+     setfillstyle(fill_styles::SOLID_FILL, COLOR(204, 255, 204));
+     floodfill(x, y, COLOR(204, 255, 204));
 
      // Divide background to grid containers and fill with color
      setcolor(COLOR(229, 255, 204));
@@ -220,12 +235,13 @@ void drawGrid()
                     setfillstyle(fill_styles::SOLID_FILL, COLOR(229, 255, 204));
                     floodfill(x, y, COLOR(229, 255, 204));
                }
-               else
-               {
-                    setcolor(COLOR(204, 255, 204));
-                    setfillstyle(fill_styles::SOLID_FILL, COLOR(204, 255, 204));
-                    floodfill(x, y, COLOR(204, 255, 204));
-               }
+               // refactored for optimization
+               // else
+               // {
+               //      setcolor(COLOR(204, 255, 204));
+               //      setfillstyle(fill_styles::SOLID_FILL, COLOR(204, 255, 204));
+               //      floodfill(x, y, COLOR(204, 255, 204));
+               // }
                x += 30;
                i++;
           }
@@ -253,4 +269,17 @@ void draw_4_key(int x, int y)
           }
           x += 25;
      }
+}
+
+void drawLives(const int counter, int &padding) {
+     setcolor(RED);
+     for (int i = 0; i < counter; i++) {
+          arc(500 + padding, 555, 0, 180, 10);
+          arc(480 + padding, 555, 0, 180, 10);
+          arc(490 + padding, 555, 180, 360, 20);
+          setfillstyle(SOLID_FILL, RED);
+          floodfill(490 + padding, 560, RED);
+          padding += 50;
+     }
+     padding = 0;
 }
