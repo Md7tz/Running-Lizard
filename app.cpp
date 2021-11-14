@@ -29,7 +29,7 @@ start:
 
      int length, count = 0;
      int page = 0;
-     int delaySpeed = 70;
+     int delaySpeed = 90;
      const int fruitCount = fruit[0].getCount();
      int lifeCount = 3;
      int lifePadding = 0;
