@@ -10,8 +10,9 @@
 // void drawBorders();
 void drawGrid();
 void draw_4_key(int, int); // draw 4 keys
-void drawLives(const int, int&);
- 
+void drawLives(const int, int &);
+void avoid_conflict(Food f1,Food f2,poison p3, LizardBody b);
+
 using namespace std;
 
 const int WIDTH = 810;
@@ -23,7 +24,9 @@ int main()
 
 start:
      LizardBody body;
-     Food fruit[2] = { Food(1), Food(5) };
+     Food fruit[2] = {Food(1), Food(5)};
+     poison p1(3);
+
      int length, count = 0;
      int page = 0;
      int delaySpeed = 70;
@@ -36,9 +39,12 @@ start:
 
      bool playing = true;
 
-     for (int i = 0; i < fruitCount; i++) {
+     for (int i = 0; i < fruitCount; i++)
+     {
           fruit[i].generate(body.getPosx(), body.getPosy());
      }
+     p1.generate(body.getPosx(), body.getPosy());
+     avoid_conflict(fruit[0],fruit[1],p1,body);
      // cout << "test";
 
      while (true)
@@ -81,7 +87,8 @@ start:
           drawGrid();
           body.drawLizard();
 
-          for (int i = 0; i < fruitCount; i++) {
+          for (int i = 0; i < fruitCount; i++)
+          {
                if (fruit[i].update(body.getPosx(), body.getPosy()))
                {
                     fruit[i].generate(body.getPosx(), body.getPosy());
@@ -89,7 +96,6 @@ start:
                     // fruits[i].getCount()--;
                }
           }
-
           // SCORE
           settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 1);
           setcolor(WHITE);
@@ -97,28 +103,42 @@ start:
           length = body.getlength();
           strncpy(score, to_string((length - 2) * 10).c_str(), 4);
 
-          outtextxy(20, 545, (char*)"SCORE");
+          outtextxy(20, 545, (char *)"SCORE");
           outtextxy(90, 545, score);
 
           // STATUS
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
           // outtextxy(520, 300, "STATUS :-");
+              if (p1.update(body.getPosx(), body.getPosy()))
+          {
+               p1.generate(body.getPosx(), body.getPosy());
+               avoid_conflict(fruit[0],fruit[1],p1,body);
+               lifeCount--;
+               if (p1.get_hit() == 3)
+               {
+                    settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
+                    outtextxy(160, 545, (char *)"GAME OVER");
+                    settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
+                    outtextxy(245, 200, (char *)"Press R to Retry");
+                    playing=false;
+               }
+          }
           if (body.getlength() == 32)
           {
-               outtextxy(160, 545, (char*)"Victory!");
+               outtextxy(160, 545, (char *)"Victory!");
                settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-               outtextxy(155, 200, (char*)"You Won! Press R to Restart");
+               outtextxy(155, 200, (char *)"You Won! Press R to Restart");
                playing = false;
           }
           else if (playing)
           {
-               outtextxy(160, 545, (char*)"PLAYING");
+               outtextxy(160, 545, (char *)"PLAYING");
           }
           else
           {
-               outtextxy(160, 545, (char*)"GAME OVER");
+               outtextxy(160, 545, (char *)"GAME OVER");
                settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-               outtextxy(245, 200, (char*)"Press R to Retry");
+               outtextxy(245, 200, (char *)"Press R to Retry");
           }
 
           // Controls - WASD
@@ -126,10 +146,10 @@ start:
           draw_4_key(295, 543);
 
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(295, 543, (char*)" W ");
-          outtextxy(270, 568, (char*)" A  ");
-          outtextxy(295, 568, (char*)" S  ");
-          outtextxy(320, 568, (char*)" D  ");
+          outtextxy(295, 543, (char *)" W ");
+          outtextxy(270, 568, (char *)" A  ");
+          outtextxy(295, 568, (char *)" S  ");
+          outtextxy(320, 568, (char *)" D  ");
 
           setcolor(GREEN);
           draw_4_key(385, 543);
@@ -151,14 +171,16 @@ start:
 
           // Controls - Arrows
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(640, 545, (char*)"PRESS 'ESC' to EXIT");
+          outtextxy(640, 545, (char *)"PRESS 'ESC' to EXIT");
 
           // Progressive speed
-          if (atoi(score) >= 100) {
+          if (atoi(score) >= 100)
+          {
                delaySpeed = 40;
                strcpy(speed, "Fast");
           }
-          if (atoi(score) >= 200) {
+          if (atoi(score) >= 200)
+          {
                delaySpeed = 25;
                strcpy(speed, "Insane");
           }
@@ -167,15 +189,16 @@ start:
           //      strcpy(speed, "Normal");
           // }
 
-          outtextxy(20, 575, (char*)"Speed");
+          outtextxy(20, 575, (char *)"Speed");
           outtextxy(90, 575, speed);
 
           // Draw lives
           drawLives(lifeCount, lifePadding);
 
-               for (int i = 0; i < fruitCount; i++)
-                    fruit[i].draw();
-
+          for (int i = 0; i < fruitCount; i++)
+               fruit[i].draw();
+          // if (playing)
+          p1.draw();
           // fruits[0].getCount();
           page = 1 - page;
           delay(delaySpeed);
@@ -271,9 +294,11 @@ void draw_4_key(int x, int y)
      }
 }
 
-void drawLives(const int counter, int &padding) {
+void drawLives(const int counter, int &padding)
+{
      setcolor(RED);
-     for (int i = 0; i < counter; i++) {
+     for (int i = 0; i < counter; i++)
+     {
           arc(500 + padding, 555, 0, 180, 10);
           arc(480 + padding, 555, 0, 180, 10);
           arc(490 + padding, 555, 180, 360, 20);
@@ -282,4 +307,13 @@ void drawLives(const int counter, int &padding) {
           padding += 50;
      }
      padding = 0;
+}
+void avoid_conflict(Food f1,Food f2,poison p1,LizardBody b)
+{
+     if ((f1.foodPos.x==p1.foodPos.x&&f1.foodPos.y==p1.foodPos.y)||
+             (f2.foodPos.x==p1.foodPos.x&&f2.foodPos.y==p1.foodPos.y))
+     {
+          p1.generate(b.getPosx(),b.getPosy());
+     }
+     
 }

@@ -2,12 +2,14 @@
 #include <ctime> // For Generating random numbers
 
 class Food {
-private:
-     Position foodPos;
+private :
+    
      int randInt;
 public:
+     Position foodPos;
      static const int count;
      Food(int _randInt);
+     Food();
      void draw();                    // Draw the food on the graphics window
      void generate(int, int);        // Generate food everytime lizard eats it
      bool update(int, int);          // Status of food
@@ -20,7 +22,8 @@ Food::Food(int _randInt) {
      // count++;
      randInt = _randInt;
 }
-
+Food::Food()
+{}
 void Food::draw() {
      setcolor(RED);
      rectangle(foodPos.x, foodPos.y, foodPos.x + 30, foodPos.y + 30);
