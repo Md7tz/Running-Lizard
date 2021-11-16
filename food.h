@@ -30,7 +30,8 @@ void Food::draw() const{
      floodfill(foodPos.x + 15, foodPos.y + 15, RED);
 }
 
-void Food::generate(int lizardHeadx, int lizardHeady) {  // Generate new pos for the Object
+// Generate new pos for the Object
+void Food::generate(int lizardHeadx, int lizardHeady) {  
      if (Food::count == 2) {
           srand(time(0));
           foodPos.x = 30 * ((rand() + randInt) % 20 + 1);

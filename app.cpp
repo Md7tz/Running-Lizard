@@ -15,6 +15,7 @@ using namespace std;
 void drawGrid();
 void drawKeys(int, int);
 void drawLives(const int, int&);
+void drawInstruction(int, int, int, int);
 
 // Utility Function
 void GenerationHandler(Food, Food, Poison, LizardBody);
@@ -126,15 +127,9 @@ start:
           {
                outtextxy(160, 545, (char*)"PLAYING");
           }
-          else
-          {
-               outtextxy(160, 545, (char*)"GAME OVER");
-               settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-               outtextxy(245, 200, (char*)"Press R to Retry");
-          }
 
           // Display Controls - WASD
-          setcolor(GREEN);
+          setcolor(WHITE);
           drawKeys(295, 543);
 
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
@@ -145,8 +140,8 @@ start:
 
 
           // Display Controls - Arrow Keys
-          drawKeys(385, 543);
           setcolor(BLACK);
+          drawKeys(385, 543);
           // up arrow key
           line(388, 559, 395, 549);
           line(395, 549, 402, 559);
@@ -192,9 +187,22 @@ start:
           page = 1 - page;
 
           // Display Exit Key
+          setcolor(WHITE);
           settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(640, 545, (char*)"PRESS 'ESC' to EXIT");
-          
+          outtextxy(630, 545, (char*)" PRESS 'ESC' to EXIT ");
+
+          // Draw instruction
+          drawInstruction(680, 575, 20, 90);
+
+          // Retry prompt
+          if(!isPlaying && body.getlength() != 32)
+          {    
+               setcolor(WHITE);
+               outtextxy(160, 545, (char*)"GAME OVER");
+               settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
+               outtextxy(245, 200, (char*)" Press R to Retry ");
+          }
+
           // Control speed between frames
           delay(delaySpeed);
      }
@@ -263,17 +271,44 @@ void drawKeys(int x, int y)
 // Draw lives left
 void drawLives(const int counter, int& padding)
 {
+     int temp = padding;
      setcolor(RED);
+     for (int j = 0; j < 3; j++){
+          arc(485 + padding, 555, 0, 180, 10);
+          arc(465 + padding, 555, 0, 180, 10);
+          arc(475 + padding, 555, 180, 360, 20);
+          padding += 50;
+     }
+     padding = temp;
      for (int i = 0; i < counter; i++)
      {
-          arc(500 + padding, 555, 0, 180, 10);
-          arc(480 + padding, 555, 0, 180, 10);
-          arc(490 + padding, 555, 180, 360, 20);
           setfillstyle(SOLID_FILL, RED);
-          floodfill(490 + padding, 560, RED);
+          floodfill(475 + padding, 560, RED);
           padding += 50;
      }
      padding = 0;
+}
+
+// Draw instructions
+void drawInstruction(int x, int y, int size, int offset) {
+     // Text
+     setcolor(COLOR(255, 45, 0));
+     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+     outtextxy(630, 575, (char*)"FOOD");
+     // Food
+     setcolor(RED);
+     rectangle(x, y, x + size, y + size);
+     setfillstyle(INTERLEAVE_FILL, RED);
+     floodfill(x + (size / 2), y + (size / 2), RED);
+     // Text
+     setcolor(COLOR(10, 255, 0));
+     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+     outtextxy(705, 575, (char*)"POISON");
+     // Poison
+     setcolor(GREEN);
+     rectangle(x + offset, y, x + size + offset, y + size);
+     setfillstyle(INTERLEAVE_FILL, GREEN);
+     floodfill(x + (size / 2) + offset, y + (size / 2), GREEN);
 }
 
 // Generates new position if the position 
