@@ -130,10 +130,10 @@ start:
 
           // Display Controls - WASD
           setcolor(WHITE);
-          drawKeys(295, 543);
+          drawKeys(295, 545);
 
-          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(295, 543, (char*)" W ");
+          // settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+          outtextxy(295, 545, (char*)" W ");
           outtextxy(270, 568, (char*)" A  ");
           outtextxy(295, 568, (char*)" S  ");
           outtextxy(320, 568, (char*)" D  ");
@@ -141,7 +141,7 @@ start:
 
           // Display Controls - Arrow Keys
           setcolor(BLACK);
-          drawKeys(385, 543);
+          drawKeys(385, 545);
           // up arrow key
           line(388, 559, 395, 549);
           line(395, 549, 402, 559);
