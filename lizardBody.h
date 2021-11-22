@@ -1,4 +1,5 @@
 #include <graphics.h>
+#include "lizardColor.h"
 
 enum DIR { LEFT, UP, RIGHT, DOWN }; // 0 1 2 3
 
@@ -20,6 +21,7 @@ private:
 	uint8_t offset;
 
 public:
+    lizardColor *LC=new lizardColor;
 	LizardBody()
 	{
 		arr[0].x = 30;        // Initial x value for head
@@ -47,9 +49,9 @@ void LizardBody::drawLizard() const {    // Draws the lizard
 		setcolor(YELLOW);
 		rectangle(arr[i].x, arr[i].y, arr[i].x + 30, arr[i].y + 30);
 		if (i == 0)
-			setfillstyle(SOLID_FILL, COLOR(179, 170, 0)); // Head has a darker color than the body
+			setfillstyle(SOLID_FILL, COLOR(LC->headColor[0], LC->headColor[1], LC->headColor[2])); // Head has a darker color than the body
 		else
-			setfillstyle(SOLID_FILL, COLOR(245, 232, 0));
+			setfillstyle(SOLID_FILL, COLOR(LC->bodyColor[0], LC->bodyColor[1], LC->bodyColor[2]));
 		floodfill(arr[i].x + 15, arr[i].y + 15, YELLOW);
 	}
 }
