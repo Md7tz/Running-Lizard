@@ -30,7 +30,7 @@ inline void GenerationHandler(Food, Food, Poison, Lizard);
 int main() {
 	initwindow(WIDTH, HEIGHT, "Running Lizard");
 start:
-	Grid grid;
+	Grid* grid;
 	Lizard lizard;
 	Food fruit[2] = { Food(1), Food(5) }; // Two Food objects initialized by passing an int to the constructor
 	Poison poison;
@@ -87,8 +87,11 @@ start:
 			isPlaying = false;
 
 		/*-UI-*/
-		// grid.drawGrid(); Bug here
-		drawGrid();
+		// Create a grid in dynamic memory
+		grid = new Grid();
+		// Draw grid
+		grid->drawGrid();
+		// drawGrid();
 		lizard.drawLizard();
 
 		for (uint8_t i = 0; i < fruitCount; i++)
@@ -221,6 +224,8 @@ start:
 
 		// Control speed between frames
 		delay(delaySpeed);
+		// delete grid from memory
+		delete grid;
 	}
 
 	getch();

@@ -2,7 +2,7 @@ class Rgb {
 public:
     int16_t H[3] = { 0,0,0 };         // RGB color for lizard head
     int16_t B[3] = { 0,0,0 };         // RGB color for lizard body
-    int NODES[2][3] = { {0,0,0},{0,0,0} };  // RGB color for grid nodes
+    int16_t NODES[2][3] = { {0,0,0},{0,0,0} };  // RGB color for grid nodes
 
 public:
     Rgb();
