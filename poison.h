@@ -4,13 +4,13 @@
 class Poison : public Food
 {
 private:
-	unsigned char hit = 0;
+	uint8_t hit = 0;
 	
 public:
 	Poison();
 	void draw() const;
-	bool update(short int, short int);          // Status of food
-	unsigned char getHit() const;
+	bool update(int16_t, int16_t);          // Status of food
+	uint8_t getHit() const;
 };
 
 Poison::Poison() {}
@@ -23,7 +23,7 @@ void Poison::draw() const
 	floodfill(foodPos.x + 15, foodPos.y + 15, GREEN);
 }
 
-bool Poison::update(short int lizardHeadx, short int lizardHeady) {
+bool Poison::update(int16_t lizardHeadx, int16_t lizardHeady) {
 	if (foodPos.x == lizardHeadx && foodPos.y == lizardHeady) {
 		hit++;
 		return true;
@@ -32,7 +32,7 @@ bool Poison::update(short int lizardHeadx, short int lizardHeady) {
 		return false;
 }
 
-unsigned char Poison::getHit() const
+uint8_t Poison::getHit() const
 {
 	return hit;
 }

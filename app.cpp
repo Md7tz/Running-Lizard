@@ -1,11 +1,15 @@
 /*----------Running lizard GAME----------*/
 
 #include <graphics.h>
+// #include <windows.h> for playing sounds
+#include <stdint.h>
 #include <stdlib.h>
 #include <iostream>
 #include "lizardBody.h"
 #include "food.h"
 #include "poison.h"
+
+// #pragma comment(lib, "winmm.lib")
 
 #define WIDTH 810
 #define HEIGHT 600
@@ -13,10 +17,9 @@ using namespace std;
 
 // Drawing Screen
 void drawGrid();
-void drawKeys(short int, short int);
-void drawLives(const unsigned char, unsigned char&);
-void drawInstruction(short int, short int, short int, short int);
-void drawTrail(int x,int y);
+void drawKeys(int16_t, int16_t);
+void drawLives(const uint8_t, uint8_t&);
+void drawInstruction(int16_t, int16_t, int16_t, int16_t);
 
 // Utility Function
 inline void GenerationHandler(Food, Food, Poison, LizardBody);
@@ -29,15 +32,15 @@ start:
 	Poison p1;
 
 #pragma region Fields
-	// unsigned char | 1 byte | 0 to 255
-	// signed char | 1 byte | -128 to 127
-	// short int | 2 bytes | -32,768 to 32,767
-	signed char page = 1;
-	unsigned char bodyLength;
-	unsigned char delaySpeed = 90;
-	unsigned char lifeCount = 3;
-	unsigned char lifePadding = 0;
-	const signed char fruitCount = fruit[0].getCount();
+	// unsigned char == uint8_t | 1 byte | 0 to 255
+	// signed char  == int8_t | 1 byte | -128 to 127
+	// short int == int16_t | 2 bytes | -32,768 to 32,767
+	int8_t page = 1;
+	uint8_t bodyLength;
+	uint8_t delaySpeed = 90;
+	uint8_t lifeCount = 3;
+	uint8_t lifePadding = 0;
+	const int8_t fruitCount = fruit[0].getCount();
 
 	char score[4] = "0";
 	char speed[10] = "Normal";
@@ -46,7 +49,7 @@ start:
 #pragma endregion Fields
 
 	// generate new pos for food
-	for (unsigned char i = 0; i < fruitCount; i++)
+	for (uint8_t i = 0; i < fruitCount; i++)
 		fruit[i].generate(body.getPosx(), body.getPosy());
 
 	// generate/regenerate new pos for poison
@@ -82,11 +85,13 @@ start:
 		drawGrid();
 		body.drawLizard();
 
-		for (unsigned char i = 0; i < fruitCount; i++)
+		for (uint8_t i = 0; i < fruitCount; i++)
 		{
 			if (fruit[i].update(body.getPosx(), body.getPosy()))
 			{
 				fruit[i].generate(body.getPosx(), body.getPosy());
+				// bool played = PlaySound(TEXT("DieSound.wav"), NULL, SND_FILENAME | SND_ASYNC);
+				// cout << boolalpha << played << endl;
 				body.appendLizard();
 			}
 		}
@@ -175,7 +180,7 @@ start:
 		drawLives(lifeCount, lifePadding);
 
 		// Draw food
-		for (unsigned char i = 0; i < fruitCount; i++)
+		for (uint8_t i = 0; i < fruitCount; i++)
 			fruit[i].draw();
 
 		// Draw poison
@@ -222,10 +227,10 @@ start:
 // Draw Box Grid with texture
 void drawGrid()
 {
-	unsigned char size = 30; // box size in grid
-	short int left = 0, top = 0, right = 30, bottom = 30;
-	short int x = 5, y = 5;
-	unsigned char i = 0;
+	uint8_t size = 30; // box size in grid
+	int16_t left = 0, top = 0, right = 30, bottom = 30;
+	int16_t x = 5, y = 5;
+	uint8_t i = 0;
 
 	// Color A: 229 255 204
 	// Color B: 204 255 204
@@ -236,9 +241,9 @@ void drawGrid()
 
 	// Divide background to grid containers and fill with color
 	setcolor(COLOR(229, 255, 204));
-	for (unsigned char row = 0; row < HEIGHT / size; row++)
+	for (uint8_t row = 0; row < HEIGHT / size; row++)
 	{
-		for (unsigned char col = 0; col < WIDTH / size; col++)
+		for (uint8_t col = 0; col < WIDTH / size; col++)
 		{
 			rectangle(left, top, right, bottom);
 			left += size;
@@ -261,9 +266,9 @@ void drawGrid()
 }
 
 // Draw key boxes
-void drawKeys(short int x, short int y)
+void drawKeys(int16_t x, int16_t y)
 {
-	for (short int i = 0; i < 4; i++)
+	for (int16_t i = 0; i < 4; i++)
 	{
 		rectangle(x, y, x + 22, y + 20);
 		if (i == 0)
@@ -276,18 +281,18 @@ void drawKeys(short int x, short int y)
 }
 
 // Draw lives left
-void drawLives(const unsigned char counter, unsigned char& padding)
+void drawLives(const uint8_t counter, uint8_t& padding)
 {
-	unsigned char temp = padding;
+	uint8_t temp = padding;
 	setcolor(RED);
-	for (unsigned char j = 0; j < 3; j++) {
+	for (uint8_t j = 0; j < 3; j++) {
 		arc(485 + padding, 555, 0, 180, 10);
 		arc(465 + padding, 555, 0, 180, 10);
 		arc(475 + padding, 555, 180, 360, 20);
 		padding += 50;
 	}
 	padding = temp;
-	for (unsigned char i = 0; i < counter; i++)
+	for (uint8_t i = 0; i < counter; i++)
 	{
 		setfillstyle(SOLID_FILL, RED);
 		floodfill(475 + padding, 560, RED);
@@ -297,7 +302,7 @@ void drawLives(const unsigned char counter, unsigned char& padding)
 }
 
 // Draw instructions
-void drawInstruction(short int x, short int y, short int size, short int offset) {
+void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset) {
 	// Text
 	setcolor(COLOR(255, 45, 0));
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
