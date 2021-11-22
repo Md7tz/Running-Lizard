@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+# vs ide
+.vs
+
 # Compiled Object files
 *.slo
 *.lo

@@ -37,6 +37,11 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
 9.  [DONE] Add controls UI for the player
 10. [DONE] Set max score to be 300 when the lizard reaches length of 32
 11. [DONE] Add progressive speed
+12. [PENDING] Create a menu with credits
+13. [PENDING] Create an enemy lizard
+              * Half the size of the player
+              * Distinguished Color (Dark Grey)
+              * OnCollision Head with enemy body player loses
 ```
 
 ### Contribution
