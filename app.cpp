@@ -16,6 +16,7 @@ void drawGrid();
 void drawKeys(short int, short int);
 void drawLives(const unsigned char, unsigned char&);
 void drawInstruction(short int, short int, short int, short int);
+void drawTrail(int x,int y);
 
 // Utility Function
 inline void GenerationHandler(Food, Food, Poison, LizardBody);

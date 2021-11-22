@@ -1,8 +1,17 @@
 #include <graphics.h>
+#include "lizardColor.h"
+#include <iostream>
+using namespace std;
+enum DIR
+{
+	LEFT,
+	UP,
+	RIGHT,
+	DOWN
+}; // 0 1 2 3
 
-enum DIR { LEFT, UP, RIGHT, DOWN }; // 0 1 2 3
-
-struct Position {
+struct Position
+{
 	short int x, y;
 	Position()
 	{
@@ -14,23 +23,27 @@ struct Position {
 class LizardBody
 {
 private:
-	Position arr[32];            // Contains the positions of the lizard
+	Position arr[32]; // Contains the positions of the lizard
 	unsigned char direction;
 	unsigned char length;
 	unsigned char offset;
+	unsigned int lizard_length = 30;
 
 public:
+	lizardColor *LC = new lizardColor;
 	LizardBody()
 	{
-		arr[0].x = 30;        // Initial x value for head
-		arr[0].y = 30;        // Initial y value for head
-		length = 2;           // Initial length
-		direction = RIGHT;    // Initial direction
-		offset = 30;          // offset between object origin and x, y position
+		arr[0].x = 30; // Initial x value for head
+		arr[0].y = 30; // Initial y value for head
+
+		length = 2; // Initial length
+
+		direction = RIGHT; // Initial direction
+		offset = 30;	   // offset between object origin and x, y position
 	}
-	void drawLizard() const;
-	void appendLizard();                    // Increments lizard length
-	void changeDirTo(unsigned char);        // Changes direction 
+	void drawLizard();
+	void appendLizard();			 // Increments lizard length
+	void changeDirTo(unsigned char); // Changes direction
 
 	unsigned char update();
 	unsigned char getlength() const;
@@ -38,28 +51,37 @@ public:
 	short int getPosx() const;
 	short int getPosy() const;
 };
-void LizardBody::drawLizard() const {    // Draws the lizard
+void LizardBody::drawLizard()
+{ // Draws the lizard
 	// Colors
 	// 179, 170, 0
 	// 245, 232, 0
+	int index = length;
 	for (int i = 0; i < length; i++)
 	{
 		setcolor(YELLOW);
-		rectangle(arr[i].x, arr[i].y, arr[i].x + 30, arr[i].y + 30);
+		rectangle(arr[i].x, arr[i].y, arr[i].x + lizard_length, arr[i].y + lizard_length);
+
 		if (i == 0)
-			setfillstyle(SOLID_FILL, COLOR(179, 170, 0)); // Head has a darker color than the body
+		{
+			setfillstyle(SOLID_FILL, COLOR(LC->headColor[0], LC->headColor[1], LC->headColor[2])); // Head has a darker color than the body
+		}
 		else
-			setfillstyle(SOLID_FILL, COLOR(245, 232, 0));
-		floodfill(arr[i].x + 15, arr[i].y + 15, YELLOW);
+			setfillstyle(SOLID_FILL,COLOR(245,232,0) );
+			floodfill(arr[i].x + 15, arr[i].y + 15,YELLOW);
 	}
 }
 
-void LizardBody::appendLizard() {
-	if (length < 33)  // Prevents length from exceeding 32
+void LizardBody::appendLizard()
+{
+	if (length < 33) // Prevents length from exceeding 32
+	{
 		length++;
+	}
 }
 
-void LizardBody::changeDirTo(unsigned char newdir) {
+void LizardBody::changeDirTo(unsigned char newdir)
+{
 	if (newdir == LEFT || newdir == RIGHT)
 	{
 		if (direction == UP || direction == DOWN)
@@ -72,7 +94,8 @@ void LizardBody::changeDirTo(unsigned char newdir) {
 	}
 }
 
-unsigned char LizardBody::update() {
+unsigned char LizardBody::update()
+{
 	for (signed char i = 1; i < length; ++i)
 	{
 		if (arr[0].x == arr[i].x && arr[0].y == arr[i].y)
