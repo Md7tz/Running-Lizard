@@ -1,6 +1,3 @@
-#include <graphics.h>
-#include <ctime> // For Generating random numbers
-
 class Food {
 private:
 	uint8_t randInt;

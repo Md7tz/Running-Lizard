@@ -5,9 +5,12 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <iostream>
-#include "lizardBody.h"
-#include "food.h"
-#include "poison.h"
+#include <ctime> // For Generating random numbers
+#include "Rgb.h"
+#include "Grid.h"
+#include "Lizard.h"
+#include "Food.h"
+#include "Poison.h"
 
 // #pragma comment(lib, "winmm.lib")
 
@@ -22,14 +25,16 @@ void drawLives(const uint8_t, uint8_t&);
 void drawInstruction(int16_t, int16_t, int16_t, int16_t);
 
 // Utility Function
-inline void GenerationHandler(Food, Food, Poison, LizardBody);
+inline void GenerationHandler(Food, Food, Poison, Lizard);
 
 int main() {
 	initwindow(WIDTH, HEIGHT, "Running Lizard");
 start:
-	LizardBody body;
+	Grid* grid;
+	Lizard lizard;
 	Food fruit[2] = { Food(1), Food(5) }; // Two Food objects initialized by passing an int to the constructor
-	Poison p1;
+	Poison poison;
+
 
 #pragma region Fields
 	// unsigned char == uint8_t | 1 byte | 0 to 255
@@ -50,11 +55,11 @@ start:
 
 	// generate new pos for food
 	for (uint8_t i = 0; i < fruitCount; i++)
-		fruit[i].generate(body.getPosx(), body.getPosy());
+		fruit[i].generate(lizard.getPosx(), lizard.getPosy());
 
 	// generate/regenerate new pos for poison
-	p1.generate(body.getPosx(), body.getPosy());
-	GenerationHandler(fruit[0], fruit[1], p1, body);
+	poison.generate(lizard.getPosx(), lizard.getPosy());
+	GenerationHandler(fruit[0], fruit[1], poison, lizard);
 
 	while (true)
 	{
@@ -67,32 +72,36 @@ start:
 
 		// Input Handler
 		if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A'))
-			body.changeDirTo(LEFT);
+			lizard.changeDirTo(LEFT);
 		if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
-			body.changeDirTo(UP);
+			lizard.changeDirTo(UP);
 		if (GetAsyncKeyState(VK_RIGHT) || GetAsyncKeyState('D'))
-			body.changeDirTo(RIGHT);
+			lizard.changeDirTo(RIGHT);
 		if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
-			body.changeDirTo(DOWN);
+			lizard.changeDirTo(DOWN);
 		if (GetAsyncKeyState(VK_ESCAPE))
 			break;
 		if (GetAsyncKeyState('R'))
 			goto start;
-		if (isPlaying == true && !body.update())
+		if (isPlaying == true && !lizard.update())
 			isPlaying = false;
 
 		/*-UI-*/
-		drawGrid();
-		body.drawLizard();
+		// Create a grid in dynamic memory
+		grid = new Grid();
+		// Draw grid
+		grid->drawGrid();
+		// drawGrid();
+		lizard.drawLizard();
 
 		for (uint8_t i = 0; i < fruitCount; i++)
 		{
-			if (fruit[i].update(body.getPosx(), body.getPosy()))
+			if (fruit[i].update(lizard.getPosx(), lizard.getPosy()))
 			{
-				fruit[i].generate(body.getPosx(), body.getPosy());
+				fruit[i].generate(lizard.getPosx(), lizard.getPosy());
 				// bool played = PlaySound(TEXT("DieSound.wav"), NULL, SND_FILENAME | SND_ASYNC);
 				// cout << boolalpha << played << endl;
-				body.appendLizard();
+				lizard.appendLizard();
 			}
 		}
 
@@ -101,7 +110,7 @@ start:
 		setcolor(WHITE);
 
 		// Calculate score from body length
-		bodyLength = body.getlength();
+		bodyLength = lizard.getlength();
 		strncpy(score, to_string((bodyLength - 2) * 10).c_str(), 4);
 
 		// Display score
@@ -112,19 +121,19 @@ start:
 		// Regenerate new poison position
 		// Check if player ate 3 poison
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		if (p1.update(body.getPosx(), body.getPosy()))
+		if (poison.update(lizard.getPosx(), lizard.getPosy()))
 		{
-			p1.generate(body.getPosx(), body.getPosy());
-			GenerationHandler(fruit[0], fruit[1], p1, body);
+			poison.generate(lizard.getPosx(), lizard.getPosy());
+			GenerationHandler(fruit[0], fruit[1], poison, lizard);
 			lifeCount--;
-			if (p1.getHit() == 3)
+			if (poison.getHit() == 3)
 			{
 				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
 				outtextxy(160, 545, (char*)"GAME OVER");
 				isPlaying = false;
 			}
 		}
-		else if (isPlaying)
+		if (isPlaying)
 		{
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
 			outtextxy(160, 545, (char*)"PLAYING");
@@ -139,7 +148,6 @@ start:
 		outtextxy(270, 568, (char*)" A  ");
 		outtextxy(295, 568, (char*)" S  ");
 		outtextxy(320, 568, (char*)" D  ");
-
 
 		// Display Controls - Arrow Keys
 		setcolor(BLACK);
@@ -156,7 +164,6 @@ start:
 		// left arrow key
 		line(378, 574, 365, 579);
 		line(365, 579, 378, 584);
-
 
 		// Progressive speed
 		if (atoi(score) >= 100)
@@ -184,7 +191,7 @@ start:
 			fruit[i].draw();
 
 		// Draw poison
-		p1.draw();
+		poison.draw();
 
 		// Reset page
 		page = 1 - page;
@@ -198,7 +205,7 @@ start:
 		drawInstruction(680, 575, 20, 90);
 
 		// Check if player reached max length -> Won
-		if (body.getlength() == 32)
+		if (lizard.getlength() == 32)
 		{
 			setcolor(WHITE);
 			outtextxy(160, 545, (char*)"Victory!");
@@ -207,7 +214,7 @@ start:
 			isPlaying = false;
 		}
 		// Retry prompt
-		if (!isPlaying && body.getlength() != 32)
+		if (!isPlaying && lizard.getlength() != 32)
 		{
 			setcolor(WHITE);
 			outtextxy(160, 545, (char*)"GAME OVER");
@@ -217,6 +224,8 @@ start:
 
 		// Control speed between frames
 		delay(delaySpeed);
+		// delete grid from memory
+		delete grid;
 	}
 
 	getch();
@@ -326,12 +335,12 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset) {
 // Using inline solves overhead costs. It is expanded in line by the compiler when it is invoked.
 // Generates new position if the position 
 // is equal to the food pos
-inline void GenerationHandler(Food f1, Food f2, Poison p1, LizardBody b)
+inline void GenerationHandler(Food f1, Food f2, Poison p, Lizard b)
 {
-	if ((f1.foodPos.x == p1.foodPos.x && f1.foodPos.y == p1.foodPos.y) ||
-		(f2.foodPos.x == p1.foodPos.x && f2.foodPos.y == p1.foodPos.y))
+	if ((f1.foodPos.x == p.foodPos.x && f1.foodPos.y == p.foodPos.y) ||
+		(f2.foodPos.x == p.foodPos.x && f2.foodPos.y == p.foodPos.y))
 	{
-		p1.generate(b.getPosx(), b.getPosy());
+		p.generate(b.getPosx(), b.getPosy());
 	}
 }
 #pragma endregion Functions

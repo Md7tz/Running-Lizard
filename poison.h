@@ -1,6 +1,3 @@
-#include <graphics.h>
-#include <ctime> // Generate random numbers
-
 class Poison : public Food
 {
 private:
@@ -8,12 +5,16 @@ private:
 	
 public:
 	Poison();
+	~Poison();
+	
 	void draw() const;
 	bool update(int16_t, int16_t);          // Status of food
 	uint8_t getHit() const;
 };
 
 Poison::Poison() {}
+
+Poison::~Poison() {}
 
 void Poison::draw() const
 {
