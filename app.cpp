@@ -9,7 +9,6 @@
 #include "food.h"
 #include "poison.h"
 
-
 // #pragma comment(lib, "winmm.lib")
 
 #define WIDTH 810
@@ -29,8 +28,6 @@ int main() {
 	initwindow(WIDTH, HEIGHT, "Running Lizard");
 start:
 	LizardBody body;
-
-     LizardBody enemy(300, 300);
 	Food fruit[2] = { Food(1), Food(5) }; // Two Food objects initialized by passing an int to the constructor
 	Poison p1;
 
@@ -58,7 +55,6 @@ start:
 	// generate/regenerate new pos for poison
 	p1.generate(body.getPosx(), body.getPosy());
 	GenerationHandler(fruit[0], fruit[1], p1, body);
-    
 
 	while (true)
 	{
@@ -84,36 +80,10 @@ start:
 			goto start;
 		if (isPlaying == true && !body.update())
 			isPlaying = false;
-		if (isPlaying == true && !enemy.update())
-			continue;
+
 		/*-UI-*/
 		drawGrid();
 		body.drawLizard();
-        
-		
-		enemy.drawLizard();
-
-		enemy.LC->headColor[0] = 128; 
-		enemy.LC->headColor[1] = 128;		// change the color of the enemy lizard into dark grey for the head
-		enemy.LC->headColor[2] = 128;		
-
-		enemy.LC->bodyColor[0] = 211;
-		enemy.LC->bodyColor[1] = 211;		// and for light grey for the body
-		enemy.LC->bodyColor[2] = 211;
-
-          
-        // generate a random number in range from 0-3 direction for the enemy lizard
-        srand(time(NULL));
-        int8_t randNum = (rand() % 3) + 1;
-        enemy.changeDirTo(randNum);
-
-
-		if (!enemy.checkBody(body))
-          {
-               settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-			outtextxy(160, 545, (char*)"GAME OVER");
-               isPlaying = false;
-          }
 
 		for (uint8_t i = 0; i < fruitCount; i++)
 		{
@@ -123,10 +93,6 @@ start:
 				// bool played = PlaySound(TEXT("DieSound.wav"), NULL, SND_FILENAME | SND_ASYNC);
 				// cout << boolalpha << played << endl;
 				body.appendLizard();
-	 
-                    // to make the enemy lizard half the size of the lizard
-					if(body.getlength() % 2) enemy.appendLizard();     
-                    
 			}
 		}
 
@@ -150,7 +116,6 @@ start:
 		{
 			p1.generate(body.getPosx(), body.getPosy());
 			GenerationHandler(fruit[0], fruit[1], p1, body);
-            
 			lifeCount--;
 			if (p1.getHit() == 3)
 			{
@@ -164,13 +129,6 @@ start:
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
 			outtextxy(160, 545, (char*)"PLAYING");
 		}
-
-        //   if (!enemy.checkBody(body))
-        //   {
-        //        settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		// 	outtextxy(160, 545, (char*)"GAME OVER");
-        //        isPlaying = false;
-        //   }
 
 		// Display Controls - WASD
 		setcolor(WHITE);

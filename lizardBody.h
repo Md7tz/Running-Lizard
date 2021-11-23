@@ -19,7 +19,6 @@ private:
 	uint8_t direction;
 	uint8_t length;
 	uint8_t offset;
-      
 
 public:
     lizardColor *LC=new lizardColor;
@@ -31,30 +30,15 @@ public:
 		direction = RIGHT;    // Initial direction
 		offset = 30;          // offset between object origin and x, y position
 	}
-    LizardBody(int16_t x, int16_t y)
-        {
-                arr[0].x = x;        // Initial x value for head
-		arr[0].y = y;        // Initial y value for head
-		length = 2;           // Initial length
-		direction = RIGHT;    // Initial direction
-		offset = 30;
-        }
 	void drawLizard() const;
 	void appendLizard();                    // Increments lizard length
 	void changeDirTo(uint8_t);        // Changes direction 
-        
-
-	int8_t checkBody(LizardBody &body);
-        
-
 
 	uint8_t update();
 	uint8_t getlength() const;
 
 	int16_t getPosx() const;
 	int16_t getPosy() const;
-
-    Position* getBody();
 };
 void LizardBody::drawLizard() const {    // Draws the lizard
 	// Colors
@@ -159,20 +143,4 @@ int16_t LizardBody::getPosy() const
 uint8_t LizardBody::getlength() const
 {
 	return length;
-}
-
-Position* LizardBody::getBody()
-{		// return the head of the array;
-        return arr;
-}
-
-int8_t LizardBody::checkBody(LizardBody &body)
-{       // to check that there is no collosion between the two bodys
-        for (int i = 0; i < length; i++)
-                for(int x = 0; x < length; ++x)
-                        if(body.getBody()[x].x ==arr[i].x && body.getBody()[x].y == arr[i].y) return 0;
-        return 1;
-
-                
-        
 }
