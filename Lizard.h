@@ -23,7 +23,7 @@ protected:
 	uint8_t direction;
 	uint8_t length;
 	uint8_t offset;
-	Rgb* rgb;
+	Rgb *rgb;
 
 public:
 	Lizard();
@@ -39,7 +39,7 @@ public:
 	int16_t getPosx() const;
 	int16_t getPosy() const;
 
-	const Position* getBody() const;
+	const Position *getBody() const;
 };
 
 Lizard::Lizard()
@@ -52,7 +52,7 @@ Lizard::Lizard()
 	rgb = new Rgb;	   // asign dynamic memory
 }
 
-Lizard::~Lizard(){}
+Lizard::~Lizard() {}
 
 void Lizard::draw() const
 { // Draws the lizard
@@ -163,7 +163,7 @@ uint8_t Lizard::getLength() const
 	return length;
 }
 
-const Position* Lizard::getBody() const
+const Position *Lizard::getBody() const
 {
 	return arr;
 }
