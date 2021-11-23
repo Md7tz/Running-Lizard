@@ -1,9 +1,10 @@
 
+
 class Enemy : public Lizard
 {
 public:
     Enemy(int16_t x, int16_t y);
-    int8_t checkBody(Lizard &body);
+    bool checkBody(Lizard &body);
     void draw() const;
     void append(Lizard &);
     void changeDir();
@@ -18,7 +19,7 @@ Enemy::Enemy(int16_t x, int16_t y)
     rgb = new Rgb;
 }
 
-int8_t Enemy::checkBody(Lizard &body)
+bool Enemy::checkBody(Lizard &body)
 { // to check that there is no collosion between the two bodys
     for (int i = 0; i < length; i++)
         for (int x = 0; x < length; ++x)
