@@ -6,7 +6,8 @@
         "string_view": "c",
         "stdc++.h": "c",
         "ostream": "cpp",
-        "windows.h": "c"
+        "windows.h": "c",
+        "new": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
