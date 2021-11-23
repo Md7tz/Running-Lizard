@@ -5,13 +5,12 @@ private:
     int16_t left, top, right, bottom;
     int16_t x, y;
     uint8_t i;
-    const int16_t HEIGHT = 600, WIDTH = 810;
 
 public:
     Grid();
     Grid(uint8_t size);
     ~Grid();
-    void drawGrid();
+    void draw();
 };
 
 Grid::Grid() : x(5), y(5), left(0), top(0), right(size), bottom(size), i(0) {
@@ -24,7 +23,7 @@ Grid::Grid(uint8_t size) : Grid() {
 
 Grid::~Grid() {}
 
-void Grid::drawGrid()
+void Grid::draw()
 {   // Color A: 229 255 204
     // Color B: 204 255 204
 

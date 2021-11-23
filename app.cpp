@@ -6,20 +6,23 @@
 #include <stdlib.h>
 #include <iostream>
 #include <ctime> // For Generating random numbers
-#include "Rgb.h"
-#include "Grid.h"
-#include "Lizard.h"
-#include "Food.h"
-#include "Poison.h"
+
+// Preprocessor definitions
+#define WIDTH 810
+#define HEIGHT 600
+
+// Custom user defined Headers
+#include "rgb.h"
+#include "grid.h"
+#include "lizard.h"
+#include "food.h"
+#include "poison.h"
 
 // #pragma comment(lib, "winmm.lib")
 
-#define WIDTH 810
-#define HEIGHT 600
 using namespace std;
 
-// Drawing Screen
-void drawGrid();
+// Drawing Screen UI
 void drawKeys(int16_t, int16_t);
 void drawLives(const uint8_t, uint8_t&);
 void drawInstruction(int16_t, int16_t, int16_t, int16_t);
@@ -90,9 +93,9 @@ start:
 		// Create a grid in dynamic memory
 		grid = new Grid();
 		// Draw grid
-		grid->drawGrid();
+		grid->draw();
 		// drawGrid();
-		lizard.drawLizard();
+		lizard.draw();
 
 		for (uint8_t i = 0; i < fruitCount; i++)
 		{
@@ -101,7 +104,7 @@ start:
 				fruit[i].generate(lizard.getPosx(), lizard.getPosy());
 				// bool played = PlaySound(TEXT("DieSound.wav"), NULL, SND_FILENAME | SND_ASYNC);
 				// cout << boolalpha << played << endl;
-				lizard.appendLizard();
+				lizard.append();
 			}
 		}
 
@@ -110,7 +113,7 @@ start:
 		setcolor(WHITE);
 
 		// Calculate score from body length
-		bodyLength = lizard.getlength();
+		bodyLength = lizard.getLength();
 		strncpy(score, to_string((bodyLength - 2) * 10).c_str(), 4);
 
 		// Display score
@@ -205,7 +208,7 @@ start:
 		drawInstruction(680, 575, 20, 90);
 
 		// Check if player reached max length -> Won
-		if (lizard.getlength() == 32)
+		if (lizard.getLength() == 32)
 		{
 			setcolor(WHITE);
 			outtextxy(160, 545, (char*)"Victory!");
@@ -214,7 +217,7 @@ start:
 			isPlaying = false;
 		}
 		// Retry prompt
-		if (!isPlaying && lizard.getlength() != 32)
+		if (!isPlaying && lizard.getLength() != 32)
 		{
 			setcolor(WHITE);
 			outtextxy(160, 545, (char*)"GAME OVER");
@@ -233,46 +236,6 @@ start:
 }
 
 #pragma region Functions
-// Draw Box Grid with texture
-void drawGrid()
-{
-	uint8_t size = 30; // box size in grid
-	int16_t left = 0, top = 0, right = 30, bottom = 30;
-	int16_t x = 5, y = 5;
-	uint8_t i = 0;
-
-	// Color A: 229 255 204
-	// Color B: 204 255 204
-
-	// fill background with color first
-	setfillstyle(fill_styles::SOLID_FILL, COLOR(204, 255, 204));
-	floodfill(x, y, COLOR(204, 255, 204));
-
-	// Divide background to grid containers and fill with color
-	setcolor(COLOR(229, 255, 204));
-	for (uint8_t row = 0; row < HEIGHT / size; row++)
-	{
-		for (uint8_t col = 0; col < WIDTH / size; col++)
-		{
-			rectangle(left, top, right, bottom);
-			left += size;
-			right += size;
-			if (i % 2 == 0)
-			{
-				setfillstyle(fill_styles::SOLID_FILL, COLOR(229, 255, 204));
-				floodfill(x, y, COLOR(229, 255, 204));
-			}
-			x += 30;
-			i++;
-		}
-		left = 0;
-		right = size;
-		top += size;
-		bottom += size;
-		x = 5;
-		y += 30;
-	}
-}
 
 // Draw key boxes
 void drawKeys(int16_t x, int16_t y)
