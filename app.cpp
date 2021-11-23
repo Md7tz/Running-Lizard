@@ -6,6 +6,15 @@
 #include <stdlib.h>
 #include <iostream>
 #include <ctime> // For Generating random numbers
+
+// Preprocesser definition & custom types
+typedef uint8_t BYTE;  // Byte stores signed ints
+typedef int8_t UBYTE;  // Byte stores unsigned ints
+typedef int16_t DBYTE; // Double Byte stores signed ints
+#define WIDTH 810
+#define HEIGHT 600
+
+// Custom headers
 #include "Rgb.h"
 #include "Grid.h"
 #include "Lizard.h"
@@ -14,15 +23,13 @@
 
 // #pragma comment(lib, "winmm.lib")
 
-#define WIDTH 810
-#define HEIGHT 600
 using namespace std;
 
 // Drawing Screen
 void drawGrid();
-void drawKeys(int16_t, int16_t);
-void drawLives(const uint8_t, uint8_t&);
-void drawInstruction(int16_t, int16_t, int16_t, int16_t);
+void drawKeys(DBYTE, DBYTE);
+void drawLives(const UBYTE, UBYTE&);
+void drawInstruction(DBYTE, DBYTE, DBYTE, DBYTE);
 
 // Utility Function
 inline void GenerationHandler(Food, Food, Poison, Lizard);
@@ -37,15 +44,15 @@ start:
 
 
 #pragma region Fields
-	// unsigned char == uint8_t | 1 byte | 0 to 255
-	// signed char  == int8_t | 1 byte | -128 to 127
+	// unsigned char == uint8_t | 1 UBYTE | 0 to 255
+	// signed char  == int8_t | 1 UBYTE | -128 to 127
 	// short int == int16_t | 2 bytes | -32,768 to 32,767
-	int8_t page = 1;
-	uint8_t bodyLength;
-	uint8_t delaySpeed = 90;
-	uint8_t lifeCount = 3;
-	uint8_t lifePadding = 0;
-	const int8_t fruitCount = fruit[0].getCount();
+	BYTE page = 1;
+	UBYTE bodyLength;
+	UBYTE delaySpeed = 90;
+	UBYTE lifeCount = 3;
+	UBYTE lifePadding = 0;
+	const BYTE fruitCount = fruit[0].getCount();
 
 	char score[4] = "0";
 	char speed[10] = "Normal";
@@ -54,7 +61,7 @@ start:
 #pragma endregion Fields
 
 	// generate new pos for food
-	for (uint8_t i = 0; i < fruitCount; i++)
+	for (UBYTE i = 0; i < fruitCount; i++)
 		fruit[i].generate(lizard.getPosx(), lizard.getPosy());
 
 	// generate/regenerate new pos for poison
@@ -94,7 +101,7 @@ start:
 		// drawGrid();
 		lizard.drawLizard();
 
-		for (uint8_t i = 0; i < fruitCount; i++)
+		for (UBYTE i = 0; i < fruitCount; i++)
 		{
 			if (fruit[i].update(lizard.getPosx(), lizard.getPosy()))
 			{
@@ -187,7 +194,7 @@ start:
 		drawLives(lifeCount, lifePadding);
 
 		// Draw food
-		for (uint8_t i = 0; i < fruitCount; i++)
+		for (UBYTE i = 0; i < fruitCount; i++)
 			fruit[i].draw();
 
 		// Draw poison
@@ -236,10 +243,10 @@ start:
 // Draw Box Grid with texture
 void drawGrid()
 {
-	uint8_t size = 30; // box size in grid
-	int16_t left = 0, top = 0, right = 30, bottom = 30;
-	int16_t x = 5, y = 5;
-	uint8_t i = 0;
+	UBYTE size = 30; // box size in grid
+	DBYTE left = 0, top = 0, right = 30, bottom = 30;
+	DBYTE x = 5, y = 5;
+	UBYTE i = 0;
 
 	// Color A: 229 255 204
 	// Color B: 204 255 204
@@ -250,9 +257,9 @@ void drawGrid()
 
 	// Divide background to grid containers and fill with color
 	setcolor(COLOR(229, 255, 204));
-	for (uint8_t row = 0; row < HEIGHT / size; row++)
+	for (UBYTE row = 0; row < HEIGHT / size; row++)
 	{
-		for (uint8_t col = 0; col < WIDTH / size; col++)
+		for (UBYTE col = 0; col < WIDTH / size; col++)
 		{
 			rectangle(left, top, right, bottom);
 			left += size;
@@ -275,9 +282,9 @@ void drawGrid()
 }
 
 // Draw key boxes
-void drawKeys(int16_t x, int16_t y)
+void drawKeys(DBYTE x, DBYTE y)
 {
-	for (int16_t i = 0; i < 4; i++)
+	for (DBYTE i = 0; i < 4; i++)
 	{
 		rectangle(x, y, x + 22, y + 20);
 		if (i == 0)
@@ -290,18 +297,18 @@ void drawKeys(int16_t x, int16_t y)
 }
 
 // Draw lives left
-void drawLives(const uint8_t counter, uint8_t& padding)
+void drawLives(const UBYTE counter, UBYTE& padding)
 {
-	uint8_t temp = padding;
+	UBYTE temp = padding;
 	setcolor(RED);
-	for (uint8_t j = 0; j < 3; j++) {
+	for (UBYTE j = 0; j < 3; j++) {
 		arc(485 + padding, 555, 0, 180, 10);
 		arc(465 + padding, 555, 0, 180, 10);
 		arc(475 + padding, 555, 180, 360, 20);
 		padding += 50;
 	}
 	padding = temp;
-	for (uint8_t i = 0; i < counter; i++)
+	for (UBYTE i = 0; i < counter; i++)
 	{
 		setfillstyle(SOLID_FILL, RED);
 		floodfill(475 + padding, 560, RED);
@@ -311,7 +318,7 @@ void drawLives(const uint8_t counter, uint8_t& padding)
 }
 
 // Draw instructions
-void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset) {
+void drawInstruction(DBYTE x, DBYTE y, DBYTE size, DBYTE offset) {
 	// Text
 	setcolor(COLOR(255, 45, 0));
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);

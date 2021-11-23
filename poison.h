@@ -1,15 +1,15 @@
 class Poison : public Food
 {
 private:
-	uint8_t hit = 0;
+	UBYTE hit = 0;
 	
 public:
 	Poison();
 	~Poison();
 	
 	void draw() const;
-	bool update(int16_t, int16_t);          // Status of food
-	uint8_t getHit() const;
+	bool update(DBYTE, DBYTE);          // Status of food
+	UBYTE getHit() const;
 };
 
 Poison::Poison() {}
@@ -24,7 +24,7 @@ void Poison::draw() const
 	floodfill(foodPos.x + 15, foodPos.y + 15, GREEN);
 }
 
-bool Poison::update(int16_t lizardHeadx, int16_t lizardHeady) {
+bool Poison::update(DBYTE lizardHeadx, DBYTE lizardHeady) {
 	if (foodPos.x == lizardHeadx && foodPos.y == lizardHeady) {
 		hit++;
 		return true;
@@ -33,7 +33,7 @@ bool Poison::update(int16_t lizardHeadx, int16_t lizardHeady) {
 		return false;
 }
 
-uint8_t Poison::getHit() const
+UBYTE Poison::getHit() const
 {
 	return hit;
 }

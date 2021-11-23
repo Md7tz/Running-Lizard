@@ -1,7 +1,7 @@
 enum DIR { LEFT, UP, RIGHT, DOWN }; // 0 1 2 3
 
 struct Position {
-	int16_t x, y;
+	DBYTE x, y;
 	Position()
 	{
 		x = -50;
@@ -13,9 +13,9 @@ class Lizard
 {
 private:
 	Position arr[32];            	  // Contains the positions of the lizard
-	uint8_t direction;
-	uint8_t length;
-	uint8_t offset;
+	UBYTE direction;
+	UBYTE length;
+	UBYTE offset;
 	Rgb* rgb;
 
 public:
@@ -24,13 +24,13 @@ public:
 
 	void drawLizard() const;
 	void appendLizard();              // Increments lizard length
-	void changeDirTo(uint8_t);        // Changes direction 
+	void changeDirTo(UBYTE);        // Changes direction 
 
-	uint8_t update();
-	uint8_t getlength() const;
+	UBYTE update();
+	UBYTE getlength() const;
 
-	int16_t getPosx() const;
-	int16_t getPosy() const;
+	DBYTE getPosx() const;
+	DBYTE getPosy() const;
 };
 
 Lizard::Lizard() {
@@ -67,7 +67,7 @@ void Lizard::appendLizard() {
 		length++;
 }
 
-void Lizard::changeDirTo(uint8_t newdir) {
+void Lizard::changeDirTo(UBYTE newdir) {
 	if (newdir == LEFT || newdir == RIGHT)
 	{
 		if (direction == UP || direction == DOWN)
@@ -80,15 +80,15 @@ void Lizard::changeDirTo(uint8_t newdir) {
 	}
 }
 
-uint8_t Lizard::update() {
-	for (int8_t i = 1; i < length; ++i)
+UBYTE Lizard::update() {
+	for (BYTE i = 1; i < length; ++i)
 	{
 		if (arr[0].x == arr[i].x && arr[0].y == arr[i].y)
 		{
 			return 0;
 		}
 	}
-	for (int8_t i = length; i >= 0; --i)
+	for (BYTE i = length; i >= 0; --i)
 	{
 		if (i == 0)
 		{
@@ -136,17 +136,17 @@ uint8_t Lizard::update() {
 	return 1;
 }
 
-int16_t Lizard::getPosx() const
+DBYTE Lizard::getPosx() const
 {
 	return arr[0].x;
 }
 
-int16_t Lizard::getPosy() const
+DBYTE Lizard::getPosy() const
 {
 	return arr[0].y;
 }
 
-uint8_t Lizard::getlength() const
+UBYTE Lizard::getlength() const
 {
 	return length;
 }
