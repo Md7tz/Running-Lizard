@@ -1,25 +1,25 @@
 class Food {
 private:
-	UBYTE randInt;
+	uint8_t randInt;
 
 public:
 	Position foodPos;
-	static const UBYTE count;
+	static const uint8_t count;
 	Food();
-	Food(UBYTE _randInt);
+	Food(uint8_t _randInt);
 
 	void draw() const;                          // Draw the food 
-	void generate(DBYTE, DBYTE);        // Generate food position
-	bool update(DBYTE, DBYTE);          // Status of food
+	void generate(int16_t, int16_t);        // Generate food position
+	bool update(int16_t, int16_t);          // Status of food
 
-	UBYTE getCount() const;
+	uint8_t getCount() const;
 };
 
-const UBYTE Food::count = 2;
+const uint8_t Food::count = 2;
 
 Food::Food() {}
 
-Food::Food(UBYTE _randInt) {
+Food::Food(uint8_t _randInt) {
 	randInt = _randInt;
 }
 
@@ -31,7 +31,7 @@ void Food::draw() const {
 }
 
 // Generate new pos for the Object
-void Food::generate(DBYTE lizardHeadx, DBYTE lizardHeady) {
+void Food::generate(int16_t lizardHeadx, int16_t lizardHeady) {
 	if (Food::count == 2) {
 		srand(time(0));
 		foodPos.x = 30 * ((rand() + randInt) % 20 + 1);
@@ -42,13 +42,13 @@ void Food::generate(DBYTE lizardHeadx, DBYTE lizardHeady) {
 	}
 }
 
-bool Food::update(DBYTE lizardHeadx, DBYTE lizardHeady) {
+bool Food::update(int16_t lizardHeadx, int16_t lizardHeady) {
 	if (foodPos.x == lizardHeadx && foodPos.y == lizardHeady)
 		return true;
 	else
 		return false;
 }
 
-UBYTE Food::getCount() const {
+uint8_t Food::getCount() const {
 	return count;
 }

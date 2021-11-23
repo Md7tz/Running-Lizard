@@ -1,14 +1,15 @@
 class Grid {
 private:
     Rgb* rgb;
-    UBYTE size = 30; // box 30 in grid
-    DBYTE left, top, right, bottom;
-    DBYTE x, y;
-    UBYTE i;
+    uint8_t size = 30; // box 30 in grid
+    int16_t left, top, right, bottom;
+    int16_t x, y;
+    uint8_t i;
+    const int16_t HEIGHT = 600, WIDTH = 810;
 
 public:
     Grid();
-    Grid(UBYTE size);
+    Grid(uint8_t size);
     ~Grid();
     void drawGrid();
 };
@@ -17,7 +18,7 @@ Grid::Grid() : x(5), y(5), left(0), top(0), right(size), bottom(size), i(0) {
     rgb = new Rgb;
 }
 
-Grid::Grid(UBYTE size) : Grid() {
+Grid::Grid(uint8_t size) : Grid() {
     this->size = size;
 }
 
@@ -34,9 +35,9 @@ void Grid::drawGrid()
 
     // Divide background to grid containers and fill with color
     setcolor(COLOR(rgb->NODES[1][0], rgb->NODES[1][1], rgb->NODES[1][2]));
-    for (UBYTE row = 0; row < HEIGHT / size; row++)
+    for (uint8_t row = 0; row < HEIGHT / size; row++)
     {
-        for (UBYTE col = 0; col < WIDTH / size; col++)
+        for (uint8_t col = 0; col < WIDTH / size; col++)
         {
             rectangle(left, top, right, bottom);
             left += size;
