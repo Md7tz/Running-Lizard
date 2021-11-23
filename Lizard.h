@@ -1,52 +1,64 @@
-enum DIR { LEFT, UP, RIGHT, DOWN }; // 0 1 2 3
+enum DIR
+{
+	LEFT,
+	UP,
+	RIGHT,
+	DOWN
+}; // 0 1 2 3
 
-struct Position {
+struct Position
+{
 	int16_t x, y;
 	Position()
 	{
-		x = -50;
-		y = 0;
+		x = 0;
+		y = -50;
 	}
 };
 
 class Lizard
 {
 private:
-	Position arr[32];            	  // Contains the positions of the lizard
+	Position arr[32]; // Contains the positions of the lizard
 	uint8_t direction;
 	uint8_t length;
 	uint8_t offset;
-	Rgb* rgb;
+	Rgb *rgb;
 
 public:
 	Lizard();
 	~Lizard();
 
 	void draw() const;
-	void append();              // Increments lizard length
-	void changeDirTo(uint8_t);        // Changes direction 
+	void append();			   // Increments lizard length
+	void changeDirTo(uint8_t); // Changes direction
 
 	uint8_t update();
 	uint8_t getLength() const;
 
 	int16_t getPosx() const;
 	int16_t getPosy() const;
+
+	const Position *getBody() const;
 };
 
-Lizard::Lizard() {
-	arr[0].x = 30;        // Initial x value for head
-	arr[0].y = 30;        // Initial y value for head
-	length = 2;           // Initial length
-	direction = RIGHT;    // Initial direction
-	offset = 30;          // offset between object origin and x, y position
-	rgb = new Rgb;		  // asign dynamic memory
+Lizard::Lizard()
+{
+	arr[0].x = 30;	   // Initial x value for head
+	arr[0].y = 30;	   // Initial y value for head
+	length = 2;		   // Initial length
+	direction = RIGHT; // Initial direction
+	offset = 30;	   // offset between object origin and x, y position
+	rgb = new Rgb;	   // asign dynamic memory
 }
 
-Lizard::~Lizard() {
+Lizard::~Lizard()
+{
 	// delete rgb;
 }
 
-void Lizard::draw() const {    // Draws the lizard
+void Lizard::draw() const
+{ // Draws the lizard
 	// Colors
 	// 179, 170, 0
 	// 245, 232, 0
@@ -62,12 +74,14 @@ void Lizard::draw() const {    // Draws the lizard
 	}
 }
 
-void Lizard::append() {
-	if (length < 33)  // Prevents length from exceeding 32
+void Lizard::append()
+{
+	if (length < 33) // Prevents length from exceeding 32
 		length++;
 }
 
-void Lizard::changeDirTo(uint8_t newdir) {
+void Lizard::changeDirTo(uint8_t newdir)
+{
 	if (newdir == LEFT || newdir == RIGHT)
 	{
 		if (direction == UP || direction == DOWN)
@@ -80,7 +94,8 @@ void Lizard::changeDirTo(uint8_t newdir) {
 	}
 }
 
-uint8_t Lizard::update() {
+uint8_t Lizard::update()
+{
 	for (int8_t i = 1; i < length; ++i)
 	{
 		if (arr[0].x == arr[i].x && arr[0].y == arr[i].y)
@@ -149,4 +164,9 @@ int16_t Lizard::getPosy() const
 uint8_t Lizard::getLength() const
 {
 	return length;
+}
+
+const Position *Lizard::getBody() const
+{
+	return arr;
 }
