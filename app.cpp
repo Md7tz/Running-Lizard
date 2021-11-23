@@ -25,7 +25,7 @@ using namespace std;
 
 // Drawing Screen UI
 void drawKeys(int16_t, int16_t);
-void drawLives(const uint8_t, uint8_t&);
+void drawLives(const uint8_t, uint8_t &);
 void drawInstruction(int16_t, int16_t, int16_t, int16_t);
 
 // Utility Function
@@ -35,9 +35,9 @@ int main()
 {
 	initwindow(WIDTH, HEIGHT, "Running Lizard");
 start:
-	Grid* grid;
+	Grid *grid;
 	Lizard lizard;
-	Food fruit[2] = { Food(1), Food(5) }; // Two Food objects initialized in a random position
+	Food fruit[2] = {Food(1), Food(5)}; // Two Food objects initialized in a random position
 	Poison poison;
 	Enemy enemy(300, 300);
 
@@ -50,6 +50,7 @@ start:
 	uint8_t delaySpeed = 90;
 	uint8_t lifeCount = 3;
 	uint8_t lifePadding = 0;
+	bool run = false; // will not show enemy , unitil the speed of lizard be insane
 	const int8_t fruitCount = fruit[0].getCount();
 
 	char score[4] = "0";
@@ -90,18 +91,21 @@ start:
 			goto start;
 		if (isPlaying == true && !lizard.update())
 			isPlaying = false;
-		if (isPlaying == true && !enemy.update())
-			continue;
-
-		// change the direciton randomly
-		enemy.changeDir();
-
-		// to end the game if there is any collsion between the body and enemy
-		if (!enemy.checkBody(lizard))
+		if (run)
 		{
-			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-			outtextxy(160, 545, (char*)"GAME OVER");
-			isPlaying = false;
+			if (isPlaying == true && !enemy.update())
+				continue;
+
+			// change the direciton randomly
+			enemy.changeDir();
+
+			// to end the game if there is any collsion between the body and enemy
+			if (!enemy.checkBody(lizard))
+			{
+				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+				outtextxy(160, 545, (char *)"GAME OVER");
+				isPlaying = false;
+			}
 		}
 
 		/*-UI-*/
@@ -111,7 +115,8 @@ start:
 		grid->draw();
 		// drawGrid();
 		lizard.draw();
-		enemy.draw();
+		if (run)
+			enemy.draw();
 
 		for (uint8_t i = 0; i < fruitCount; i++)
 		{
@@ -123,7 +128,8 @@ start:
 				lizard.append();
 				// to make the enemy lizard half the size of the lizard
 
-				enemy.append(lizard);
+				if (run)
+					enemy.append(lizard);
 			}
 		}
 
@@ -136,7 +142,7 @@ start:
 		strncpy(score, to_string((bodyLength - 2) * 10).c_str(), 4);
 
 		// Display score
-		outtextxy(20, 545, (char*)"SCORE");
+		outtextxy(20, 545, (char *)"SCORE");
 		outtextxy(90, 545, score);
 
 		// Game State
@@ -151,24 +157,24 @@ start:
 			if (poison.getHit() == 3)
 			{
 				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-				outtextxy(160, 545, (char*)"GAME OVER");
+				outtextxy(160, 545, (char *)"GAME OVER");
 				isPlaying = false;
 			}
 		}
 		if (isPlaying)
 		{
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-			outtextxy(160, 545, (char*)"PLAYING");
+			outtextxy(160, 545, (char *)"PLAYING");
 		}
 		// Display Controls - WASD
 		setcolor(WHITE);
 		drawKeys(295, 545);
 
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(295, 545, (char*)" W ");
-		outtextxy(270, 568, (char*)" A  ");
-		outtextxy(295, 568, (char*)" S  ");
-		outtextxy(320, 568, (char*)" D  ");
+		outtextxy(295, 545, (char *)" W ");
+		outtextxy(270, 568, (char *)" A  ");
+		outtextxy(295, 568, (char *)" S  ");
+		outtextxy(320, 568, (char *)" D  ");
 
 		// Display Controls - Arrow Keys
 		setcolor(BLACK);
@@ -190,18 +196,20 @@ start:
 		if (atoi(score) >= 100)
 		{
 			delaySpeed = 40;
+
 			strcpy(speed, "Fast");
 		}
 		if (atoi(score) >= 200)
 		{
 			delaySpeed = 25;
 			strcpy(speed, "Insane");
+			run = true; // now enemy will be revealed
 		}
 
 		// Display Speed
 		setcolor(WHITE);
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(20, 575, (char*)"Speed");
+		outtextxy(20, 575, (char *)"Speed");
 		outtextxy(90, 575, speed);
 		// Draw lives
 		drawLives(lifeCount, lifePadding);
@@ -219,7 +227,7 @@ start:
 		// Display Exit Key
 		setcolor(WHITE);
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(630, 545, (char*)" PRESS 'ESC' to EXIT ");
+		outtextxy(630, 545, (char *)" PRESS 'ESC' to EXIT ");
 
 		// Draw instruction
 		drawInstruction(680, 575, 20, 90);
@@ -228,18 +236,18 @@ start:
 		if (lizard.getLength() == 32)
 		{
 			setcolor(WHITE);
-			outtextxy(160, 545, (char*)"Victory!");
+			outtextxy(160, 545, (char *)"Victory!");
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-			outtextxy(155, 200, (char*)"You Won! Press R to Restart");
+			outtextxy(155, 200, (char *)"You Won! Press R to Restart");
 			isPlaying = false;
 		}
 		// Retry prompt
 		if (!isPlaying && lizard.getLength() != 32)
 		{
 			setcolor(WHITE);
-			outtextxy(160, 545, (char*)"GAME OVER");
+			outtextxy(160, 545, (char *)"GAME OVER");
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-			outtextxy(250, 200, (char*)" Press R to Retry ");
+			outtextxy(250, 200, (char *)" Press R to Retry ");
 		}
 
 		// Control speed between frames
@@ -270,7 +278,7 @@ void drawKeys(int16_t x, int16_t y)
 }
 
 // Draw lives left
-void drawLives(const uint8_t counter, uint8_t& padding)
+void drawLives(const uint8_t counter, uint8_t &padding)
 {
 	uint8_t temp = padding;
 	setcolor(RED);
@@ -297,7 +305,7 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset)
 	// Text
 	setcolor(COLOR(255, 45, 0));
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-	outtextxy(630, 575, (char*)"FOOD");
+	outtextxy(630, 575, (char *)"FOOD");
 	// Food
 	setcolor(RED);
 	rectangle(x, y, x + size, y + size);
@@ -306,7 +314,7 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset)
 	// Text
 	setcolor(COLOR(10, 255, 0));
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-	outtextxy(705, 575, (char*)"POISON");
+	outtextxy(705, 575, (char *)"POISON");
 	// Poison
 	setcolor(GREEN);
 	rectangle(x + offset, y, x + size + offset, y + size);

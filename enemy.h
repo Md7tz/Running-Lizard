@@ -1,11 +1,12 @@
 
+
 class Enemy : public Lizard
 {
 public:
     Enemy(int16_t x, int16_t y);
-    int8_t checkBody(Lizard& body);
+    bool checkBody(Lizard &body);
     void draw() const;
-    void append(Lizard&);
+    void append(Lizard &);
     void changeDir();
 };
 
@@ -18,7 +19,7 @@ Enemy::Enemy(int16_t x, int16_t y)
     rgb = new Rgb;
 }
 
-int8_t Enemy::checkBody(Lizard& body)
+bool Enemy::checkBody(Lizard &body)
 { // to check that there is no collosion between the two bodys
     for (int i = 0; i < length; i++)
         for (int x = 0; x < length; ++x)
@@ -41,10 +42,10 @@ void Enemy::draw() const
     }
 }
 
-void Enemy::append(Lizard& body)
+void Enemy::append(Lizard &body)
 {
     // Adds 1 to length if player ate 3
-    if (!(body.getLength() % 3)) 
+    if (!(body.getLength() % 3))
         length++;
 }
 
@@ -54,7 +55,7 @@ void Enemy::changeDir()
     srand(time(NULL));
     int tempDir = (rand() % 3) + 1;
 
-    // Avoid invalid directions 
+    // Avoid invalid directions
     if (tempDir == LEFT || tempDir == RIGHT)
     {
         if (!(direction == UP || direction == DOWN))
