@@ -25,7 +25,7 @@ using namespace std;
 
 // Drawing Screen UI
 void drawKeys(int16_t, int16_t);
-void drawLives(const uint8_t, uint8_t &);
+void drawLives(const uint8_t, uint8_t&);
 void drawInstruction(int16_t, int16_t, int16_t, int16_t);
 
 // Utility Function
@@ -35,9 +35,9 @@ int main()
 {
 	initwindow(WIDTH, HEIGHT, "Running Lizard");
 start:
-	Grid *grid;
+	Grid* grid;
 	Lizard lizard;
-	Food fruit[2] = {Food(1), Food(5)}; // Two Food objects initialized by passing an int to the constructor
+	Food fruit[2] = { Food(1), Food(5) }; // Two Food objects initialized in a random position
 	Poison poison;
 	Enemy enemy(300, 300);
 
@@ -94,13 +94,13 @@ start:
 			continue;
 
 		// change the direciton randomly
-		enemy.changeDirTo();
+		enemy.changeDir();
 
 		// to end the game if there is any collsion between the body and enemy
 		if (!enemy.checkBody(lizard))
 		{
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-			outtextxy(160, 545, (char *)"GAME OVER");
+			outtextxy(160, 545, (char*)"GAME OVER");
 			isPlaying = false;
 		}
 
@@ -122,7 +122,7 @@ start:
 				// cout << boolalpha << played << endl;
 				lizard.append();
 				// to make the enemy lizard half the size of the lizard
-				
+
 				enemy.append(lizard);
 			}
 		}
@@ -136,7 +136,7 @@ start:
 		strncpy(score, to_string((bodyLength - 2) * 10).c_str(), 4);
 
 		// Display score
-		outtextxy(20, 545, (char *)"SCORE");
+		outtextxy(20, 545, (char*)"SCORE");
 		outtextxy(90, 545, score);
 
 		// Game State
@@ -151,24 +151,24 @@ start:
 			if (poison.getHit() == 3)
 			{
 				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-				outtextxy(160, 545, (char *)"GAME OVER");
+				outtextxy(160, 545, (char*)"GAME OVER");
 				isPlaying = false;
 			}
 		}
 		if (isPlaying)
 		{
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-			outtextxy(160, 545, (char *)"PLAYING");
+			outtextxy(160, 545, (char*)"PLAYING");
 		}
 		// Display Controls - WASD
 		setcolor(WHITE);
 		drawKeys(295, 545);
 
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(295, 545, (char *)" W ");
-		outtextxy(270, 568, (char *)" A  ");
-		outtextxy(295, 568, (char *)" S  ");
-		outtextxy(320, 568, (char *)" D  ");
+		outtextxy(295, 545, (char*)" W ");
+		outtextxy(270, 568, (char*)" A  ");
+		outtextxy(295, 568, (char*)" S  ");
+		outtextxy(320, 568, (char*)" D  ");
 
 		// Display Controls - Arrow Keys
 		setcolor(BLACK);
@@ -201,7 +201,7 @@ start:
 		// Display Speed
 		setcolor(WHITE);
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(20, 575, (char *)"Speed");
+		outtextxy(20, 575, (char*)"Speed");
 		outtextxy(90, 575, speed);
 		// Draw lives
 		drawLives(lifeCount, lifePadding);
@@ -219,7 +219,7 @@ start:
 		// Display Exit Key
 		setcolor(WHITE);
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(630, 545, (char *)" PRESS 'ESC' to EXIT ");
+		outtextxy(630, 545, (char*)" PRESS 'ESC' to EXIT ");
 
 		// Draw instruction
 		drawInstruction(680, 575, 20, 90);
@@ -228,18 +228,18 @@ start:
 		if (lizard.getLength() == 32)
 		{
 			setcolor(WHITE);
-			outtextxy(160, 545, (char *)"Victory!");
+			outtextxy(160, 545, (char*)"Victory!");
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-			outtextxy(155, 200, (char *)"You Won! Press R to Restart");
+			outtextxy(155, 200, (char*)"You Won! Press R to Restart");
 			isPlaying = false;
 		}
 		// Retry prompt
 		if (!isPlaying && lizard.getLength() != 32)
 		{
 			setcolor(WHITE);
-			outtextxy(160, 545, (char *)"GAME OVER");
+			outtextxy(160, 545, (char*)"GAME OVER");
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-			outtextxy(250, 200, (char *)" Press R to Retry ");
+			outtextxy(250, 200, (char*)" Press R to Retry ");
 		}
 
 		// Control speed between frames
@@ -270,7 +270,7 @@ void drawKeys(int16_t x, int16_t y)
 }
 
 // Draw lives left
-void drawLives(const uint8_t counter, uint8_t &padding)
+void drawLives(const uint8_t counter, uint8_t& padding)
 {
 	uint8_t temp = padding;
 	setcolor(RED);
@@ -297,7 +297,7 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset)
 	// Text
 	setcolor(COLOR(255, 45, 0));
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-	outtextxy(630, 575, (char *)"FOOD");
+	outtextxy(630, 575, (char*)"FOOD");
 	// Food
 	setcolor(RED);
 	rectangle(x, y, x + size, y + size);
@@ -306,7 +306,7 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset)
 	// Text
 	setcolor(COLOR(10, 255, 0));
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-	outtextxy(705, 575, (char *)"POISON");
+	outtextxy(705, 575, (char*)"POISON");
 	// Poison
 	setcolor(GREEN);
 	rectangle(x + offset, y, x + size + offset, y + size);
