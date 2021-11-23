@@ -6,20 +6,23 @@
 #include <stdlib.h>
 #include <iostream>
 #include <ctime> // For Generating random numbers
-#include "Rgb.h"
-#include "Grid.h"
-#include "Lizard.h"
-#include "Food.h"
-#include "Poison.h"
+
+// Preprocessor definitions
+#define WIDTH 810
+#define HEIGHT 600
+
+// Custom user defined Headers
+#include "rgb.h"
+#include "grid.h"
+#include "lizard.h"
+#include "food.h"
+#include "poison.h"
 
 // #pragma comment(lib, "winmm.lib")
 
-#define WIDTH 810
-#define HEIGHT 600
 using namespace std;
 
-// Drawing Screen
-void drawGrid();
+// Drawing Screen UI
 void drawKeys(int16_t, int16_t);
 void drawLives(const uint8_t, uint8_t&);
 void drawInstruction(int16_t, int16_t, int16_t, int16_t);
@@ -233,46 +236,6 @@ start:
 }
 
 #pragma region Functions
-// Draw Box Grid with texture
-void drawGrid()
-{
-	uint8_t size = 30; // box size in grid
-	int16_t left = 0, top = 0, right = 30, bottom = 30;
-	int16_t x = 5, y = 5;
-	uint8_t i = 0;
-
-	// Color A: 229 255 204
-	// Color B: 204 255 204
-
-	// fill background with color first
-	setfillstyle(fill_styles::SOLID_FILL, COLOR(204, 255, 204));
-	floodfill(x, y, COLOR(204, 255, 204));
-
-	// Divide background to grid containers and fill with color
-	setcolor(COLOR(229, 255, 204));
-	for (uint8_t row = 0; row < HEIGHT / size; row++)
-	{
-		for (uint8_t col = 0; col < WIDTH / size; col++)
-		{
-			rectangle(left, top, right, bottom);
-			left += size;
-			right += size;
-			if (i % 2 == 0)
-			{
-				setfillstyle(fill_styles::SOLID_FILL, COLOR(229, 255, 204));
-				floodfill(x, y, COLOR(229, 255, 204));
-			}
-			x += 30;
-			i++;
-		}
-		left = 0;
-		right = size;
-		top += size;
-		bottom += size;
-		x = 5;
-		y += 30;
-	}
-}
 
 // Draw key boxes
 void drawKeys(int16_t x, int16_t y)

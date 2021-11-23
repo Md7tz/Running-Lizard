@@ -5,8 +5,7 @@ private:
     int16_t left, top, right, bottom;
     int16_t x, y;
     uint8_t i;
-    const int16_t HEIGHT = 600, WIDTH = 810;
-
+    
 public:
     Grid();
     Grid(uint8_t size);
