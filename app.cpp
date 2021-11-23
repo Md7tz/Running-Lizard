@@ -93,9 +93,9 @@ start:
 		// Create a grid in dynamic memory
 		grid = new Grid();
 		// Draw grid
-		grid->drawGrid();
+		grid->draw();
 		// drawGrid();
-		lizard.drawLizard();
+		lizard.draw();
 
 		for (uint8_t i = 0; i < fruitCount; i++)
 		{
@@ -104,7 +104,7 @@ start:
 				fruit[i].generate(lizard.getPosx(), lizard.getPosy());
 				// bool played = PlaySound(TEXT("DieSound.wav"), NULL, SND_FILENAME | SND_ASYNC);
 				// cout << boolalpha << played << endl;
-				lizard.appendLizard();
+				lizard.append();
 			}
 		}
 
@@ -113,7 +113,7 @@ start:
 		setcolor(WHITE);
 
 		// Calculate score from body length
-		bodyLength = lizard.getlength();
+		bodyLength = lizard.getLength();
 		strncpy(score, to_string((bodyLength - 2) * 10).c_str(), 4);
 
 		// Display score
@@ -208,7 +208,7 @@ start:
 		drawInstruction(680, 575, 20, 90);
 
 		// Check if player reached max length -> Won
-		if (lizard.getlength() == 32)
+		if (lizard.getLength() == 32)
 		{
 			setcolor(WHITE);
 			outtextxy(160, 545, (char*)"Victory!");
@@ -217,7 +217,7 @@ start:
 			isPlaying = false;
 		}
 		// Retry prompt
-		if (!isPlaying && lizard.getlength() != 32)
+		if (!isPlaying && lizard.getLength() != 32)
 		{
 			setcolor(WHITE);
 			outtextxy(160, 545, (char*)"GAME OVER");

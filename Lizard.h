@@ -22,12 +22,12 @@ public:
 	Lizard();
 	~Lizard();
 
-	void drawLizard() const;
-	void appendLizard();              // Increments lizard length
+	void draw() const;
+	void append();              // Increments lizard length
 	void changeDirTo(uint8_t);        // Changes direction 
 
 	uint8_t update();
-	uint8_t getlength() const;
+	uint8_t getLength() const;
 
 	int16_t getPosx() const;
 	int16_t getPosy() const;
@@ -46,7 +46,7 @@ Lizard::~Lizard() {
 	// delete rgb;
 }
 
-void Lizard::drawLizard() const {    // Draws the lizard
+void Lizard::draw() const {    // Draws the lizard
 	// Colors
 	// 179, 170, 0
 	// 245, 232, 0
@@ -62,7 +62,7 @@ void Lizard::drawLizard() const {    // Draws the lizard
 	}
 }
 
-void Lizard::appendLizard() {
+void Lizard::append() {
 	if (length < 33)  // Prevents length from exceeding 32
 		length++;
 }
@@ -146,7 +146,7 @@ int16_t Lizard::getPosy() const
 	return arr[0].y;
 }
 
-uint8_t Lizard::getlength() const
+uint8_t Lizard::getLength() const
 {
 	return length;
 }
