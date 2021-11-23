@@ -18,7 +18,7 @@ struct Position
 
 class Lizard
 {
-private:
+protected:  
 	Position arr[32]; // Contains the positions of the lizard
 	uint8_t direction;
 	uint8_t length;

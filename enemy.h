@@ -1,12 +1,6 @@
 
 class Enemy : public Lizard
 {
-private:
-    Position arr[32]; // Contains the positions of the lizard
-    uint8_t direction;
-    uint8_t length;
-    uint8_t offset;
-    Rgb *rgb;
 
 public:
     Enemy(int16_t x, int16_t y);
@@ -121,5 +115,4 @@ void Enemy::changeDirTo()
     // generate a random number in range from 0-3 direction for the enemy lizard
     srand(time(NULL));
     direction = (rand() % 3) + 1;
-
 }
