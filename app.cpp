@@ -123,7 +123,7 @@ start:
 				lizard.append();
 				// to make the enemy lizard half the size of the lizard
 				
-				// enemy.append(lizard);
+				enemy.append(lizard);
 			}
 		}
 
