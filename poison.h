@@ -11,7 +11,7 @@ public:
 
 Poison::Poison()
 {
-	food_color = rgb->poison;
+	foodColor = rgb->POISON;
 }
 
 Poison::~Poison()

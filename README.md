@@ -39,7 +39,6 @@ This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6
 11. [DONE] Add progressive speed
 12. [PENDING] Create a menu with credits
 13. [DONE] Create an enemy lizard
-              * Half the size of the player
               * Distinguished Color (Dark Grey)
               * OnCollision Head with enemy body player loses
 ```

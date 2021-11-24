@@ -2,7 +2,7 @@ class Food
 {
 protected:
 	uint8_t randInt;
-	int food_color;
+	int foodColor;
 	Rgb *rgb = new Rgb;
 
 public:
@@ -29,28 +29,28 @@ Food::~Food()
 Food::Food(uint8_t _randInt)
 {
 	randInt = _randInt;
-	food_color = rgb->Food;
+	foodColor = rgb->FOOD;
 }
 
 void Food::draw() const
 {
-	setcolor(food_color);
+	setcolor(foodColor);
 	rectangle(foodPos.x, foodPos.y, foodPos.x + 30, foodPos.y + 30);
-	setfillstyle(INTERLEAVE_FILL, food_color);
-	floodfill(foodPos.x + 15, foodPos.y + 15, food_color);
+	setfillstyle(INTERLEAVE_FILL, foodColor);
+	floodfill(foodPos.x + 15, foodPos.y + 15, foodColor);
 }
 
 // Generate new pos for the Object
-void Food::generate(int16_t lizardHeadx, int16_t lizardHeady)
+void Food::generate(int16_t headX, int16_t headY)
 {
 	if (Food::count == 2)
 	{
-		srand(time(0));
+		srand(time(NULL));
 		foodPos.x = 30 * ((rand() + randInt) % 20 + 1);
-		srand(time(0));
+		srand(time(NULL));
 		foodPos.y = 30 * ((rand() + randInt) % 15 + 1);
-		if (foodPos.x == lizardHeadx && foodPos.y == lizardHeady)
-			generate(lizardHeadx, lizardHeady);
+		if (foodPos.x == headX && foodPos.y == headY)
+			generate(headX, headY);
 	}
 }
 

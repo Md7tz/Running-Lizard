@@ -34,12 +34,13 @@ inline void GenerationHandler(Food, Food, Poison, Lizard);
 int main()
 {
 	initwindow(WIDTH, HEIGHT, "Running Lizard");
+
 start:
 	Grid *grid;
 	Lizard lizard;
 	Food fruit[2] = {Food(1), Food(5)}; // Two Food objects initialized in a random position
 	Poison poison;
-	Enemy enemy(300, 300);
+	Enemy enemy(30, 30);
 
 #pragma region Fields
 	// unsigned char == uint8_t | 1 byte | 0 to 255
@@ -51,6 +52,7 @@ start:
 	uint8_t lifeCount = 3;
 	uint8_t lifePadding = 0;
 	bool run = false; // will not show enemy , unitil the speed of lizard be insane
+	bool skip = true; 
 	const int8_t fruitCount = fruit[0].getCount();
 
 	char score[4] = "0";
@@ -93,8 +95,9 @@ start:
 			isPlaying = false;
 		if (run)
 		{
-			if (isPlaying == true && !enemy.update())
-				continue;
+			if(!skip)
+				enemy.update();
+			skip = !skip;
 
 			// change the direciton randomly
 			enemy.changeDir();
@@ -128,8 +131,8 @@ start:
 				lizard.append();
 				// to make the enemy lizard half the size of the lizard
 
-				if (run)
-					enemy.append(lizard);
+				// if (run)
+				// 	enemy.append(lizard);
 			}
 		}
 
@@ -196,7 +199,6 @@ start:
 		if (atoi(score) >= 100)
 		{
 			delaySpeed = 40;
-
 			strcpy(speed, "Fast");
 		}
 		if (atoi(score) >= 200)
