@@ -29,9 +29,10 @@ Enemy ::Enemy(int16_t x, int16_t y)
 
 int8_t Enemy::checkBody(Lizard &body)
 { // to check that there is no collosion between the two bodys
-    for (int i = 0; i < length; i++)
+    int16_t bodyLenght = body.getLength();
+    for (int i = 0; i < bodyLenght; i++)
         for (int x = 0; x < length; ++x)
-            if (body.getBody()[x].x == arr[i].x && body.getBody()[x].y == arr[i].y)
+            if (body.getBody()[i].x == arr[x].x && body.getBody()[i].y == arr[x].y)
                 return 0;
     return 1;
 }
@@ -121,5 +122,4 @@ void Enemy::changeDirTo()
     // generate a random number in range from 0-3 direction for the enemy lizard
     srand(time(NULL));
     direction = (rand() % 3) + 1;
-
 }
