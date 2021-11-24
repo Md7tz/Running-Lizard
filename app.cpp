@@ -37,7 +37,7 @@ int main()
 start:
 	Grid *grid;
 	Lizard lizard;
-	Food fruit[2] = {Food(1), Food(5)}; // Two Food objects initialized by passing an int to the constructor
+	Food fruit[2] = {Food(1), Food(5)}; // Two Food objects initialized in a random position
 	Poison poison;
 	Enemy enemy(300, 300);
 
@@ -50,6 +50,7 @@ start:
 	uint8_t delaySpeed = 90;
 	uint8_t lifeCount = 3;
 	uint8_t lifePadding = 0;
+	bool run = false; // will not show enemy , unitil the speed of lizard be insane
 	const int8_t fruitCount = fruit[0].getCount();
 
 	char score[4] = "0";
@@ -90,18 +91,21 @@ start:
 			goto start;
 		if (isPlaying == true && !lizard.update())
 			isPlaying = false;
-		if (isPlaying == true && !enemy.update())
-			continue;
-
-		// change the direciton randomly
-		enemy.changeDirTo();
-
-		// to end the game if there is any collsion between the body and enemy
-		if (!enemy.checkBody(lizard))
+		if (run)
 		{
-			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-			outtextxy(160, 545, (char *)"GAME OVER");
-			isPlaying = false;
+			if (isPlaying == true && !enemy.update())
+				continue;
+
+			// change the direciton randomly
+			enemy.changeDir();
+
+			// to end the game if there is any collsion between the body and enemy
+			if (!enemy.checkBody(lizard))
+			{
+				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+				outtextxy(160, 545, (char *)"GAME OVER");
+				isPlaying = false;
+			}
 		}
 
 		/*-UI-*/
@@ -111,7 +115,8 @@ start:
 		grid->draw();
 		// drawGrid();
 		lizard.draw();
-		enemy.draw();
+		if (run)
+			enemy.draw();
 
 		for (uint8_t i = 0; i < fruitCount; i++)
 		{
@@ -122,8 +127,9 @@ start:
 				// cout << boolalpha << played << endl;
 				lizard.append();
 				// to make the enemy lizard half the size of the lizard
-				
-				enemy.append(lizard);
+
+				if (run)
+					enemy.append(lizard);
 			}
 		}
 
@@ -190,12 +196,14 @@ start:
 		if (atoi(score) >= 100)
 		{
 			delaySpeed = 40;
+
 			strcpy(speed, "Fast");
 		}
 		if (atoi(score) >= 200)
 		{
 			delaySpeed = 25;
 			strcpy(speed, "Insane");
+			run = true; // now enemy will be revealed
 		}
 
 		// Display Speed

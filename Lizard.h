@@ -12,13 +12,13 @@ struct Position
 	Position()
 	{
 		x = 0;
-		y = -50;
+		y = 0;
 	}
 };
 
 class Lizard
 {
-private:
+protected:
 	Position arr[32]; // Contains the positions of the lizard
 	uint8_t direction;
 	uint8_t length;
@@ -52,10 +52,7 @@ Lizard::Lizard()
 	rgb = new Rgb;	   // asign dynamic memory
 }
 
-Lizard::~Lizard()
-{
-	// delete rgb;
-}
+Lizard::~Lizard() {}
 
 void Lizard::draw() const
 { // Draws the lizard
