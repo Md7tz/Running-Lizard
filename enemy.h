@@ -1,5 +1,3 @@
-
-
 class Enemy : public Lizard
 {
 public:

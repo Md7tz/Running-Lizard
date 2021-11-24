@@ -80,13 +80,13 @@ start:
 
 		// Input Handler
 		if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A'))
-			lizard.changeDirTo(LEFT);
+			lizard.changeDir(LEFT);
 		if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
-			lizard.changeDirTo(UP);
+			lizard.changeDir(UP);
 		if (GetAsyncKeyState(VK_RIGHT) || GetAsyncKeyState('D'))
-			lizard.changeDirTo(RIGHT);
+			lizard.changeDir(RIGHT);
 		if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
-			lizard.changeDirTo(DOWN);
+			lizard.changeDir(DOWN);
 		if (GetAsyncKeyState(VK_ESCAPE))
 			break;
 		if (GetAsyncKeyState('R'))

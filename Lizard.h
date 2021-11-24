@@ -31,7 +31,7 @@ public:
 
 	void draw() const;
 	void append();			   // Increments lizard length
-	void changeDirTo(uint8_t); // Changes direction
+	void changeDir(uint8_t); // Changes direction
 
 	bool update();
 	uint8_t getLength() const;
@@ -77,7 +77,7 @@ void Lizard::append()
 		length++;
 }
 
-void Lizard::changeDirTo(uint8_t newdir)
+void Lizard::changeDir(uint8_t newdir)
 {
 	if (newdir == LEFT || newdir == RIGHT)
 	{
