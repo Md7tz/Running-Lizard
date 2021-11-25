@@ -11,13 +11,15 @@ public:
 
 Poison::Poison()
 {
+	rgb = new Rgb;
 	foodColor = rgb->POISON;
 }
 
 Poison::~Poison()
- {
-	 delete rgb;
- }
+{
+	delete rgb;
+	rgb = NULL;
+}
 
 bool Poison::update(int16_t lizardHeadx, int16_t lizardHeady)
 {

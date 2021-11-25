@@ -3,14 +3,14 @@ class Food
 protected:
 	uint8_t randInt;
 	int foodColor;
-	Rgb *rgb = new Rgb;
+	Rgb* rgb;
 
 public:
 	Position foodPos;
 	static const uint8_t count;
 	Food();
 	Food(uint8_t _randInt);
-	~Food();
+	// ~Food();
 
 	void draw() const;				 // Draw the food
 	void generate(int16_t, int16_t); // Generate food position
@@ -22,15 +22,19 @@ public:
 const uint8_t Food::count = 2;
 
 Food::Food() {}
-Food::~Food()
-{
-	delete rgb;
-}
 Food::Food(uint8_t _randInt)
 {
 	randInt = _randInt;
+	rgb = new Rgb;
 	foodColor = rgb->FOOD;
 }
+// Food::~Food()
+// {
+// 	if (rgb != NULL) {
+// 		delete rgb;
+// 		rgb = NULL;
+// 	}
+// }
 
 void Food::draw() const
 {
