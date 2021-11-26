@@ -1,4 +1,4 @@
-class Poison : public Food
+class Poison : public Edible
 {
 private:
 	uint8_t hit = 0;
@@ -11,15 +11,10 @@ public:
 
 Poison::Poison()
 {
-	rgb = new Rgb;
-	foodColor = rgb->POISON;
+	foodColor = GREEN;
 }
 
-Poison::~Poison()
-{
-	delete rgb;
-	rgb = NULL;
-}
+Poison::~Poison() {}
 
 bool Poison::update(int16_t lizardHeadx, int16_t lizardHeady)
 {

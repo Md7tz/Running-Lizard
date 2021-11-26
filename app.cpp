@@ -11,13 +11,24 @@
 #define WIDTH 810
 #define HEIGHT 600
 
+enum DIR
+{
+	LEFT,
+	UP,
+	RIGHT,
+	DOWN
+}; // 0 1 2 3
+
 // Custom user defined Headers
-#include "rgb.h"
-#include "grid.h"
-#include "lizard.h"
-#include "food.h"
-#include "poison.h"
-#include "enemy.h"
+#include "Utilities/position.h"
+// #include "rgb.h"
+#include "Characters/lizard.h"
+#include "Characters/player.h"
+#include "Characters/enemy.h"
+#include "GameObjects/grid.h"
+#include "GameObjects/food.h"
+#include "GameObjects/edible.h"
+#include "GameObjects/poison.h"
 
 // #pragma comment(lib, "winmm.lib")
 
@@ -25,11 +36,11 @@ using namespace std;
 
 // Drawing Screen UI
 void drawKeys(int16_t, int16_t);
-void drawLives(const uint8_t, uint8_t&);
+void drawLives(const int16_t, uint8_t&);
 void drawInstruction(int16_t, int16_t, int16_t, int16_t);
 
 // Utility Function
-inline void GenerationHandler(Food, Food, Poison, Lizard);
+inline void GenerationHandler(Edible, Edible, Poison, Player);
 
 int main()
 {
@@ -38,21 +49,22 @@ int main()
 start:
 #pragma region Fields
 	Grid* grid;
-	Lizard lizard;
-	Food fruit[2] = { Food(1), Food(5) }; // Two Food objects initialized in a random position
+	Player player;
+	Edible fruit[2] = { Edible(1), Edible(5) }; // Two Food objects initialized in a random position
 	Poison poison;
-	Enemy enemy(30, 30);
+	Enemy enemy(300, 300);
 
 	// unsigned char == uint8_t | 1 byte | 0 to 255
 	// signed char  == int8_t | 1 byte | -128 to 127
 	// short int == int16_t | 2 bytes | -32,768 to 32,767
 	int8_t page = 1;
 	uint8_t bodyLength;
-	uint8_t delaySpeed = 90;
-	uint8_t lifeCount = 3;
+	int16_t delaySpeed = 90;
+	int16_t lifeCount = 3;
 	uint8_t lifePadding = 0;
-	bool run = false; // will not show enemy , unitil the speed of lizard be insane
-	bool skip = true;
+	bool revealEnemy = false; // will not show enemy , unitil the speed of lizard be insane
+	bool collide = false;
+	bool skipFrame = true;
 	const int8_t fruitCount = fruit[0].getCount();
 
 	char score[4] = "0";
@@ -63,11 +75,11 @@ start:
 
 	// generate new pos for food
 	for (uint8_t i = 0; i < fruitCount; i++)
-		fruit[i].generate(lizard.getPosx(), lizard.getPosy());
+		fruit[i].generate(player.getPosx(), player.getPosy());
 
 	// generate/regenerate new pos for poison
-	poison.generate(lizard.getPosx(), lizard.getPosy());
-	GenerationHandler(fruit[0], fruit[1], poison, lizard);
+	poison.generate(player.getPosx(), player.getPosy());
+	GenerationHandler(fruit[0], fruit[1], poison, player);
 
 	while (true)
 	{
@@ -80,32 +92,38 @@ start:
 
 		// Input Handler
 		if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A'))
-			lizard.changeDir(LEFT);
+			player.changeDir(LEFT);
 		if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
-			lizard.changeDir(UP);
+			player.changeDir(UP);
 		if (GetAsyncKeyState(VK_RIGHT) || GetAsyncKeyState('D'))
-			lizard.changeDir(RIGHT);
+			player.changeDir(RIGHT);
 		if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
-			lizard.changeDir(DOWN);
+			player.changeDir(DOWN);
 		if (GetAsyncKeyState(VK_ESCAPE))
 			break;
 		if (GetAsyncKeyState('R'))
 			goto start;
-		if (isPlaying == true && !lizard.update())
+		if (isPlaying == true && !player.update())
 			isPlaying = false;
-		if (run)
+		if (revealEnemy)
 		{
-			if (!skip)
+			if (!skipFrame)
 				enemy.update();
-			skip = !skip;
+			skipFrame = !skipFrame;
 
 			// change the direciton randomly
 			enemy.changeDir();
 
-			// to end the game if there is any collsion between the body and enemy
-			if (!enemy.checkBody(lizard))
+			// Decrease a life if there is any collsion between the body and enemy
+			if (!enemy.checkBody(player) && collide == false)
 			{
 				lifeCount -= 1;
+				collide = true;
+				if (lifeCount == 0)
+					isPlaying = false;
+			}
+			if (enemy.checkBody(player)){
+				collide = false;
 			}
 		}
 
@@ -115,18 +133,18 @@ start:
 		// Draw grid
 		grid->draw();
 		// drawGrid();
-		lizard.draw();
-		if (run)
+		player.draw();
+		if (revealEnemy)
 			enemy.draw();
 
 		for (uint8_t i = 0; i < fruitCount; i++)
 		{
-			if (fruit[i].update(lizard.getPosx(), lizard.getPosy()))
+			if (fruit[i].update(player.getPosx(), player.getPosy()))
 			{
-				fruit[i].generate(lizard.getPosx(), lizard.getPosy());
+				fruit[i].generate(player.getPosx(), player.getPosy());
 				// bool played = PlaySound(TEXT("DieSound.wav"), NULL, SND_FILENAME | SND_ASYNC);
 				// cout << boolalpha << played << endl;
-				lizard.append();
+				player.append();
 				// to make the enemy lizard half the size of the lizard
 
 				// if (run)
@@ -139,7 +157,7 @@ start:
 		setcolor(WHITE);
 
 		// Calculate score from body length
-		bodyLength = lizard.getLength();
+		bodyLength = player.getLength();
 		strncpy(score, to_string((bodyLength - 2) * 10).c_str(), 4);
 
 		// Display score
@@ -150,10 +168,10 @@ start:
 		// Regenerate new poison position
 		// Check if player ate 3 poison
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		if (poison.update(lizard.getPosx(), lizard.getPosy()))
+		if (poison.update(player.getPosx(), player.getPosy()))
 		{
-			poison.generate(lizard.getPosx(), lizard.getPosy());
-			GenerationHandler(fruit[0], fruit[1], poison, lizard);
+			poison.generate(player.getPosx(), player.getPosy());
+			GenerationHandler(fruit[0], fruit[1], poison, player);
 			lifeCount--;
 			if (poison.getHit() == 3)
 			{
@@ -203,7 +221,7 @@ start:
 		{
 			delaySpeed = 25;
 			strcpy(speed, "Insane");
-			run = true; // now enemy will be revealed
+			revealEnemy = true; // now enemy will be revealed
 		}
 
 		// Display Speed
@@ -233,7 +251,7 @@ start:
 		drawInstruction(680, 575, 20, 90);
 
 		// Check if player reached max length -> Won
-		if (lizard.getLength() == 32)
+		if (player.getLength() == 32)
 		{
 			setcolor(WHITE);
 			outtextxy(160, 545, (char*)"Victory!");
@@ -242,7 +260,7 @@ start:
 			isPlaying = false;
 		}
 		// Retry prompt
-		if (!isPlaying && lizard.getLength() != 32)
+		if (!isPlaying && player.getLength() != 32)
 		{
 			setcolor(WHITE);
 			outtextxy(160, 545, (char*)"GAME OVER");
@@ -279,11 +297,11 @@ void drawKeys(int16_t x, int16_t y)
 }
 
 // Draw lives left
-void drawLives(const uint8_t counter, uint8_t& padding)
+void drawLives(const int16_t counter, uint8_t& padding)
 {
 	uint8_t temp = padding;
 	setcolor(RED);
-	for (uint8_t j = 0; j < 3; j++)
+	for (int16_t j = 0; j < 3; j++)
 	{
 		arc(485 + padding, 555, 0, 180, 10);
 		arc(465 + padding, 555, 0, 180, 10);
@@ -291,7 +309,7 @@ void drawLives(const uint8_t counter, uint8_t& padding)
 		padding += 50;
 	}
 	padding = temp;
-	for (uint8_t i = 0; i < counter; i++)
+	for (int16_t i = 0; i < counter; i++)
 	{
 		setfillstyle(SOLID_FILL, RED);
 		floodfill(475 + padding, 560, RED);
@@ -326,7 +344,7 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset)
 // Using inline solves overhead costs. It is expanded in line by the compiler when it is invoked.
 // Generates new position if the position
 // is equal to the food pos
-inline void GenerationHandler(Food f1, Food f2, Poison p, Lizard b)
+inline void GenerationHandler(Edible f1, Edible f2, Poison p, Player b)
 {
 	if ((f1.foodPos.x == p.foodPos.x && f1.foodPos.y == p.foodPos.y) ||
 		(f2.foodPos.x == p.foodPos.x && f2.foodPos.y == p.foodPos.y))
