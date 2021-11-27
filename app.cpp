@@ -44,6 +44,7 @@ int main()
 	arrow_1(arrow_color);
 	menu(box_color, text_color);
 	int flag = 0;
+	int counter=4;
 	bool repeat = false;
 start:
 	Grid *grid;
@@ -91,6 +92,7 @@ start:
 			setactivepage(page);
 			setvisualpage(1 - page);
 			cleardevice();
+
 			menu.showMenu(menu.change_role);
 			menu.moveUp(menu.change_role);
 			if (GetAsyncKeyState(VK_RETURN))
@@ -107,7 +109,22 @@ start:
 		setvisualpage(1 - page);
 		setcolor(BLUE);
 		setfillstyle(SOLID_FILL, BLUE);
+		
+		while(change_role)
+		{
+			swapbuffers();
+			readimagefile("mainMenu.jpg",0,0,810,600);
+			if(GetAsyncKeyState(VK_F1))
+			{	
+				swapbuffers();
+				change_role=false;
+				break;
+			}
 
+		}
+
+		
+		
 		// Input Handler
 		if (isPlaying == true && !lizard.update())
 			isPlaying = false;
@@ -287,6 +304,7 @@ start:
 		{
 			// page=0;
 			cout << "the page =" << page << endl;
+			change_role=true;
 			gamemode = true;
 			repeat = true;
 			flag = 0;
