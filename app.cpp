@@ -7,6 +7,7 @@
 #include <iostream>  // For debugging
 #include <ctime> 	 // For Generating random numbers
 
+
 // Preprocessor definitions
 #define WIDTH 810
 #define HEIGHT 600
@@ -29,6 +30,7 @@ enum DIR
 #include "GameObjects/food.h"
 #include "GameObjects/edible.h"
 #include "GameObjects/poison.h"
+#include "Utilities/gameMenu.h"
 
 // #pragma comment(lib, "winmm.lib")
 
@@ -53,6 +55,8 @@ start:
 	Edible fruit[2] = { Edible(1), Edible(5) }; // Two Food objects initialized in a random position
 	Poison poison;
 	Enemy enemy(300, 300);
+	GameMenu* menu = new GameMenu();
+
 
 	// unsigned char == uint8_t | 1 byte | 0 to 255
 	// signed char  == int8_t | 1 byte | -128 to 127
@@ -65,10 +69,14 @@ start:
 	bool revealEnemy = false; // will not show enemy , unitil the speed of lizard be insane
 	bool collide = false;
 	bool skipFrame = true;
+	bool nextPage = true;
+    bool drawMenu = true;
+	bool keyDown = false;
 	const int8_t fruitCount = fruit[0].getCount();
 
 	char score[4] = "0";
 	char speed[10] = "Normal";
+	
 
 	bool isPlaying = true;
 #pragma endregion Fields
@@ -83,12 +91,36 @@ start:
 
 	while (true)
 	{
+		while (drawMenu)
+		{
+			setactivepage(page);
+			setvisualpage(1 - page);
+			cleardevice();
+
+			// menu.showMenu();
+			menu->detectInput();
+			if (GetAsyncKeyState(VK_RETURN)) {
+				if (!keyDown)
+				{
+					if (menu->getKeyState() == 1) goto end;
+					cleardevice();
+					drawMenu = false;
+					keyDown = true;
+					break;
+				}
+			}
+			else keyDown = false;
+			page = 1 - page;
+		};
 		setactivepage(page);
 		setvisualpage(1 - page);
-		cleardevice();
-
+		// cleardevice();
 		setcolor(BLUE);
 		setfillstyle(SOLID_FILL, BLUE);
+		menu->showOption(nextPage,keyDown);  // show the option for the user
+		delete menu;
+
+
 
 		// Input Handler
 		if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A'))
@@ -99,12 +131,10 @@ start:
 			player.changeDir(RIGHT);
 		if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
 			player.changeDir(DOWN);
-		if (GetAsyncKeyState(VK_ESCAPE))
-			break;
-		if (GetAsyncKeyState('R'))
-			goto start;
 		if (isPlaying == true && !player.update())
 			isPlaying = false;
+		page = 1 - page;
+		
 		if (revealEnemy)
 		{
 			if (!skipFrame)
@@ -239,8 +269,6 @@ start:
 		// Draw poison
 		poison.draw();
 
-		// Reset page
-		page = 1 - page;
 
 		// Display Exit Key
 		setcolor(WHITE);
@@ -271,10 +299,19 @@ start:
 		// Control speed between frames
 		delay(delaySpeed);
 		// delete grid from memory
+		// Reset page
+		// page = 1 - page;
+		if (GetAsyncKeyState(VK_ESCAPE))
+		{
+			menu = new GameMenu();
+			drawMenu = true;
+
+			cleardevice();
+		}
 		delete grid;
 		grid = NULL;
 	}
-
+end:
 	getch();
 	closegraph();
 }
