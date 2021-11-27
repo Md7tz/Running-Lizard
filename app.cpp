@@ -12,7 +12,7 @@
 #define HEIGHT 600
 
 // Custom user defined Headers
-#include "Game_Menu.h"
+#include "gameMenu.h"
 #include "rgb.h"
 #include "grid.h"
 #include "lizard.h"
@@ -26,11 +26,8 @@ using namespace std;
 
 // Drawing Screen UI
 void drawKeys(int16_t, int16_t);
-void drawLives(const uint8_t, uint8_t &);
+void drawLives(const uint8_t, uint8_t&);
 void drawInstruction(int16_t, int16_t, int16_t, int16_t);
-void arrow_1(int color);
-void arrow_2(int color);
-void menu(int box_color, int text_color);
 
 // Utility Function
 
@@ -38,34 +35,30 @@ inline void GenerationHandler(Food, Food, Poison, Lizard);
 int main()
 {
 	initwindow(WIDTH, HEIGHT, "Running Lizard");
-	int arrow_color = 14;
-	int box_color = 11;
-	int text_color = 14;
-	arrow_1(arrow_color);
-	menu(box_color, text_color);
-	int flag = 0;
-	int counter=4;
+
 	bool repeat = false;
 start:
-	Grid *grid;
+#pragma region Fields
+	Grid* grid;
 	Lizard lizard;
-	Food fruit[2] = {Food(1), Food(5)}; // Two Food objects initialized in a random position
+	Food fruit[2] = { Food(1), Food(5) }; // Two Food objects initialized in a random position
 	Poison poison;
 	Enemy enemy(300, 300);
+	GameMenu* menu = new GameMenu();
 
-#pragma region Fields
 	// unsigned char == uint8_t | 1 byte | 0 to 255
 	// signed char  == int8_t | 1 byte | -128 to 127
 	// short int == int16_t | 2 bytes | -32,768 to 32,767
 	int page = 1;
-	int8_t page2 = 1;
 
 	uint8_t bodyLength;
 	uint8_t delaySpeed = 90;
 	uint8_t lifeCount = 3;
 	uint8_t lifePadding = 0;
-	bool change_role = true;
+	bool nextPage = true;
 	bool run = false; // will not show enemy , unitil the speed of lizard be insane
+	bool drawMenu = true;
+	bool keyDown = false;
 	const int8_t fruitCount = fruit[0].getCount();
 
 	char score[4] = "0";
@@ -81,50 +74,56 @@ start:
 	// generate/regenerate new pos for poison
 	poison.generate(lizard.getPosx(), lizard.getPosy());
 	GenerationHandler(fruit[0], fruit[1], poison, lizard);
-	GameMenu menu;
-	int gamemode = true;
 
 	while (true)
 	{
-
-		while (gamemode)
+		
+		while (drawMenu)
 		{
 			setactivepage(page);
 			setvisualpage(1 - page);
 			cleardevice();
 
-			menu.showMenu(menu.change_role);
-			menu.moveUp(menu.change_role);
-			if (GetAsyncKeyState(VK_RETURN))
-			{
-				cleardevice();
-				gamemode = false;
-				break;
+			// menu.showMenu();
+			menu->detectInput();
+			if (GetAsyncKeyState(VK_RETURN)) {
+				if (!keyDown)
+				{
+					if (menu->getKeyState() == 1) goto end;
+					cleardevice();
+					drawMenu = false;
+					keyDown = true;
+					break;
+				}
 			}
-			menu.moveDown(menu.change_role);
+			else keyDown = false;
 			page = 1 - page;
-			delay(10);
+			// delay(10);
 		};
 		setactivepage(page);
 		setvisualpage(1 - page);
 		setcolor(BLUE);
 		setfillstyle(SOLID_FILL, BLUE);
-		
-		while(change_role)
+
+		while (nextPage)
 		{
 			swapbuffers();
-			readimagefile("mainMenu.jpg",0,0,810,600);
-			if(GetAsyncKeyState(VK_F1))
-			{	
-				swapbuffers();
-				change_role=false;
-				break;
+			readimagefile("mainMenu.jpg", 0, 0, 810, 600);
+			if (GetAsyncKeyState(VK_RETURN)) {
+				if (!keyDown)
+				{
+					swapbuffers();
+					nextPage = false;
+					keyDown = true;
+					break;
+				}
 			}
-
+			else keyDown = false;
 		}
+		delete menu;
 
-		
-		
+
+
 		// Input Handler
 		if (isPlaying == true && !lizard.update())
 			isPlaying = false;
@@ -140,7 +139,7 @@ start:
 			if (!enemy.checkBody(lizard))
 			{
 				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-				outtextxy(160, 545, (char *)"GAME OVER");
+				outtextxy(160, 545, (char*)"GAME OVER");
 				isPlaying = false;
 			}
 		}
@@ -179,7 +178,7 @@ start:
 		strncpy(score, to_string((bodyLength - 2) * 10).c_str(), 4);
 
 		// Display score
-		outtextxy(20, 545, (char *)"SCORE");
+		outtextxy(20, 545, (char*)"SCORE");
 		outtextxy(90, 545, score);
 
 		// Game State
@@ -194,24 +193,24 @@ start:
 			if (poison.getHit() == 3)
 			{
 				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-				outtextxy(160, 545, (char *)"GAME OVER");
+				outtextxy(160, 545, (char*)"GAME OVER");
 				isPlaying = false;
 			}
 		}
 		if (isPlaying)
 		{
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-			outtextxy(160, 545, (char *)"PLAYING");
+			outtextxy(160, 545, (char*)"PLAYING");
 		}
 		// Display Controls - WASD
 		setcolor(WHITE);
 		drawKeys(295, 545);
 
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(295, 545, (char *)" W ");
-		outtextxy(270, 568, (char *)" A  ");
-		outtextxy(295, 568, (char *)" S  ");
-		outtextxy(320, 568, (char *)" D  ");
+		outtextxy(295, 545, (char*)" W ");
+		outtextxy(270, 568, (char*)" A  ");
+		outtextxy(295, 568, (char*)" S  ");
+		outtextxy(320, 568, (char*)" D  ");
 
 		// Display Controls - Arrow Keys
 		setcolor(BLACK);
@@ -246,7 +245,7 @@ start:
 		// Display Speed
 		setcolor(WHITE);
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(20, 575, (char *)"Speed");
+		outtextxy(20, 575, (char*)"Speed");
 		outtextxy(90, 575, speed);
 		// Draw lives
 		drawLives(lifeCount, lifePadding);
@@ -263,7 +262,7 @@ start:
 		// Display Exit Key
 		setcolor(WHITE);
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(630, 545, (char *)" PRESS 'ESC' to EXIT ");
+		outtextxy(630, 545, (char*)" PRESS 'ESC' to EXIT ");
 
 		// Draw instruction
 		drawInstruction(680, 575, 20, 90);
@@ -272,18 +271,18 @@ start:
 		if (lizard.getLength() == 32)
 		{
 			setcolor(WHITE);
-			outtextxy(160, 545, (char *)"Victory!");
+			outtextxy(160, 545, (char*)"Victory!");
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-			outtextxy(155, 200, (char *)"You Won! Press R to Restart");
+			outtextxy(155, 200, (char*)"You Won! Press R to Restart");
 			isPlaying = false;
 		}
 		// Retry prompt
 		if (!isPlaying && lizard.getLength() != 32)
 		{
 			setcolor(WHITE);
-			outtextxy(160, 545, (char *)"GAME OVER");
+			outtextxy(160, 545, (char*)"GAME OVER");
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-			outtextxy(250, 200, (char *)" Press R to Retry ");
+			outtextxy(250, 200, (char*)" Press R to Retry ");
 		}
 		if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A'))
 			lizard.changeDir(LEFT);
@@ -293,24 +292,20 @@ start:
 			lizard.changeDir(RIGHT);
 		if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
 			lizard.changeDir(DOWN);
-		if (GetAsyncKeyState(VK_ESCAPE))
-			break;
+		// if (GetAsyncKeyState(VK_ESCAPE))
+		// 	break;
 		//0
 		cout << "page before change =" << page << "\n";
 		page = 1 - page; //1
 		// cleardevice();
 
-		if (GetAsyncKeyState('R'))
+		if (GetAsyncKeyState(VK_ESCAPE))
 		{
-			// page=0;
-			cout << "the page =" << page << endl;
-			change_role=true;
-			gamemode = true;
-			repeat = true;
-			flag = 0;
-			// setactivepage(0);
+			// cout << "the page =" << page << endl;
+			menu = new GameMenu();
+			drawMenu = true;
+
 			cleardevice();
-			// swapbuffers();
 		}
 		// page = 1 - page;
 		// Control speed between frames
@@ -318,7 +313,7 @@ start:
 		// delete grid from memory
 		delete grid;
 	}
-
+end:
 	getch();
 	closegraph();
 }
@@ -341,7 +336,7 @@ void drawKeys(int16_t x, int16_t y)
 }
 
 // Draw lives left
-void drawLives(const uint8_t counter, uint8_t &padding)
+void drawLives(const uint8_t counter, uint8_t& padding)
 {
 	uint8_t temp = padding;
 	setcolor(RED);
@@ -368,7 +363,7 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset)
 	// Text
 	setcolor(COLOR(255, 45, 0));
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-	outtextxy(630, 575, (char *)"FOOD");
+	outtextxy(630, 575, (char*)"FOOD");
 	// Food
 	setcolor(RED);
 	rectangle(x, y, x + size, y + size);
@@ -377,7 +372,7 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset)
 	// Text
 	setcolor(COLOR(10, 255, 0));
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-	outtextxy(705, 575, (char *)"POISON");
+	outtextxy(705, 575, (char*)"POISON");
 	// Poison
 	setcolor(GREEN);
 	rectangle(x + offset, y, x + size + offset, y + size);
@@ -399,7 +394,7 @@ inline void GenerationHandler(Food f1, Food f2, Poison p, Lizard b)
 void arrow_1(int color)
 {
 	setcolor(color);
-	int points[8] = {170, 190, 220 - 10, 210, 170, 230, 170, 190};
+	int points[8] = { 170, 190, 220 - 10, 210, 170, 230, 170, 190 };
 	drawpoly(4, points);
 	setfillstyle(SOLID_FILL, color);
 	fillpoly(4, points);
@@ -407,7 +402,7 @@ void arrow_1(int color)
 void arrow_2(int color)
 {
 	setcolor(color);
-	int points[8] = {170, 240, 220 - 10, 260, 170, 280, 170, 240};
+	int points[8] = { 170, 240, 220 - 10, 260, 170, 280, 170, 240 };
 	drawpoly(4, points);
 	setfillstyle(SOLID_FILL, color);
 	fillpoly(4, points);
