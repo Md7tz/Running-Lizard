@@ -11,6 +11,7 @@ protected:
 
 public:
     void draw() const;
+    void resetLength();
     bool update();
     virtual void changeDir(uint8_t); // Changes direction
 
@@ -118,3 +119,4 @@ uint8_t Lizard::getLength() const
 {
     return length;
 }
+void Lizard::resetLength(){length=2;}

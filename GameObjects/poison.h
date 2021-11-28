@@ -6,6 +6,7 @@ public:
 	Poison();
 	~Poison();
 	bool update(int16_t, int16_t); // Status of food
+	void resetHit();
 	uint8_t getHit() const;
 };
 
@@ -30,3 +31,4 @@ uint8_t Poison::getHit() const
 {
 	return hit;
 }
+void Poison::resetHit(){hit=0;}

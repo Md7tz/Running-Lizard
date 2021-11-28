@@ -2,11 +2,11 @@
 
 #include <graphics.h>
 // #include <windows.h> for playing sounds
-#include <stdint.h>  // For typedefs of fundamental integral types 
-#include <stdlib.h>  // For string manipulation
-#include <iostream>  // For debugging
-#include <ctime> 	 // For Generating random numbers
-
+#include <stdint.h> // For typedefs of fundamental integral types
+#include <stdlib.h> // For string manipulation
+#include <iostream> // For debugging
+#include <ctime>	// For Generating random numbers
+// #include <graphics.h>
 
 // Preprocessor definitions
 #define WIDTH 810
@@ -38,7 +38,7 @@ using namespace std;
 
 // Drawing Screen UI
 void drawKeys(int16_t, int16_t);
-void drawLives(const int16_t, uint8_t&);
+void drawLives(const int16_t, uint8_t &);
 void drawInstruction(int16_t, int16_t, int16_t, int16_t);
 
 // Utility Function
@@ -50,13 +50,12 @@ int main()
 
 start:
 #pragma region Fields
-	Grid* grid;
+	Grid *grid;
 	Player player;
-	Edible fruit[2] = { Edible(1), Edible(5) }; // Two Food objects initialized in a random position
+	Edible fruit[2] = {Edible(1), Edible(5)}; // Two Food objects initialized in a random position
 	Poison poison;
 	Enemy enemy(300, 300);
-	GameMenu* menu = new GameMenu();
-
+	GameMenu *menu = new GameMenu();
 
 	// unsigned char == uint8_t | 1 byte | 0 to 255
 	// signed char  == int8_t | 1 byte | -128 to 127
@@ -66,19 +65,20 @@ start:
 	int16_t delaySpeed = 90;
 	int16_t lifeCount = 3;
 	uint8_t lifePadding = 0;
+	int totalHit = 0;
 	bool revealEnemy = false; // will not show enemy , unitil the speed of lizard be insane
 	bool collide = false;
 	bool skipFrame = true;
 	bool nextPage = true;
-    bool drawMenu = true;
+	bool drawMenu = true;
 	bool keyDown = false;
+	bool lizardColideItself=false;
 	const int8_t fruitCount = fruit[0].getCount();
 
 	char score[4] = "0";
 	char speed[10] = "Normal";
-	
 
-	bool isPlaying = true;
+	bool isPlaying = false;
 #pragma endregion Fields
 
 	// generate new pos for food
@@ -98,29 +98,31 @@ start:
 			cleardevice();
 
 			// menu.showMenu();
-			menu->detectInput();
-			if (GetAsyncKeyState(VK_RETURN)) {
+			menu->detectInput(isPlaying);
+			if (GetAsyncKeyState(VK_RETURN))
+			{
 				if (!keyDown)
 				{
-					if (menu->getKeyState() == 1) goto end;
+					if (menu->getKeyState() == 1)
+						goto end;
 					cleardevice();
+					isPlaying = true;
 					drawMenu = false;
 					keyDown = true;
 					break;
 				}
 			}
-			else keyDown = false;
+			else
+				keyDown = false;
 			page = 1 - page;
 		};
 		setactivepage(page);
 		setvisualpage(1 - page);
-		// cleardevice();
+		cleardevice();
 		setcolor(BLUE);
 		setfillstyle(SOLID_FILL, BLUE);
-		menu->showOption(nextPage,keyDown);  // show the option for the user
+		menu->showOption(nextPage, keyDown); // show the option for the user
 		delete menu;
-
-
 
 		// Input Handler
 		if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A'))
@@ -132,9 +134,13 @@ start:
 		if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
 			player.changeDir(DOWN);
 		if (isPlaying == true && !player.update())
+		{
 			isPlaying = false;
+			lizardColideItself=true;
+			cout << "why here\n";
+		}
 		page = 1 - page;
-		
+
 		if (revealEnemy)
 		{
 			if (!skipFrame)
@@ -148,13 +154,17 @@ start:
 			if (!enemy.checkBody(player) && collide == false)
 			{
 				lifeCount -= 1;
+				totalHit++;
 				collide = true;
-				if (lifeCount == 0)
-					isPlaying = false;
 			}
-			if (enemy.checkBody(player)){
+			if (enemy.checkBody(player))
+			{
 				collide = false;
 			}
+		}
+		if (totalHit >= 3)
+		{
+			isPlaying = false;
 		}
 
 		/*-UI-*/
@@ -188,10 +198,11 @@ start:
 
 		// Calculate score from body length
 		bodyLength = player.getLength();
+
 		strncpy(score, to_string((bodyLength - 2) * 10).c_str(), 4);
 
 		// Display score
-		outtextxy(20, 545, (char*)"SCORE");
+		outtextxy(20, 545, (char *)"SCORE");
 		outtextxy(90, 545, score);
 
 		// Game State
@@ -203,27 +214,22 @@ start:
 			poison.generate(player.getPosx(), player.getPosy());
 			GenerationHandler(fruit[0], fruit[1], poison, player);
 			lifeCount--;
-			if (poison.getHit() == 3)
-			{
-				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-				outtextxy(160, 545, (char*)"GAME OVER");
-				isPlaying = false;
-			}
+			totalHit = poison.getHit();
 		}
 		if (isPlaying)
 		{
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-			outtextxy(160, 545, (char*)"PLAYING");
+			outtextxy(160, 545, (char *)"PLAYING");
 		}
 		// Display Controls - WASD
 		setcolor(WHITE);
 		drawKeys(295, 545);
 
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(295, 545, (char*)" W ");
-		outtextxy(270, 568, (char*)" A  ");
-		outtextxy(295, 568, (char*)" S  ");
-		outtextxy(320, 568, (char*)" D  ");
+		outtextxy(295, 545, (char *)" W ");
+		outtextxy(270, 568, (char *)" A  ");
+		outtextxy(295, 568, (char *)" S  ");
+		outtextxy(320, 568, (char *)" D  ");
 
 		// Display Controls - Arrow Keys
 		setcolor(BLACK);
@@ -246,18 +252,18 @@ start:
 		{
 			delaySpeed = 40;
 			strcpy(speed, "Fast");
+			revealEnemy = true; // now enemy will be revealed
 		}
 		if (atoi(score) >= 200)
 		{
 			delaySpeed = 25;
 			strcpy(speed, "Insane");
-			revealEnemy = true; // now enemy will be revealed
 		}
 
 		// Display Speed
 		setcolor(WHITE);
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(20, 575, (char*)"Speed");
+		outtextxy(20, 575, (char *)"Speed");
 		outtextxy(90, 575, speed);
 		// Draw lives
 		drawLives(lifeCount, lifePadding);
@@ -269,11 +275,10 @@ start:
 		// Draw poison
 		poison.draw();
 
-
 		// Display Exit Key
 		setcolor(WHITE);
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(630, 545, (char*)" PRESS 'ESC' to EXIT ");
+		// outtextxy(630, 545, (char *)" PRESS 'ESC' to EXIT ");
 
 		// Draw instruction
 		drawInstruction(680, 575, 20, 90);
@@ -282,18 +287,18 @@ start:
 		if (player.getLength() == 32)
 		{
 			setcolor(WHITE);
-			outtextxy(160, 545, (char*)"Victory!");
+			outtextxy(160, 545, (char *)"Victory!");
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-			outtextxy(155, 200, (char*)"You Won! Press R to Restart");
+			outtextxy(155, 200, (char *)"You Won! Press R to Restart");
 			isPlaying = false;
 		}
 		// Retry prompt
-		if (!isPlaying && player.getLength() != 32)
+		if (!isPlaying && player.getLength() != 32 && totalHit >= 3||lizardColideItself)
 		{
 			setcolor(WHITE);
-			outtextxy(160, 545, (char*)"GAME OVER");
+			outtextxy(160, 545, (char *)"GAME OVER");
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-			outtextxy(250, 200, (char*)" Press R to Retry ");
+			outtextxy(190, 200, (char *)" Press 'ESC' to back to menu ");
 		}
 
 		// Control speed between frames
@@ -303,6 +308,14 @@ start:
 		// page = 1 - page;
 		if (GetAsyncKeyState(VK_ESCAPE))
 		{
+			if (!isPlaying && totalHit >= 3||player.getLength() == 32||lizardColideItself)
+			{
+				poison.resetHit();
+				totalHit = 0;
+				lifeCount = 3;
+				player.resetLength();
+				lizardColideItself=false;
+			}
 			menu = new GameMenu();
 			drawMenu = true;
 
@@ -334,7 +347,7 @@ void drawKeys(int16_t x, int16_t y)
 }
 
 // Draw lives left
-void drawLives(const int16_t counter, uint8_t& padding)
+void drawLives(const int16_t counter, uint8_t &padding)
 {
 	uint8_t temp = padding;
 	setcolor(RED);
@@ -361,7 +374,7 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset)
 	// Text
 	setcolor(COLOR(255, 45, 0));
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-	outtextxy(630, 575, (char*)"FOOD");
+	outtextxy(630, 575, (char *)"FOOD");
 	// Food
 	setcolor(RED);
 	rectangle(x, y, x + size, y + size);
@@ -370,7 +383,7 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset)
 	// Text
 	setcolor(COLOR(10, 255, 0));
 	settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-	outtextxy(705, 575, (char*)"POISON");
+	outtextxy(705, 575, (char *)"POISON");
 	// Poison
 	setcolor(GREEN);
 	rectangle(x + offset, y, x + size + offset, y + size);

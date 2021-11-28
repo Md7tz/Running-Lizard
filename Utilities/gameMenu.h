@@ -7,12 +7,13 @@ private:
 	int box_color = 11;
 	int text_color = 14;
 	int key = 0;
+	
 
 public:
 	void arrow_1();
 	void arrow_2();
-	void draw(int box_color, int text_color);
-	void detectInput();
+	void draw(int box_color, int text_color, bool isPlaying);
+	void detectInput(bool isPlaying);
 	void showOption(bool &nextPage, bool &keyDown);
 	int getKeyState();
 
@@ -44,7 +45,7 @@ void GameMenu::arrow_2()
 	fillpoly(4, points);
 }
 
-void GameMenu::draw(int box_color, int text_color)
+void GameMenu::draw(int box_color, int text_color, bool isPlaying)
 {
 	setcolor(box_color);
 	for (int i = 0; i < 10; i++)
@@ -52,11 +53,18 @@ void GameMenu::draw(int box_color, int text_color)
 
 	setcolor(text_color);
 	settextstyle(EUROPEAN_FONT, HORIZ_DIR, 4);
+	if(!isPlaying)
+	{
 	outtextxy(240, 200, "START");
+	}
+	else 
+	{
+			outtextxy(240, 200, "Resume");
+	}
 	outtextxy(240, 250, "Exit");
 }
 
-void GameMenu::detectInput()
+void GameMenu::detectInput(bool isPlaying)
 {
 	if (GetAsyncKeyState(VK_UP))
 		key = 0;
@@ -66,13 +74,13 @@ void GameMenu::detectInput()
 	if (key == 0)
 	{
 		cleardevice();
-		draw(box_color, text_color);
+		draw(box_color, text_color, isPlaying);
 		arrow_1();
 	}
 	else
 	{
 		cleardevice();
-		draw(box_color, text_color);
+		draw(box_color, text_color,isPlaying);
 		arrow_2();
 	}
 }
