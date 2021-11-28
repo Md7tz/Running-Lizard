@@ -3,15 +3,15 @@
 class GameMenu
 {
 private:
-	int arrow_color = 14;
-	int box_color = 11;
-	int text_color = 14;
+	int arrowColor = 14;
+	int boxColor = 11;
+	int textColor = 14;
 	int key = 0;
 
 public:
 	void arrow_1();
 	void arrow_2();
-	void draw(int box_color, int text_color);
+	void draw();
 	void detectInput();
 	void showOption(bool &nextPage, bool &keyDown);
 	int getKeyState();
@@ -28,32 +28,32 @@ GameMenu::~GameMenu() {}
 
 void GameMenu::arrow_1()
 {
-	setcolor(arrow_color);
+	setcolor(arrowColor);
 	int points[8] = {170, 190, 220 - 10, 210, 170, 230, 170, 190};
 	drawpoly(4, points);
-	setfillstyle(SOLID_FILL, arrow_color);
+	setfillstyle(SOLID_FILL, arrowColor);
 	fillpoly(4, points);
 }
 
 void GameMenu::arrow_2()
 {
-	setcolor(arrow_color);
+	setcolor(arrowColor);
 	int points[8] = {170, 240, 220 - 10, 260, 170, 280, 170, 240};
 	drawpoly(4, points);
-	setfillstyle(SOLID_FILL, arrow_color);
+	setfillstyle(SOLID_FILL, arrowColor);
 	fillpoly(4, points);
 }
 
-void GameMenu::draw(int box_color, int text_color)
+void GameMenu::draw()
 {
-	setcolor(box_color);
+	setcolor(boxColor);
 	for (int i = 0; i < 10; i++)
 		rectangle(110 - i, 150 - i, 580 + i, 430 + i);
 
-	setcolor(text_color);
+	setcolor(textColor);
 	settextstyle(EUROPEAN_FONT, HORIZ_DIR, 4);
-	outtextxy(240, 200, "START");
-	outtextxy(240, 250, "Exit");
+	outtextxy(240, 200, (char*)"START");
+	outtextxy(240, 250, (char*)"EXIT");
 }
 
 void GameMenu::detectInput()
@@ -66,13 +66,13 @@ void GameMenu::detectInput()
 	if (key == 0)
 	{
 		cleardevice();
-		draw(box_color, text_color);
+		draw();
 		arrow_1();
 	}
 	else
 	{
 		cleardevice();
-		draw(box_color, text_color);
+		draw();
 		arrow_2();
 	}
 }

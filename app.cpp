@@ -1,7 +1,6 @@
 /*----------Running lizard GAME----------*/
 
 #include <graphics.h>
-// #include <windows.h> for playing sounds
 #include <stdint.h>  // For typedefs of fundamental integral types 
 #include <stdlib.h>  // For string manipulation
 #include <iostream>  // For debugging
@@ -14,15 +13,15 @@
 
 enum DIR
 {
-	LEFT,
-	UP,
-	RIGHT,
-	DOWN
-}; // 0 1 2 3
+	LEFT, 	// 0
+	UP,   	// 1
+	RIGHT,	// 2
+	DOWN 	// 3
+};
 
 // Custom user defined Headers
 #include "Utilities/position.h"
-// #include "rgb.h"
+#include "Utilities/gameMenu.h"
 #include "Characters/lizard.h"
 #include "Characters/player.h"
 #include "Characters/enemy.h"
@@ -30,9 +29,6 @@ enum DIR
 #include "GameObjects/food.h"
 #include "GameObjects/edible.h"
 #include "GameObjects/poison.h"
-#include "Utilities/gameMenu.h"
-
-// #pragma comment(lib, "winmm.lib")
 
 using namespace std;
 
@@ -50,6 +46,7 @@ int main()
 
 start:
 #pragma region Fields
+	// GameObjects
 	Grid* grid;
 	Player player;
 	Edible fruit[2] = { Edible(1), Edible(5) }; // Two Food objects initialized in a random position
@@ -57,28 +54,23 @@ start:
 	Enemy enemy(300, 300);
 	GameMenu* menu = new GameMenu();
 
-
-	// unsigned char == uint8_t | 1 byte | 0 to 255
-	// signed char  == int8_t | 1 byte | -128 to 127
-	// short int == int16_t | 2 bytes | -32,768 to 32,767
-	int8_t page = 1;
-	uint8_t bodyLength;
-	int16_t delaySpeed = 90;
-	int16_t lifeCount = 3;
-	uint8_t lifePadding = 0;
-	bool revealEnemy = false; // will not show enemy , unitil the speed of lizard be insane
+	int8_t page = 1;							// signed char  == int8_t | 1 byte | -128 to 127
+	uint8_t bodyLength;							// unsigned char == uint8_t | 1 byte | 0 to 255
+	int16_t delaySpeed = 90;    				// short int == int16_t | 2 bytes | -32,768 to 32,767
+	int16_t lifeCount = 3;		
+	uint8_t lifePadding = 0; 	
+	bool isPlaying = true;
+	bool revealEnemy = false; 					// will not show enemy , until the speed of lizard be insane
 	bool collide = false;
 	bool skipFrame = true;
 	bool nextPage = true;
     bool drawMenu = true;
 	bool keyDown = false;
-	const int8_t fruitCount = fruit[0].getCount();
-
+	const int8_t fruitCount = Edible::getCount();
 	char score[4] = "0";
 	char speed[10] = "Normal";
 	
 
-	bool isPlaying = true;
 #pragma endregion Fields
 
 	// generate new pos for food
@@ -121,8 +113,7 @@ start:
 		delete menu;
 
 
-
-		// Input Handler
+		// Controls Handler
 		if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A'))
 			player.changeDir(LEFT);
 		if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
@@ -162,7 +153,7 @@ start:
 		grid = new Grid();
 		// Draw grid
 		grid->draw();
-		// drawGrid();
+
 		player.draw();
 		if (revealEnemy)
 			enemy.draw();
@@ -268,7 +259,6 @@ start:
 
 		// Draw poison
 		poison.draw();
-
 
 		// Display Exit Key
 		setcolor(WHITE);
@@ -379,8 +369,7 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset)
 }
 
 // Using inline solves overhead costs. It is expanded in line by the compiler when it is invoked.
-// Generates new position if the position
-// is equal to the food pos
+// Generates new position if the position is equal to the food pos
 inline void GenerationHandler(Edible f1, Edible f2, Poison p, Player b)
 {
 	if ((f1.foodPos.x == p.foodPos.x && f1.foodPos.y == p.foodPos.y) ||
