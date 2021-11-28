@@ -314,6 +314,7 @@ start:
 				totalHit = 0;
 				lifeCount = 3;
 				player.resetLength();
+				revealEnemy=false;
 				lizardColideItself=false;
 			}
 			menu = new GameMenu();
