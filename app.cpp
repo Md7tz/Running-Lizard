@@ -248,17 +248,23 @@ start:
 		line(365, 579, 378, 584);
 
 		// Progressive speed
-		if (atoi(score) >= 100)
+		if (atoi(score) >= 100&&atoi(score)<200)
 		{
 			delaySpeed = 40;
 			strcpy(speed, "Fast");
 			revealEnemy = true; // now enemy will be revealed
 		}
-		if (atoi(score) >= 200)
+		else if (atoi(score) >= 200)
 		{
 			delaySpeed = 25;
 			strcpy(speed, "Insane");
 		}
+		else
+		{
+		 delaySpeed=90;
+		 strcpy(speed, "Normal");
+		}
+		
 
 		// Display Speed
 		setcolor(WHITE);
@@ -316,6 +322,7 @@ start:
 				player.resetLength();
 				revealEnemy=false;
 				lizardColideItself=false;
+				strncpy(score, to_string(0).c_str(), 4);
 			}
 			menu = new GameMenu();
 			drawMenu = true;
