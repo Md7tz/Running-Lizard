@@ -58,9 +58,11 @@ start:
 	uint8_t bodyLength;							// unsigned char == uint8_t | 1 byte | 0 to 255
 	int16_t delaySpeed = 90;    				// short int == int16_t | 2 bytes | -32,768 to 32,767
 	int16_t lifeCount = 3;		
-	uint8_t lifePadding = 0; 	
-	bool isPlaying = true;
-	bool revealEnemy = false; 					// will not show enemy , until the speed of lizard be insane
+	uint8_t lifePadding = 0; 
+	int totalHit = 0;
+	bool isPlaying = false;
+	bool revealEnemy = false;
+	bool lizardColideItself=false; 					// will not show enemy , until the speed of lizard be insane
 	bool collide = false;
 	bool skipFrame = true;
 	bool nextPage = true;
@@ -90,12 +92,13 @@ start:
 			cleardevice();
 
 			// menu.showMenu();
-			menu->detectInput();
+			menu->detectInput(isPlaying);
 			if (GetAsyncKeyState(VK_RETURN)) {
 				if (!keyDown)
 				{
 					if (menu->getKeyState() == 1) goto end;
 					cleardevice();
+					isPlaying=true;
 					drawMenu = false;
 					keyDown = true;
 					break;
@@ -106,7 +109,7 @@ start:
 		};
 		setactivepage(page);
 		setvisualpage(1 - page);
-		// cleardevice();
+		cleardevice();
 		setcolor(BLUE);
 		setfillstyle(SOLID_FILL, BLUE);
 		menu->showOption(nextPage,keyDown);  // show the option for the user
@@ -123,7 +126,10 @@ start:
 		if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
 			player.changeDir(DOWN);
 		if (isPlaying == true && !player.update())
-			isPlaying = false;
+		{
+					isPlaying = false;
+					lizardColideItself=true;
+		}
 		page = 1 - page;
 		
 		if (revealEnemy)
@@ -140,12 +146,15 @@ start:
 			{
 				lifeCount -= 1;
 				collide = true;
-				if (lifeCount == 0)
-					isPlaying = false;
+				totalHit++;
 			}
 			if (enemy.checkBody(player)){
 				collide = false;
 			}
+		}
+		if (totalHit >= 3)
+		{
+			isPlaying = false;
 		}
 
 		/*-UI-*/
@@ -194,12 +203,7 @@ start:
 			poison.generate(player.getPosx(), player.getPosy());
 			GenerationHandler(fruit[0], fruit[1], poison, player);
 			lifeCount--;
-			if (poison.getHit() == 3)
-			{
-				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-				outtextxy(160, 545, (char*)"GAME OVER");
-				isPlaying = false;
-			}
+			totalHit=poison.getHit();
 		}
 		if (isPlaying)
 		{
@@ -233,16 +237,21 @@ start:
 		line(365, 579, 378, 584);
 
 		// Progressive speed
-		if (atoi(score) >= 100)
+		if (atoi(score) >= 100 && atoi(score)<200)
 		{
 			delaySpeed = 40;
 			strcpy(speed, "Fast");
 		}
-		if (atoi(score) >= 200)
+		else if (atoi(score) >= 200)
 		{
 			delaySpeed = 25;
 			strcpy(speed, "Insane");
 			revealEnemy = true; // now enemy will be revealed
+		}
+		else
+		{
+			delaySpeed=90;
+		 	strcpy(speed, "Normal");
 		}
 
 		// Display Speed
@@ -263,8 +272,6 @@ start:
 		// Display Exit Key
 		setcolor(WHITE);
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-		outtextxy(630, 545, (char*)" PRESS 'ESC' to EXIT ");
-
 		// Draw instruction
 		drawInstruction(680, 575, 20, 90);
 
@@ -278,13 +285,14 @@ start:
 			isPlaying = false;
 		}
 		// Retry prompt
-		if (!isPlaying && player.getLength() != 32)
+		if (!isPlaying && player.getLength() != 32 && totalHit >= 3||lizardColideItself)
 		{
 			setcolor(WHITE);
 			outtextxy(160, 545, (char*)"GAME OVER");
 			settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
-			outtextxy(250, 200, (char*)" Press R to Retry ");
+			outtextxy(190, 200, (char *)" Press 'ESC' to back to menu ");
 		}
+
 
 		// Control speed between frames
 		delay(delaySpeed);
@@ -293,9 +301,18 @@ start:
 		// page = 1 - page;
 		if (GetAsyncKeyState(VK_ESCAPE))
 		{
+			if (!isPlaying && totalHit >= 3||player.getLength() == 32||lizardColideItself)
+			{
+				poison.resetHit();
+				totalHit = 0;
+				lifeCount = 3;
+				player.resetLength();
+				revealEnemy=false;
+				lizardColideItself=false;
+				strncpy(score, to_string(0).c_str(), 4);
+			}
 			menu = new GameMenu();
 			drawMenu = true;
-
 			cleardevice();
 		}
 		delete grid;

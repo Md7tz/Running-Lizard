@@ -11,8 +11,8 @@ private:
 public:
 	void arrow_1();
 	void arrow_2();
-	void draw();
-	void detectInput();
+	void draw(bool isPlaying);
+	void detectInput(bool isPlaying);
 	void showOption(bool &nextPage, bool &keyDown);
 	int getKeyState();
 
@@ -44,7 +44,7 @@ void GameMenu::arrow_2()
 	fillpoly(4, points);
 }
 
-void GameMenu::draw()
+void GameMenu::draw(bool isPlaying)
 {
 	setcolor(boxColor);
 	for (int i = 0; i < 10; i++)
@@ -56,7 +56,7 @@ void GameMenu::draw()
 	outtextxy(240, 250, (char*)"EXIT");
 }
 
-void GameMenu::detectInput()
+void GameMenu::detectInput(bool isPlaying)
 {
 	if (GetAsyncKeyState(VK_UP))
 		key = 0;
@@ -66,13 +66,13 @@ void GameMenu::detectInput()
 	if (key == 0)
 	{
 		cleardevice();
-		draw();
+		draw( isPlaying);
 		arrow_1();
 	}
 	else
 	{
 		cleardevice();
-		draw();
+		draw(isPlaying);
 		arrow_2();
 	}
 }
