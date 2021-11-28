@@ -1,25 +1,29 @@
 class Edible : public Food
 {
 public:
-    static const uint8_t count;
+    static uint8_t count;
     Edible();
     Edible(uint8_t _randInt);
     ~Edible();
 
     bool update(int16_t, int16_t);	 // Status of food
-    uint8_t getCount() const;
+    static uint8_t getCount();
 };
 
-const uint8_t Edible::count = 2;
+uint8_t Edible::count = 0;
 
 Edible::Edible() {}
+
 Edible::Edible(uint8_t _randInt)
 {
+    count += 1;
     randInt = _randInt;
     foodColor = RED;
 }
 
-Edible::~Edible() {}
+Edible::~Edible() {
+    count -= 1;
+}
 
 bool Edible::update(int16_t lizardHeadx, int16_t lizardHeady)
 {
@@ -29,7 +33,7 @@ bool Edible::update(int16_t lizardHeadx, int16_t lizardHeady)
         return false;
 }
 
-uint8_t Edible::getCount() const
+uint8_t Edible::getCount()
 {
     return count;
 }

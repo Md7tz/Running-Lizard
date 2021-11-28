@@ -1,5 +1,6 @@
-struct Position
+class Position
 {
+public:
     int16_t x, y;
     Position()
     {
