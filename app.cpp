@@ -56,7 +56,7 @@ start:
 
 	int8_t page = 1;							// signed char  == int8_t | 1 byte | -128 to 127
 	uint8_t bodyLength;							// unsigned char == uint8_t | 1 byte | 0 to 255
-	int16_t delaySpeed = 90;    				// short int == int16_t | 2 bytes | -32,768 to 32,767
+	int16_t delaySpeed = 50;    				// short int == int16_t | 2 bytes | -32,768 to 32,767
 	int16_t lifeCount = 3;		
 	uint8_t lifePadding = 0; 
 	int totalHit = 0;
@@ -107,6 +107,8 @@ start:
 			else keyDown = false;
 			page = 1 - page;
 		};
+		if(isPlaying)
+		{
 		setactivepage(page);
 		setvisualpage(1 - page);
 		cleardevice();
@@ -299,6 +301,7 @@ start:
 		// delete grid from memory
 		// Reset page
 		// page = 1 - page;
+		}
 		if (GetAsyncKeyState(VK_ESCAPE))
 		{
 			if (!isPlaying && totalHit >= 3||player.getLength() == 32||lizardColideItself)
@@ -308,6 +311,7 @@ start:
 				lifeCount = 3;
 				player.resetLength();
 				revealEnemy=false;
+				lifePadding=0;
 				lizardColideItself=false;
 				strncpy(score, to_string(0).c_str(), 4);
 			}

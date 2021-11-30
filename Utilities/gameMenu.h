@@ -46,14 +46,16 @@ void GameMenu::arrow_2()
 
 void GameMenu::draw(bool isPlaying)
 {
-	setcolor(boxColor);
-	for (int i = 0; i < 10; i++)
-		rectangle(110 - i, 150 - i, 580 + i, 430 + i);
+	// setcolor(boxColor);
+	// for (int i = 0; i < 10; i++)
+	// 	rectangle(110 - i, 150 - i, 580 + i, 430 + i);
 
-	setcolor(textColor);
-	settextstyle(EUROPEAN_FONT, HORIZ_DIR, 4);
-	outtextxy(240, 200, (char*)"START");
-	outtextxy(240, 250, (char*)"EXIT");
+	// setcolor(textColor);
+	// settextstyle(EUROPEAN_FONT, HORIZ_DIR, 4);
+	// outtextxy(240, 200, (char*)"START");
+	// outtextxy(240, 250, (char*)"EXIT");
+		readimagefile("Assets/Sprites/mainMenu.jpg", 0, 0, 410, 600);
+
 }
 
 void GameMenu::detectInput(bool isPlaying)
