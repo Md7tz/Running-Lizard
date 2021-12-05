@@ -3,15 +3,18 @@
 This game is built with WinBGIm (Windows BGI - with mouse) graphics.h library v6.0
 [Documentation](https://home.cs.colorado.edu/~main/cs1300/doc/bgi/ "WinBGIm Doc")
 
+> Development/Debugging
 ```
- # build the exe file (**Debugging**)
+ # build the exe file
  g++ -g app.cpp -o bin/Debug/"Running Lizard" -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32
  
  # run the exe file
  cd ./bin/Debug
  .\'Running Lizard.exe'
-
- # build the exe file (**Production**)
+```
+> Production 
+```
+ # build the exe file
  ./Build.bat
  ```
 
