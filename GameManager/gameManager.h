@@ -1,4 +1,21 @@
+/* 1- Drawing Screen UI
+        void drawKeys(int16_t, int16_t);
+        void drawLives(const int16_t, uint8_t&);
+        void drawInstruction(int16_t, int16_t, int16_t, int16_t);
+*/
+
+/* 2- Utility Functions
+        inline void setup(int8_t&);
+        inline void generationHandler(Edible&, Edible&, Poison&, Player&);
+        inline void inputHandler(Player&, Enemy&, bool&, bool&, bool&);
+        void collisionHandler(Player&, Enemy&, bool&, bool&, bool&, bool&, int16_t&);
+        void uiHandler(Player&, Poison&, Edible[2], uint8_t&, char[4], char[10], int16_t&, uint8_t&, int16_t&, bool&, bool&);
+        void gameObjectsHandler(Player&, Enemy&, Poison&, Edible[], bool&, bool&, int8_t);
+*/
+
 #pragma region Functions
+/******************** Screen UI ********************/
+
 // Draw key boxes
 void drawKeys(int16_t x, int16_t y)
 {
@@ -59,16 +76,17 @@ void drawInstruction(int16_t x, int16_t y, int16_t size, int16_t offset)
     floodfill(x + (size / 2) + offset, y + (size / 2), GREEN);
 }
 
+
+/******************** Utility Functions ********************/
+
 inline void setup(int8_t& page) {
     setactivepage(page);
     setvisualpage(1 - page);
     cleardevice();
 }
 
-// Using inline solves overhead costs. It is expanded in line by the compiler when it is invoked.
-// Generates new position if the position
-// is equal to the food pos
-inline void GenerationHandler(Edible& f1, Edible& f2, Poison& p, Player& b)
+// Generates new position if the position is equal to the food pos
+inline void generationHandler(Edible& f1, Edible& f2, Poison& p, Player& b)
 {
     if ((f1.foodPos.x == p.foodPos.x && f1.foodPos.y == p.foodPos.y) ||
         (f2.foodPos.x == p.foodPos.x && f2.foodPos.y == p.foodPos.y))
@@ -139,7 +157,7 @@ void uiHandler(Player& player, Poison& poison, Edible fruit[2], uint8_t& bodyLen
     if (poison.update(player.getPosx(), player.getPosy()))
     {
         poison.generate(player.getPosx(), player.getPosy());
-        GenerationHandler(fruit[0], fruit[1], poison, player);
+        generationHandler(fruit[0], fruit[1], poison, player);
         lives--;
         if (poison.getHit() == 3)
         {

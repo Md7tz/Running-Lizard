@@ -1,10 +1,9 @@
-/*----------Running lizard GAME----------*/
-
-#include <graphics.h>
-#include <stdint.h>  	// For typedefs of fundamental integral types 
-#include <stdlib.h>  	// For string manipulation
-#include <iostream>  	// For debugging
-#include <ctime> 	 	// For Generating random numbers
+/******************** Running Lizard Game ********************/
+#include <graphics.h>	// Graphical user interface
+#include <stdint.h>  	// Typedefs of fundamental integral types 
+#include <stdlib.h>  	// String manipulation
+#include <iostream>  	// Debugging
+#include <ctime> 	 	// Generating random numbers
 
 // Preprocessor definitions
 #define WIDTH 810
@@ -18,6 +17,8 @@ enum DIR
 	DOWN
 }; 						// 0 1 2 3
 
+using namespace std;
+
 // Custom user defined Headers
 #include "Utilities/position.h"
 #include "Characters/lizard.h"
@@ -27,26 +28,11 @@ enum DIR
 #include "GameObjects/food.h"
 #include "GameObjects/edible.h"
 #include "GameObjects/poison.h"
-
-using namespace std;
-
-// Drawing Screen UI
-void drawKeys(int16_t, int16_t);
-void drawLives(const int16_t, uint8_t&);
-void drawInstruction(int16_t, int16_t, int16_t, int16_t);
-
-// Utility Functions
-inline void setup(int8_t&);
-inline void GenerationHandler(Edible&, Edible&, Poison&, Player&);
-inline void inputHandler(Player&, Enemy&, bool&, bool&, bool&);
-void collisionHandler(Player&, Enemy&, bool&, bool&, bool&, bool&, int16_t&);
-void uiHandler(Player&, Poison&, Edible[2], uint8_t&, char[4], char[10], int16_t&, uint8_t&, int16_t&, bool&, bool&);
-void gameObjectsHandler(Player&, Enemy&, Poison&, Edible[], bool&, bool&, int8_t);
+#include "GameManager/gameManager.h"
 
 int main()
 {
 	initwindow(WIDTH, HEIGHT, "Running Lizard");
-
 start:
 #pragma region Fields
 	Grid* grid;
@@ -79,7 +65,7 @@ start:
 
 	// generate new pos for poison
 	poison.generate(player.getPosx(), player.getPosy());
-	GenerationHandler(fruit[0], fruit[1], poison, player);
+	generationHandler(fruit[0], fruit[1], poison, player);
 
 	while (true)
 	{
@@ -108,9 +94,7 @@ start:
 		// Reset page
 		page = 1 - page;
 	}
-
 	getch();
 	closegraph();
+	return 0;
 }
-
-#include "GameManager/gameManager.h"
