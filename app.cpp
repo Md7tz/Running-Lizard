@@ -4,6 +4,7 @@
 #include <stdlib.h>  	// String manipulation
 #include <iostream>  	// Debugging
 #include <ctime> 	 	// Generating random numbers
+#include <windows.h>
 
 // Preprocessor definitions
 #define WIDTH 810
@@ -32,6 +33,7 @@ using namespace std;
 
 int main()
 {
+	PlaySound("Assets/SFX/background music .wav",NULL,SND_ASYNC);
 	initwindow(WIDTH, HEIGHT, "Running Lizard");
 start:
 #pragma region Fields
