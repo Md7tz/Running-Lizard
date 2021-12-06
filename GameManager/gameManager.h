@@ -144,7 +144,7 @@ void uiHandler(Player& player, Poison& poison, Edible fruit[2], uint8_t& bodyLen
 
     // Calculate score from body length
     bodyLength = player.getLength();
-    strncpy(score, to_string((bodyLength - 2) * 10).c_str(), 4);
+    strncpy(score, std::to_string((bodyLength - 2) * 10).c_str(), 4);
 
     // Display score
     outtextxy(20, 545, (char*)"SCORE");

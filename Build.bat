@@ -1,1 +1,1 @@
-g++ app.cpp -o bin/production/"Running Lizard" -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32 && bin\production\"Running Lizard"
+g++ app.cpp -o bin/production/"Running Lizard" -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32 -lwinmm  && bin\production\"Running Lizard"

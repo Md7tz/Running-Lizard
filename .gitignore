@@ -3,6 +3,7 @@
 
 # vs ide
 .vs
+.vscodecounter
 
 # Compiled Object files
 *.slo
