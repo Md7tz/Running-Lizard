@@ -138,6 +138,7 @@ void collisionHandler(Player& player, Enemy& enemy, bool& collide, bool& skip, b
 }
 
 void uiHandler(Player& player, Poison& poison, Edible fruit[2], uint8_t& bodyLength, char score[4], char speed[10], int16_t& lives, uint8_t& padding, int16_t& delay, bool& reveal, bool& gameState) {
+    settextjustify(0,2);
     // Score
     settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 1);
     setcolor(WHITE);

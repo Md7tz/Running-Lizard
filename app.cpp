@@ -42,12 +42,25 @@ enum DIR
 #include "GameObjects/food.h"
 #include "GameObjects/edible.h"
 #include "GameObjects/poison.h"
+#include "GameObjects/menu.h"
 #include "GameManager/gameManager.h"
 
 void fixedUpdate() {
+	Menu* menu;
+	Grid* grid;
+	menu:
+	menu = new Menu();
+	while(!(menu->getGameState()))
+	{
+		Timer timer;
+		menu->PagesHandler();
+		menu->MenuInputHandler();
+		Sleep(100);
+	}
+	menu=NULL;
+	delete menu;
 start:
 #pragma region Fields
-	Grid* grid;
 	Player player;
 	Edible fruit[2] = { Edible(1), Edible(5) }; 	// Two Food objects initialized in a random position
 	Poison poison;
@@ -104,7 +117,7 @@ start:
 		uiHandler(player, poison, fruit, bodyLength, score, speed, lifeCount, lifePadding, delayAmt, revealEnemy, isPlaying);
 
 		// Checks game state
-		if (exit) break;
+		if (exit) goto menu;
 		else if (restart) {
 			cleardevice();
 			goto start;
@@ -125,8 +138,8 @@ start:
 
 int main()
 {
-	initwindow(WIDTH, HEIGHT, "Running Lizard");
-	PlaySound("Assets/SFX/background music .wav", NULL, SND_ASYNC);
+	initwindow(WIDTH, HEIGHT, "Running Lizard", (getmaxwidth()-WIDTH)/2, (getmaxheight()-HEIGHT)/2);
+	// PlaySound("Assets/SFX/background music .wav", NULL, SND_ASYNC);
 	// std::cout << CurrentTime_nanoseconds() << 1000000000.0 << std::endl;
 	fixedUpdate();
 	getch();
