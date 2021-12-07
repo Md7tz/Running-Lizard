@@ -30,5 +30,8 @@ Timer::~Timer() {
     // std::cout << "Time " << std::chrono::high_resolution_clock::duration().count() << "\n";
 
     frame += 1;
-    std::cout << "Frame " << frame << "\nFinished computation at " << std::ctime(&end_time) << "Total elapsed time: " << total_elapsed << "s\nelapsed time: " << s << "s\n";
+    std::cout << "Frame " << frame <<
+        "\nFinished computation at " << std::ctime(&end_time) <<
+        "Total elapsed time: " << total_elapsed <<
+        "s\nelapsed time: " << s << "s\n";
 }
