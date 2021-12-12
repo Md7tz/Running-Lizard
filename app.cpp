@@ -70,7 +70,7 @@ start:
 	int8_t page = 1;   		 						// Signed char  == int8_t | 1 byte | -128 to 127
 	uint8_t bodyLength; 							// Unsigned char == uint8_t | 1 byte | 0 to 255
 	uint8_t lifePadding = 0;						// Distance between the border of the heart and the center
-	int16_t delayAmt = 90;							// The amount of delay between each frame to control the speed of the game
+	int16_t delayAmt = 5;							// The amount of delay between each frame to control the speed of the game
 	int16_t lifeCount = 3; 							// Short int == int16_t | 2 bytes | -32,768 to 32,767
 
 	bool skipFrame = true;							// Make the enemy skip a frame to reduce its speed to half the player's speed
