@@ -1,15 +1,8 @@
 #include <graphics.h>
 
-enum DIR
-{
-        LEFT,
-        UP,
-        RIGHT,
-        DOWN
-}; // ENUM MAKES THE WORK EASY BY PROVIDING NAMES INSTEAD OF NUMBERS
+enum DIR { LEFT, UP, RIGHT, DOWN };        // ENUM MAKES THE WORK EASY BY PROVIDING NAMES INSTEAD OF NUMBERS
 
-struct Position
-{
+struct Position {
         int x, y;
         Position()
         {
@@ -22,29 +15,28 @@ struct Position
 class LizardBody
 {
 private:
-        Position arr[31]; // ThiS ARRAY IS GOING TO CONTAIN THE POSITIONS OF WHOLE lizard
+        Position arr[31];            // ThiS ARRAY IS GOING TO CONTAIN THE POSITIONS OF WHOLE lizard
         int direction;
         int length;
-
 public:
         LizardBody()
         {
-                arr[0].x = 30;     // PROVIDING THE lizardHEAD ITS INITIAL VALUE
-                arr[0].y = 30;     // PROVIDING THE lizardHEAD ITS INITIAL VALUE
-                length = 2;        // INITILAL LENGTH = 2
-                direction = RIGHT; // GOING IN RIGHT DIRECTION
+                arr[0].x = 30;        // PROVIDING THE lizardHEAD ITS INITIAL VALUE
+                arr[0].y = 30;        // PROVIDING THE lizardHEAD ITS INITIAL VALUE
+                length = 2;           // INITILAL LENGTH = 2
+                direction = RIGHT;    // GOING IN RIGHT DIRECTION
         }
         void drawLizard();
-        void appendLizard(); // IT IS RESPONSIBLE FOR INCREMENT IN lizard'S LENGTH
+        void appendLizard();         // IT IS RESPONSIBLE FOR INCREMENT IN lizard'S LENGTH
         void changeDirTo(int);
         int update();
-        int getPosx();   // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
-        int getPosy();   // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
-        int getlength(); // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
+        int getPosx();              // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
+        int getPosy();              // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
+        int getlength();            // THESE FUNCTIONS ARE FOR OBVIOUS PURPOSES
+
 };
 
-void LizardBody::drawLizard()
-{ // DRAWING THE WHOLE lizard
+void LizardBody::drawLizard() {    // DRAWING THE WHOLE lizard
 
         // Colors
         // 179, 170, 0
@@ -54,15 +46,19 @@ void LizardBody::drawLizard()
                 setcolor(YELLOW);
                 rectangle(arr[i].x, arr[i].y, arr[i].x + 30, arr[i].y + 30);
                 if (i == 0)
-                        setfillstyle(SOLID_FILL, COLOR(179, 170, 0)); // HEAD IS OF DIFFERENT COLOR
-                else                                                  // REST OF THE BODY
+                        setfillstyle(SOLID_FILL, COLOR(179, 170, 0));        // HEAD IS OF DIFFERENT COLOR
+                else                                            // REST OF THE BODY
                         setfillstyle(SOLID_FILL, COLOR(245, 232, 0));
                 floodfill(arr[i].x + 15, arr[i].y + 15, YELLOW);
         }
 }
 
-void LizardBody::changeDirTo(int newdir)
-{
+void LizardBody::appendLizard() {
+        if (length < 30)                            // PREVENTS THE LENGTH FROM GOING GREATER THAN 29
+                length++;
+}
+
+void LizardBody::changeDirTo(int newdir) {
 
         if (newdir == LEFT || newdir == RIGHT)
         {
@@ -76,14 +72,13 @@ void LizardBody::changeDirTo(int newdir)
         }
 }
 
-int LizardBody::update()
-{
-
-        for (int i = 1; i < length; ++i)
-        {
-                if (arr[0].x == arr[i].x && arr[0].y == arr[i].y)
-                {
-                        return 0;
+int LizardBody::update() {                                            
+                                                                      
+        for (int i = 1; i < length; ++i)                              
+        {                                                             
+                if (arr[0].x == arr[i].x && arr[0].y == arr[i].y)     
+                {                                                     
+                        return 0;                                     
                 }
         }
         for (int i = length; i >= 0; --i)
