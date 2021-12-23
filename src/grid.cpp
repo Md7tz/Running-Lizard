@@ -1,17 +1,4 @@
-class Grid {
-private:
-    uint8_t size = 30; // box 30 in grid
-    int16_t left, top, right, bottom;
-    int16_t x, y;
-    uint8_t i;
-    int16_t NODES[2][3] = {{0, 0, 0}, {0, 0, 0}}; // RGB color for grid nodes
-
-public:
-    Grid();
-    Grid(uint8_t size);
-    ~Grid();
-    void draw();
-};
+#include "GameObjects/grid.h"
 
 Grid::Grid() : x(5), y(5), left(0), top(0), right(size), bottom(size), i(0) {
     NODES[0][0] = 204; NODES[0][1] = 255; NODES[0][2] = 204;

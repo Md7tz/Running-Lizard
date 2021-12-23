@@ -1,16 +1,4 @@
-class Food
-{
-protected:
-	uint8_t randInt;
-	int foodColor;
-
-public:
-	Position foodPos;
-	void draw() const;				 		 // Draw the food
-	void generate(int16_t, int16_t); 		 // Generate food position
-	virtual bool update(int16_t, int16_t);	 // Status of food
-
-};
+#include "GameObjects/food.h"
 
 void Food::draw() const
 {

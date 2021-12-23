@@ -1,16 +1,11 @@
 /******************** Running Lizard Game ********************/
 #include <graphics.h>	// Graphical user interface
-#include <stdint.h>  	// Typedefs of fundamental integral types 
-#include <stdlib.h>  	// String manipulation
-#include <iostream>  	// Debugging
-#include <ctime> 	 	// Generating random numbers
+#include <cstdint>  	// Typedefs of fundamental integral types 
+#include <cstdlib>  	// String manipulation
 #include <windows.h>    // Playing sounds
-#include <chrono>		// Time
-#include <cmath>		
+#include <cmath>		// Math functions
 
-// Preprocessor definitions
-#define WIDTH 810
-#define HEIGHT 600
+#include "Utilities/globals.h"
 
 #ifndef ENV
 	#define ENV 0 		// 0 == dev 
@@ -20,14 +15,6 @@
 #elif ENV == 1 			// 1 == prod
 	#define DEBUG false
 #endif
-
-enum DIR
-{
-	LEFT, 	// 0
-	UP,   	// 1
-	RIGHT,	// 2
-	DOWN  	// 3
-};
 
 // Custom user defined Headers
 #if DEBUG == true
@@ -45,28 +32,34 @@ enum DIR
 #include "GameObjects/menu.h"
 #include "GameManager/gameManager.h"
 
-void fixedUpdate() {
+void update() {
 	Menu* menu;
 	Grid* grid;
-	menu:
+
+	// Menu block
+	G_MENU:
 	menu = new Menu();
-	while(!(menu->getGameState()))
-	{
-		Timer timer;
+	while (!(menu->getGameState())) {
+		#if DEBUG
+			Timer timer;
+		#endif
 		menu->PagesHandler();
 		menu->MenuInputHandler();
 		Sleep(100);
 	}
-	menu=NULL;
 	delete menu;
-start:
-#pragma region Fields
+
+	// Start Block
+	G_START:
+	#pragma region Fields
+	const int8_t fruitCount = Edible::getCount();
+	
+	// GameObjects
 	Player player;
 	Edible fruit[2] = { Edible(1), Edible(5) }; 	// Two Food objects initialized in a random position
 	Poison poison;
 	Enemy enemy(300, 300);
 
-	const int8_t fruitCount = fruit[0].getCount();
 	int8_t page = 1;   		 						// Signed char  == int8_t | 1 byte | -128 to 127
 	uint8_t bodyLength; 							// Unsigned char == uint8_t | 1 byte | 0 to 255
 	uint8_t lifePadding = 0;						// Distance between the border of the heart and the center
@@ -84,27 +77,19 @@ start:
 	char speed[10] = "Normal";
 #pragma endregion Fields
 
-	// generate new pos for food
+	// Generate new pos for food
 	for (uint8_t i = 0; i < fruitCount; i++)
 		fruit[i].generate(player.getPosx(), player.getPosy());
 
-	// generate new pos for poison
+	// Generate new pos for poison
 	poison.generate(player.getPosx(), player.getPosy());
 	generationHandler(fruit[0], fruit[1], poison, player);
 
-	// uint64_t lastTime = CurrentTime_nanoseconds();
-	// const double ns = 1000000000.0 / 60.0;
-	// double delta = 0;
 	while (true)
 	{
-		// uint64_t now = CurrentTime_nanoseconds();
-		// std::cout << lastTime << std::endl << now << '\n';
-		// return;
-
 		#if DEBUG == true
 			Timer timer;
 		#endif
-
 		setup(page);
 
 		// Create a grid in dynamic memory
@@ -117,19 +102,17 @@ start:
 		uiHandler(player, poison, fruit, bodyLength, score, speed, lifeCount, lifePadding, delayAmt, revealEnemy, isPlaying);
 
 		// Checks game state
-		if (exit) goto menu;
+		if (exit) goto G_MENU;
 		else if (restart) {
 			cleardevice();
-			goto start;
+			goto G_START;
 		};
 
 		// Control speed between frames
 		delay(delayAmt);
 
-
 		// Free grid from memory
 		delete grid;
-		grid = NULL;
 
 		// Reset page
 		page = 1 - page;
@@ -138,10 +121,9 @@ start:
 
 int main()
 {
-	initwindow(WIDTH, HEIGHT, "Running Lizard", (getmaxwidth()-WIDTH)/2, (getmaxheight()-HEIGHT)/2);
+	initwindow(WIDTH, HEIGHT, "Running Lizard", (getmaxwidth() - WIDTH) / 2, (getmaxheight() - HEIGHT) / 2);
 	// PlaySound("Assets/SFX/background music .wav", NULL, SND_ASYNC);
-	// std::cout << CurrentTime_nanoseconds() << 1000000000.0 << std::endl;
-	fixedUpdate();
+	update();
 	getch();
 	closegraph();
 	return 0;

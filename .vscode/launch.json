@@ -64,7 +64,7 @@
             "name": "Multi-file Graphic Project",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/${workspaceFolderBasename}",
+            "program": "${workspaceFolder}/bin/Debug/${workspaceFolderBasename}",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
