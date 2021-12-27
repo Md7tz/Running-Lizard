@@ -5,6 +5,7 @@
 #include "lizard.h"
 #include "food.h"
 #include "edible.h"
+#include "grid.h"
 
 void drawBorders();
 
