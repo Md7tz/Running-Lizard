@@ -1,24 +1,6 @@
 #include <graphics.h>
+#include "position.h"
 
-enum DIR
-{
-        LEFT,
-        UP,
-        RIGHT,
-        DOWN
-}; // ENUM MAKES THE WORK EASY BY PROVIDING NAMES INSTEAD OF NUMBERS
-
-struct Position
-{
-        int x, y;
-        Position()
-        {
-                x = -50;
-                y = 0;
-        }
-};
-
-////// lizard CLASS //////
 class Lizard
 {
 private:
