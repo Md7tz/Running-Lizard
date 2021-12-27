@@ -4,6 +4,7 @@
 #include <iostream>
 #include "lizard.h"
 #include "food.h"
+#include "edible.h"
 
 void drawBorders();
 

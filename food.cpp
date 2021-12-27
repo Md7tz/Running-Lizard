@@ -8,9 +8,7 @@ void Food::draw() {
 }
 
 void Food::generate(int lizardHeadx, int lizardHeady) {
-     srand(time(0));
      foodPos.x = 30 * (rand() % 15 + 1);
-     srand(time(0));
      foodPos.y = 30 * (rand() % 15 + 1);
      if (foodPos.x == lizardHeadx && foodPos.y == lizardHeady)
           generate(lizardHeadx, lizardHeady);
