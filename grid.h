@@ -3,8 +3,7 @@
 
 #include <cstdint>
 #include <graphics.h>
-#define WIDTH  810
-#define HEIGHT 600
+#include "globals.h"
 
 
 class Grid {
