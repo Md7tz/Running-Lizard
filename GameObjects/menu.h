@@ -3,8 +3,8 @@
 class Menu
 {
 private:
-    bool gameStart = false, gameOptions = false, gameHTP = false;
-    int index = 1;
+    bool gameStart = false, gameOptions = false, gameHTP = false, gameSound = true;
+    int MainIndex = 1, PauseIndex = 1;
 
     int textX = 405, textY = 250;
     int textSpacing = 85;
@@ -17,11 +17,14 @@ public:
     void arrows2(int color2) const;
     void arrows3(int color3) const;
     void arrows4(int color4) const;
-	void options() const;
-	void htp() const;
+    void options();
+    void htp();
+    void PauseMenu();
+    void PauseMenuInputHandler();
     void MenuInputHandler();
     void PagesHandler();
-	bool getGameState() const;
+    bool getGameState() const;
+    bool getGameSound() const;
 };
 
 Menu :: Menu () {};
@@ -38,26 +41,26 @@ void Menu :: menu(int titleC, int buttonsC) const
 
 #pragma region Start
     settextstyle(textFont, HORIZ_DIR, textSize);
-    if(index==1) settextstyle(10, HORIZ_DIR, 5);
-    outtextxy(textX, textY, (char *)"START");
+    if (MainIndex == 1) settextstyle(10, HORIZ_DIR, 5);
+    outtextxy(textX, textY, (char*)"START");
 #pragma endregion
 
 #pragma region Options
     settextstyle(textFont, HORIZ_DIR, textSize);
-    if(index==2) settextstyle(10, HORIZ_DIR, 5);
-    outtextxy(textX, textY + textSpacing, (char *)"OPTIONS");
+    if (MainIndex == 2) settextstyle(10, HORIZ_DIR, 5);
+    outtextxy(textX, textY + textSpacing, (char*)"OPTIONS");
 #pragma endregion
 
 #pragma region HTP
     settextstyle(textFont, HORIZ_DIR, textSize);
-    if(index==3) settextstyle(10, HORIZ_DIR, 5);
-    outtextxy(textX, textY + 2 * textSpacing, (char *)"HOW TO PLAY");
+    if (MainIndex == 3) settextstyle(10, HORIZ_DIR, 5);
+    outtextxy(textX, textY + 2 * textSpacing, (char*)"HOW TO PLAY");
 #pragma endregion
 
 #pragma region Exit
     settextstyle(textFont, HORIZ_DIR, textSize);
-    if(index==4) settextstyle(10, HORIZ_DIR, 5);
-    outtextxy(textX, textY + 3 * textSpacing, (char *)"EXIT");
+    if (MainIndex == 4) settextstyle(10, HORIZ_DIR, 5);
+    outtextxy(textX, textY + 3 * textSpacing, (char*)"EXIT");
 #pragma endregion
 
 }
@@ -108,61 +111,142 @@ void Menu :: arrows4(int color4) const
     drawpoly(3, point4);
     fillpoly(3, point4);
 }
-void Menu :: options() const
-{
+void Menu::options()
+{  
+    if(GetAsyncKeyState(VK_ESCAPE)) gameOptions=false;
+    
+    if(GetAsyncKeyState(VK_RETURN)) gameSound = !gameSound;
 
-}
-void Menu :: htp() const
-{
+    cleardevice();
 
+    setcolor(WHITE);
+    settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+    settextjustify(0, 2);
+    outtextxy(10, 10, (char*)"Press 'ESC' to go back");
+
+    setcolor(YELLOW);
+    settextstyle(10, HORIZ_DIR, 5);
+    settextjustify(1, 1);
+    outtextxy(textX, textY, (char*)"Sound");
+
+    setcolor(WHITE);
+    settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+    settextjustify(1, 1);
+    outtextxy(textX, textY + textSpacing, (char*)"Press 'ENTER' to turn ON/OFF the Game Sound");
+    
+    setcolor(GREEN);
+    setfillstyle(SOLID_FILL,GREEN);
+    if(gameSound==false) {
+        setcolor(DARKGRAY);
+        setfillstyle(SOLID_FILL,DARKGRAY);
+    }
+    ellipse(textX, textY + 40, 0, 360, 40, 10);
+    fillellipse(textX, textY + 40, 40, 10);
 }
-void Menu :: MenuInputHandler()
+void Menu::htp()
+{
+    if(GetAsyncKeyState(VK_ESCAPE)) gameHTP=false;
+
+    cleardevice();
+
+    setcolor(WHITE);
+    settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+    settextjustify(0, 2);
+    outtextxy(10, 10, (char*)"Press 'ESC' to go back");
+
+    //how to play text
+    settextstyle(10, HORIZ_DIR, 5);
+    outtextxy(textX, textY, (char*)"How to Play");
+}
+void Menu::PauseMenu()
+{
+    if (PauseIndex == 1)
+    {
+        settextstyle(textFont, HORIZ_DIR, textSize);
+        if (MainIndex == 1) settextstyle(10, HORIZ_DIR, 5);
+        outtextxy(textX, textY, (char*)"RESUME");
+        arrows1(DARKGRAY);
+    }
+    if (PauseIndex == 2)
+    {
+        settextstyle(textFont, HORIZ_DIR, textSize);
+        if (PauseIndex == 2) settextstyle(10, HORIZ_DIR, 5);
+        outtextxy(textX, textY + textSpacing, (char*)"MAIN MENU");
+        arrows2(DARKGRAY);
+    } 
+}
+void Menu::PauseMenuInputHandler()
 {
     if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
-        if (index > 1)
-            index--;
+        if (PauseIndex > 1)
+            PauseIndex--;
     if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
-        if (index < 4)
-            index++;
-    if (GetAsyncKeyState(VK_ESCAPE))
-        exit(1);
+        if (PauseIndex < 2)
+            PauseIndex++;
     if (GetAsyncKeyState(VK_RETURN))
     {
-        if (index == 1)
+        if (PauseIndex == 1)
             gameStart = true;
-        if (index == 2)
+        // if (PauseIndex == 2)
+            //return to main menu;
+    }
+}
+void Menu::MenuInputHandler()
+{    
+    if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
+        if (MainIndex > 1)
+            MainIndex--;
+    if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
+        if (MainIndex < 4)
+            MainIndex++;
+    if (GetAsyncKeyState(VK_RETURN))
+    {
+        if (MainIndex == 1)
+            gameStart = true;
+        if (MainIndex == 2)
             gameOptions = true;
-        if (index == 3)
+        if (MainIndex == 3)
             gameHTP = true;
-        if (index == 4)
+        if (MainIndex == 4)
             exit(1);
     }
 }
 void Menu :: PagesHandler()
 {
     cleardevice();
-    if (index == 1)
+
+    if(gameOptions) options();
+
+    if(gameHTP) htp();
+
+    if(!gameHTP & !gameOptions){
+    if (MainIndex == 1)
     {
         menu(LIGHTGRAY, YELLOW);
         arrows1(DARKGRAY);
     }
-    if (index == 2)
+    if (MainIndex == 2)
     {
         menu(LIGHTGRAY, YELLOW);
         arrows2(DARKGRAY);
     }
-    if (index == 3)
+    if (MainIndex == 3)
     {
         menu(LIGHTGRAY, YELLOW);
         arrows3(DARKGRAY);
     }
-    if (index == 4)
+    if (MainIndex == 4)
     {
         menu(LIGHTGRAY, YELLOW);
         arrows4(DARKGRAY);
     }
+    }
 }
 bool Menu :: getGameState() const
 {
-	return gameStart;
+    return gameStart;
+}
+bool Menu::getGameSound() const
+{
+    return gameSound;
 }

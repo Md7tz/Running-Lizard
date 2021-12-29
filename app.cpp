@@ -48,7 +48,8 @@ enum DIR
 void fixedUpdate() {
 	Menu* menu;
 	Grid* grid;
-	menu:
+
+	// Menu block
 	menu = new Menu();
 	while(!(menu->getGameState()))
 	{
@@ -77,7 +78,7 @@ start:
 	bool isPlaying = true;							// Status of the player
 	bool revealEnemy = false; 						// blocks the enemy from instantiating , until the speed of lizard becomes insane
 	bool collide = false;							// Checks if the player collided with the enemy and only changes after exiting the collision
-	bool exit = false;								// Exits the game if true
+	bool gamePause = false;							// Pauses the game if true
 	bool restart = false;							// Restarts the game if true
 
 	char score[4] = "0";
@@ -111,13 +112,28 @@ start:
 		grid = new Grid();
 		grid->draw();
 
-		inputHandler(player, enemy, exit, restart, isPlaying);
+		inputHandler(player, enemy, gamePause, restart, isPlaying);
 		collisionHandler(player, enemy, collide, skipFrame, revealEnemy, isPlaying, lifeCount);
 		gameObjectsHandler(player, enemy, poison, fruit, isPlaying, revealEnemy, fruitCount);
 		uiHandler(player, poison, fruit, bodyLength, score, speed, lifeCount, lifePadding, delayAmt, revealEnemy, isPlaying);
 
 		// Checks game state
-		if (exit) goto menu;
+		if (gamePause)
+		{
+			cleardevice();
+
+			Menu* pauseMenu = new Menu();
+			
+			while (!(pauseMenu->getGameState()))
+			{	
+			pauseMenu->PauseMenu();
+			pauseMenu->PauseMenuInputHandler();
+			Sleep(100);
+			}
+			gamePause=false;
+			delete pauseMenu;
+		}
+		
 		else if (restart) {
 			cleardevice();
 			goto start;
