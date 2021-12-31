@@ -6,13 +6,11 @@
 #include "food.h"
 #include "edible.h"
 #include "grid.h"
+#include "globals.h"
 
-void drawBorders();
 
 using namespace std;
 
-const int WIDTH = 810;
-const int HEIGHT = 600;
 
 int main()
 {
@@ -24,6 +22,8 @@ start:
      int length, count = 0;
      bool playing = true;
      int page = 1;
+     Grid* grid;
+     
 
      fruit.generate(body.getPosx(), body.getPosy());
 
@@ -32,6 +32,8 @@ start:
           setactivepage(page);
           setvisualpage(1 - page);
           cleardevice();
+          		grid = new Grid();
+		grid->draw();
 
           setcolor(BLUE);
           setfillstyle(SOLID_FILL, BLUE);
@@ -63,7 +65,6 @@ start:
           }
 
           // UI
-          drawBorders();
           body.drawLizard();
 
           if (fruit.update(body.getPosx(), body.getPosy()))
@@ -76,6 +77,7 @@ start:
           outtextxy(580, 545, (char*)"PRESS 'ESC' to EXIT");
 
           fruit.draw();
+          	delete grid;
           page = 1 - page;
           delay(150);
      }
@@ -85,19 +87,19 @@ start:
 }
 
 // Initial state grid with no borders
-void drawBorders()
-{
-     setcolor(DARKGRAY);
-     rectangle(0, 0, 30, 600);     // LEFT BORDER
-     rectangle(780, 0, 810, 610);  // RIGHT BORDER
-     rectangle(30, 0, 780, 30);    // TOP BORDER
-     rectangle(30, 570, 780, 600); // BOT BORDER
-     rectangle(30, 540, 780, 550); // STATS-BOT BORDER
+// void drawBorders()
+// {
+//      setcolor(DARKGRAY);
+//      rectangle(0, 0, 30, 600);     // LEFT BORDER
+//      rectangle(780, 0, 810, 610);  // RIGHT BORDER
+//      rectangle(30, 0, 780, 30);    // TOP BORDER
+//      rectangle(30, 570, 780, 600); // BOT BORDER
+//      rectangle(30, 540, 780, 550); // STATS-BOT BORDER
 
-     setfillstyle(SOLID_FILL, colors::DARKGRAY);
-     floodfill(1, 1, colors::DARKGRAY);    // Fill LEFT
-     floodfill(781, 1, colors::DARKGRAY);  // Fill RIGHT
-     floodfill(31, 1, colors::DARKGRAY);   // Fill TOP
-     floodfill(31, 571, colors::DARKGRAY); // Fill BOT
-     floodfill(31, 541, colors::DARKGRAY); // Fill STATS-BOT
-}
+//      setfillstyle(SOLID_FILL, colors::DARKGRAY);
+//      floodfill(1, 1, colors::DARKGRAY);    // Fill LEFT
+//      floodfill(781, 1, colors::DARKGRAY);  // Fill RIGHT
+//      floodfill(31, 1, colors::DARKGRAY);   // Fill TOP
+//      floodfill(31, 571, colors::DARKGRAY); // Fill BOT
+//      floodfill(31, 541, colors::DARKGRAY); // Fill STATS-BOT
+// }
