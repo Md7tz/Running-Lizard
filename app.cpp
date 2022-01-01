@@ -77,7 +77,7 @@ start:
           outtextxy(580, 545, (char*)"PRESS 'ESC' to EXIT");
 
           fruit.draw();
-          	delete grid;
+          delete grid;
           page = 1 - page;
           delay(150);
      }
