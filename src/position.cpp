@@ -1,4 +1,6 @@
-#include "position.h"
+
+#include "Utilities/position.h"
+
 Position::Position()
 {
     x = -50;

@@ -1,4 +1,4 @@
-#include "lizard.h"
+#include "Characters/lizard.h"
 void Lizard::drawLizard()
 { // DRAWING THE WHOLE lizard
 

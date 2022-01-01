@@ -1,4 +1,4 @@
-#include "grid.h"
+#include "GameObjects/grid.h"
 
 Grid::Grid() : x(5), y(5), left(0), top(0), right(size), bottom(size), i(0) {
     NODES[0][0] = 204; NODES[0][1] = 255; NODES[0][2] = 204;

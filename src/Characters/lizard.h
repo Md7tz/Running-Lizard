@@ -1,5 +1,5 @@
 #include <graphics.h>
-#include "position.h"
+#include "../Utilities/position.h"
 
 class Lizard
 {

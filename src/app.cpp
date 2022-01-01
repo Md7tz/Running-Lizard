@@ -2,13 +2,12 @@
 
 #include <graphics.h>
 #include <iostream>
-#include "lizard.h"
-#include "food.h"
-#include "edible.h"
-#include "grid.h"
-#include "globals.h"
-
-
+#include "Characters/lizard.h"
+#include "GameObjects/food.h"
+#include "GameObjects/edible.h"
+#include "GameObjects/grid.h"
+#include "Utilities/globals.h"
+#include "Utilities/position.h"
 using namespace std;
 
 

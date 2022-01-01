@@ -1,8 +1,4 @@
-#include "food.h"
-Food::Food()
-{
-	foodColor=RED;
-}
+#include "GameObjects/food.h"
 void Food::draw() const
 {
 	setcolor(foodColor);

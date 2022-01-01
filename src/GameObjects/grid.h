@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <graphics.h>
-#include "globals.h"
+#include "../Utilities/globals.h"
 
 
 class Grid {

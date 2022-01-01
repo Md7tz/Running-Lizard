@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <graphics.h>
-#include "position.h"
+#include "../Utilities/globals.h"
 
 class Food
 {
@@ -13,7 +13,6 @@ protected:
 
 public:
 	Position foodPos;
-	Food();
 	void draw() const;				 		 // Draw the food
 	void generate(int16_t, int16_t); 		 // Generate food position
 	virtual bool update(int16_t, int16_t);	 // Status of food
