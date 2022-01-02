@@ -5,7 +5,7 @@
 void Food::draw() const
 {
 	setcolor(foodColor);
-	readimagefile("Assets/Sprites/apple.gif",foodPos.x, foodPos.y, foodPos.x + 30, foodPos.y + 30);
+	readimagefile("Assets/Sprites/a2KB.gif",foodPos.x, foodPos.y, foodPos.x + 30, foodPos.y + 30);
 	// setfillstyle(INTERLEAVE_FILL, foodColor);
 	// floodfill(foodPos.x + 15, foodPos.y + 15, foodColor);
 }
