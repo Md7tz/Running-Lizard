@@ -2,5 +2,5 @@
 # *.exe
 *.out
 *.app
-bin/Debug/*.exe
+# bin/Debug/*.exe
 .VSCodeCounter
