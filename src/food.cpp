@@ -1,4 +1,5 @@
 #include "GameObjects/food.h"
+
 void Food::draw() const
 {
 	setcolor(foodColor);
@@ -20,6 +21,5 @@ bool Food::update(int16_t lizardHeadx, int16_t lizardHeady)
 {
 	if (foodPos.x == lizardHeadx && foodPos.y == lizardHeady)
 		return true;
-	else
-		return false;
+	return false;
 }

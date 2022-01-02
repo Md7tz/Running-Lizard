@@ -8,97 +8,70 @@
 #include "GameObjects/grid.h"
 #include "Utilities/globals.h"
 #include "Utilities/position.h"
-using namespace std;
 
+inline void inputHandler(Lizard& body);
 
 int main()
 {
-     initwindow(WIDTH, HEIGHT, "Running Lizard");
+	initwindow(WIDTH, HEIGHT, "Running Lizard");
 
 start:
-     Lizard body;
-     Food fruit;
-     int length, count = 0;
-     bool playing = true;
-     int page = 1;
-     Grid* grid;
-     
+	Grid* grid;
+	Lizard body;
+	Edible food;
+	int length, count = 0;
+	bool playing = true;
+	int page = 1;
 
-     fruit.generate(body.getPosx(), body.getPosy());
+	food.generate(body.getPosX(), body.getPosY());
 
-     while (true)
-     {
-          setactivepage(page);
-          setvisualpage(1 - page);
-          cleardevice();
-          		grid = new Grid();
+	while (true)
+	{
+		setactivepage(page);
+		setvisualpage(1 - page);
+		cleardevice();
+
+		if (food.update(body.getPosX(), body.getPosY()))
+			food.generate(body.getPosX(), body.getPosY());
+
+		grid = new Grid();
+
+		// UI
 		grid->draw();
+		body.draw();
+		food.draw();
 
-          setcolor(BLUE);
-          setfillstyle(SOLID_FILL, BLUE);
+		inputHandler(body);
 
-          if (GetAsyncKeyState(VK_LEFT))
-          {
-               body.changeDirTo(LEFT);
-          }
-          if (GetAsyncKeyState(VK_UP))
-          {
-               body.changeDirTo(UP);
-          }
-          if (GetAsyncKeyState(VK_RIGHT))
-          {
-               body.changeDirTo(RIGHT);
-          }
-          if (GetAsyncKeyState(VK_DOWN))
-          {
-               body.changeDirTo(DOWN);
-          }
-          if (GetAsyncKeyState(VK_ESCAPE))
-               break;
-          if (GetAsyncKeyState('R')) // 0x52 R key
-               goto start;
+		if (playing == true && !body.update())
+			playing = false;
 
-          if (playing == true && !body.update())
-          {
-               playing = false;
-          }
+		// Exit 
+		setcolor(WHITE);
+		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+		outtextxy(326, 580, (char*)"PRESS 'ESC' to EXIT");
+		// Restart
+		if (GetAsyncKeyState('R'))
+			goto start;
 
-          // UI
-          body.drawLizard();
+		page = 1 - page;
+		delay(90);
+		delete grid;
+	}
 
-          if (fruit.update(body.getPosx(), body.getPosy()))
-          {
-               fruit.generate(body.getPosx(), body.getPosy());
-          }
-
-          // Exit the game
-          settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-          outtextxy(580, 545, (char*)"PRESS 'ESC' to EXIT");
-
-          fruit.draw();
-          delete grid;
-          page = 1 - page;
-          delay(150);
-     }
-
-     getch();
-     closegraph();
+	getch();
+	closegraph();
 }
 
-// Initial state grid with no borders
-// void drawBorders()
-// {
-//      setcolor(DARKGRAY);
-//      rectangle(0, 0, 30, 600);     // LEFT BORDER
-//      rectangle(780, 0, 810, 610);  // RIGHT BORDER
-//      rectangle(30, 0, 780, 30);    // TOP BORDER
-//      rectangle(30, 570, 780, 600); // BOT BORDER
-//      rectangle(30, 540, 780, 550); // STATS-BOT BORDER
-
-//      setfillstyle(SOLID_FILL, colors::DARKGRAY);
-//      floodfill(1, 1, colors::DARKGRAY);    // Fill LEFT
-//      floodfill(781, 1, colors::DARKGRAY);  // Fill RIGHT
-//      floodfill(31, 1, colors::DARKGRAY);   // Fill TOP
-//      floodfill(31, 571, colors::DARKGRAY); // Fill BOT
-//      floodfill(31, 541, colors::DARKGRAY); // Fill STATS-BOT
-// }
+inline void inputHandler(Lizard& body) {
+	if (GetAsyncKeyState(VK_LEFT))
+		body.changeDir(LEFT);
+	if (GetAsyncKeyState(VK_UP))
+		body.changeDir(UP);
+	if (GetAsyncKeyState(VK_RIGHT))
+		body.changeDir(RIGHT);
+	if (GetAsyncKeyState(VK_DOWN))
+		body.changeDir(DOWN);
+	if (GetAsyncKeyState(VK_ESCAPE))
+		exit(1);
+}

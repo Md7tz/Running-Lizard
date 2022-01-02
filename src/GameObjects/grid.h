@@ -5,7 +5,6 @@
 #include <graphics.h>
 #include "../Utilities/globals.h"
 
-
 class Grid {
 private:
     uint8_t size = 30; // box 30 in grid

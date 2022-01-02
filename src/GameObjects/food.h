@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <graphics.h>
-#include "../Utilities/globals.h"
+#include "../Utilities/position.h"
 
 class Food
 {

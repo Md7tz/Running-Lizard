@@ -4,8 +4,9 @@ const uint8_t Edible::count = 2;
 
 Edible::Edible()
 {
-    foodColor=RED;
+    foodColor = RED;
 }
+
 Edible::Edible(uint8_t _randInt)
 {
     randInt = _randInt;

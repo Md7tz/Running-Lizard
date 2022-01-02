@@ -62,15 +62,16 @@
             "command": "g++",
             "args": [
                 "-g",
-                "*.cpp",
+                "${workspaceFolder}/src/*.cpp",
                 "-o",
-                "${workspaceFolderBasename}",
+                "bin/Debug/${workspaceFolderBasename}.exe",
                 "-lbgi",
                 "-lgdi32",
                 "-lcomdlg32",
                 "-luuid",
                 "-loleaut32",
-                "-lole32"
+                "-lole32",
+                "-lwinmm" 
             ],
             "group": {
                 "kind": "build",

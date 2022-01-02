@@ -1,0 +1,1 @@
+g++ -g ./src/*.cpp -o bin/Production/Running-Lizard.exe -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32 -lwinmm && "./bin/Production/Running-Lizard.exe"
