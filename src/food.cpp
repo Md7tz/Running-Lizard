@@ -1,11 +1,13 @@
 #include "GameObjects/food.h"
+#include <graphics.h>
+// #include "Assets/apple.gif"
 
 void Food::draw() const
 {
 	setcolor(foodColor);
-	rectangle(foodPos.x, foodPos.y, foodPos.x + 30, foodPos.y + 30);
-	setfillstyle(INTERLEAVE_FILL, foodColor);
-	floodfill(foodPos.x + 15, foodPos.y + 15, foodColor);
+	readimagefile("Assets/Sprites/apple.gif",foodPos.x, foodPos.y, foodPos.x + 30, foodPos.y + 30);
+	// setfillstyle(INTERLEAVE_FILL, foodColor);
+	// floodfill(foodPos.x + 15, foodPos.y + 15, foodColor);
 }
 
 // Generate new pos for the Object

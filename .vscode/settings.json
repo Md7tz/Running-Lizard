@@ -4,7 +4,8 @@
         "string": "cpp",
         "istream": "cpp",
         "string_view": "c",
-        "stdc++.h": "c"
+        "stdc++.h": "c",
+        "*.gif": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

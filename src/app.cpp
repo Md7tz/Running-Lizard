@@ -55,7 +55,7 @@ start:
 			goto start;
 
 		page = 1 - page;
-		delay(90);
+		// delay(90);
 		delete grid;
 	}
 
