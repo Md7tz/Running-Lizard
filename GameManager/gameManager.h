@@ -95,7 +95,7 @@ inline void generationHandler(Edible& f1, Edible& f2, Poison& p, Player& b)
     }
 }
 
-inline void inputHandler(Player& player, Enemy& enemy, bool& gamePause, bool& restart, bool& gameState) {
+inline void inputHandler(Player& player, Enemy& enemy, bool& restart, bool& gameState) {
     // Input Handler
     if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A'))
         player.changeDir(LEFT);
@@ -107,8 +107,6 @@ inline void inputHandler(Player& player, Enemy& enemy, bool& gamePause, bool& re
         player.changeDir(DOWN);
     if (GetAsyncKeyState(VK_ESCAPE))
         exit(1);
-    if (GetAsyncKeyState('P'))
-        gamePause = true;
     if (GetAsyncKeyState('R'))
         restart = true;
     if (gameState == true && !player.update())

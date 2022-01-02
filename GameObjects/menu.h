@@ -3,8 +3,8 @@
 class Menu
 {
 private:
-    bool gameStart = false, gameOptions = false, gameHTP = false, gameSound = true;
-    int MainIndex = 1, PauseIndex = 1;
+    bool gameStart = false, gameOptions = false, gameHtp = false, gameSound = true;
+    int mainIndex = 1;
 
     int textX = 405, textY = 250;
     int textSpacing = 85;
@@ -19,12 +19,9 @@ public:
     void arrows4(int color4) const;
     void options();
     void htp();
-    void PauseMenu();
-    void PauseMenuInputHandler();
-    void MenuInputHandler();
-    void PagesHandler();
+    void menuInputHandler();
+    void pagesHandler();
     bool getGameState() const;
-    bool getGameSound() const;
 };
 
 Menu :: Menu () {};
@@ -41,25 +38,25 @@ void Menu :: menu(int titleC, int buttonsC) const
 
 #pragma region Start
     settextstyle(textFont, HORIZ_DIR, textSize);
-    if (MainIndex == 1) settextstyle(10, HORIZ_DIR, 5);
+    if (mainIndex == 1) settextstyle(10, HORIZ_DIR, 5);
     outtextxy(textX, textY, (char*)"START");
 #pragma endregion
 
 #pragma region Options
     settextstyle(textFont, HORIZ_DIR, textSize);
-    if (MainIndex == 2) settextstyle(10, HORIZ_DIR, 5);
+    if (mainIndex == 2) settextstyle(10, HORIZ_DIR, 5);
     outtextxy(textX, textY + textSpacing, (char*)"OPTIONS");
 #pragma endregion
 
 #pragma region HTP
     settextstyle(textFont, HORIZ_DIR, textSize);
-    if (MainIndex == 3) settextstyle(10, HORIZ_DIR, 5);
+    if (mainIndex == 3) settextstyle(10, HORIZ_DIR, 5);
     outtextxy(textX, textY + 2 * textSpacing, (char*)"HOW TO PLAY");
 #pragma endregion
 
 #pragma region Exit
     settextstyle(textFont, HORIZ_DIR, textSize);
-    if (MainIndex == 4) settextstyle(10, HORIZ_DIR, 5);
+    if (mainIndex == 4) settextstyle(10, HORIZ_DIR, 5);
     outtextxy(textX, textY + 3 * textSpacing, (char*)"EXIT");
 #pragma endregion
 
@@ -111,11 +108,14 @@ void Menu :: arrows4(int color4) const
     drawpoly(3, point4);
     fillpoly(3, point4);
 }
-void Menu::options()
+void Menu:: options()
 {  
     if(GetAsyncKeyState(VK_ESCAPE)) gameOptions=false;
     
-    if(GetAsyncKeyState(VK_RETURN)) gameSound = !gameSound;
+    if(GetAsyncKeyState(VK_RETURN)) {
+        gameSound = !gameSound;
+        if(gameSound) PlaySound("Assets/SFX/background music .wav", NULL, SND_ASYNC);
+    }
 
     cleardevice();
 
@@ -139,15 +139,14 @@ void Menu::options()
     if(gameSound==false) {
         setcolor(DARKGRAY);
         setfillstyle(SOLID_FILL,DARKGRAY);
+        PlaySound(NULL, 0, 0);
     }
     ellipse(textX, textY + 40, 0, 360, 40, 10);
     fillellipse(textX, textY + 40, 40, 10);
 }
-void Menu::htp()
+void Menu:: htp()
 {
-    if(GetAsyncKeyState(VK_ESCAPE)) gameHTP=false;
-
-    cleardevice();
+    if(GetAsyncKeyState(VK_ESCAPE)) gameHtp=false;
 
     setcolor(WHITE);
     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
@@ -158,84 +157,51 @@ void Menu::htp()
     settextstyle(10, HORIZ_DIR, 5);
     outtextxy(textX, textY, (char*)"How to Play");
 }
-void Menu::PauseMenu()
-{
-    if (PauseIndex == 1)
-    {
-        settextstyle(textFont, HORIZ_DIR, textSize);
-        if (MainIndex == 1) settextstyle(10, HORIZ_DIR, 5);
-        outtextxy(textX, textY, (char*)"RESUME");
-        arrows1(DARKGRAY);
-    }
-    if (PauseIndex == 2)
-    {
-        settextstyle(textFont, HORIZ_DIR, textSize);
-        if (PauseIndex == 2) settextstyle(10, HORIZ_DIR, 5);
-        outtextxy(textX, textY + textSpacing, (char*)"MAIN MENU");
-        arrows2(DARKGRAY);
-    } 
-}
-void Menu::PauseMenuInputHandler()
-{
-    if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
-        if (PauseIndex > 1)
-            PauseIndex--;
-    if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
-        if (PauseIndex < 2)
-            PauseIndex++;
-    if (GetAsyncKeyState(VK_RETURN))
-    {
-        if (PauseIndex == 1)
-            gameStart = true;
-        // if (PauseIndex == 2)
-            //return to main menu;
-    }
-}
-void Menu::MenuInputHandler()
+void Menu:: menuInputHandler()
 {    
     if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
-        if (MainIndex > 1)
-            MainIndex--;
+        if (mainIndex > 1)
+            mainIndex--;
     if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
-        if (MainIndex < 4)
-            MainIndex++;
+        if (mainIndex < 4)
+            mainIndex++;
     if (GetAsyncKeyState(VK_RETURN))
     {
-        if (MainIndex == 1)
+        if (mainIndex == 1)
             gameStart = true;
-        if (MainIndex == 2)
+        if (mainIndex == 2)
             gameOptions = true;
-        if (MainIndex == 3)
-            gameHTP = true;
-        if (MainIndex == 4)
+        if (mainIndex == 3)
+            gameHtp = true;
+        if (mainIndex == 4)
             exit(1);
     }
 }
-void Menu :: PagesHandler()
+void Menu :: pagesHandler()
 {
     cleardevice();
 
     if(gameOptions) options();
 
-    if(gameHTP) htp();
+    if(gameHtp) htp();
 
-    if(!gameHTP & !gameOptions){
-    if (MainIndex == 1)
+    if(!gameHtp & !gameOptions){
+    if (mainIndex == 1)
     {
         menu(LIGHTGRAY, YELLOW);
         arrows1(DARKGRAY);
     }
-    if (MainIndex == 2)
+    if (mainIndex == 2)
     {
         menu(LIGHTGRAY, YELLOW);
         arrows2(DARKGRAY);
     }
-    if (MainIndex == 3)
+    if (mainIndex == 3)
     {
         menu(LIGHTGRAY, YELLOW);
         arrows3(DARKGRAY);
     }
-    if (MainIndex == 4)
+    if (mainIndex == 4)
     {
         menu(LIGHTGRAY, YELLOW);
         arrows4(DARKGRAY);
@@ -245,8 +211,4 @@ void Menu :: PagesHandler()
 bool Menu :: getGameState() const
 {
     return gameStart;
-}
-bool Menu::getGameSound() const
-{
-    return gameSound;
 }

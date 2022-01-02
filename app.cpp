@@ -54,8 +54,8 @@ void fixedUpdate() {
 	while(!(menu->getGameState()))
 	{
 		Timer timer;
-		menu->PagesHandler();
-		menu->MenuInputHandler();
+		menu->pagesHandler();
+		menu->menuInputHandler();
 		Sleep(100);
 	}
 	menu=NULL;
@@ -78,7 +78,6 @@ start:
 	bool isPlaying = true;							// Status of the player
 	bool revealEnemy = false; 						// blocks the enemy from instantiating , until the speed of lizard becomes insane
 	bool collide = false;							// Checks if the player collided with the enemy and only changes after exiting the collision
-	bool gamePause = false;							// Pauses the game if true
 	bool restart = false;							// Restarts the game if true
 
 	char score[4] = "0";
@@ -112,29 +111,14 @@ start:
 		grid = new Grid();
 		grid->draw();
 
-		inputHandler(player, enemy, gamePause, restart, isPlaying);
+		inputHandler(player, enemy, restart, isPlaying);
 		collisionHandler(player, enemy, collide, skipFrame, revealEnemy, isPlaying, lifeCount);
 		gameObjectsHandler(player, enemy, poison, fruit, isPlaying, revealEnemy, fruitCount);
 		uiHandler(player, poison, fruit, bodyLength, score, speed, lifeCount, lifePadding, delayAmt, revealEnemy, isPlaying);
 
 		// Checks game state
-		if (gamePause)
-		{
-			cleardevice();
-
-			Menu* pauseMenu = new Menu();
-			
-			while (!(pauseMenu->getGameState()))
-			{	
-			pauseMenu->PauseMenu();
-			pauseMenu->PauseMenuInputHandler();
-			Sleep(100);
-			}
-			gamePause=false;
-			delete pauseMenu;
-		}
 		
-		else if (restart) {
+		if (restart) {
 			cleardevice();
 			goto start;
 		};
