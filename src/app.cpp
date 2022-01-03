@@ -6,6 +6,7 @@
 #include "GameObjects/food.h"
 #include "GameObjects/edible.h"
 #include "GameObjects/grid.h"
+#include "GameObjects/menu.h"
 #include "Utilities/globals.h"
 #include "Utilities/position.h"
 
@@ -13,7 +14,19 @@ inline void inputHandler(Lizard& body);
 
 int main()
 {
-	initwindow(WIDTH, HEIGHT, "Running Lizard");
+	initwindow(WIDTH, HEIGHT, "Running Lizard", (getmaxwidth() - WIDTH) / 2, (getmaxheight() - HEIGHT) / 2);
+
+	Menu* menu;
+	// Menu block
+	menu = new Menu();
+	while (!(menu->getGameState()))
+	{
+		menu->pagesHandler();
+		menu->menuInputHandler();
+		delay(100);
+	}
+	menu = NULL;
+	delete menu;
 
 start:
 	Grid* grid;
@@ -22,6 +35,7 @@ start:
 	int length, count = 0;
 	bool playing = true;
 	int page = 1;
+	int delayAmt = 50;
 
 	food.generate(body.getPosX(), body.getPosY());
 
@@ -49,13 +63,14 @@ start:
 		// Exit 
 		setcolor(WHITE);
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+		settextjustify(0, 2);
 		outtextxy(326, 580, (char*)"PRESS 'ESC' to EXIT");
 		// Restart
 		if (GetAsyncKeyState('R'))
 			goto start;
 
 		page = 1 - page;
-		// delay(90);
+		delay(delayAmt);
 		delete grid;
 	}
 
