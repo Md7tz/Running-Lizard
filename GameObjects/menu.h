@@ -3,9 +3,9 @@
 class Menu
 {
 private:
-    bool gameStart = false, gameOptions = false, gameHtp = false, gameSound = true;
+    bool gameStart = false, gameOptions = false, gameHtp = false, gameSound = true, keyDown=false,KeyDown1=false;
     int mainIndex = 1;
-
+    int keydown=1;
     int textX = 405, textY = 250;
     int textSpacing = 85;
     int textFont = 2, textSize = 10;
@@ -159,12 +159,26 @@ void Menu:: htp()
 }
 void Menu:: menuInputHandler()
 {    
-    if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
-        if (mainIndex > 1)
-            mainIndex--;
-    if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
-        if (mainIndex < 4)
-            mainIndex++;
+    if (GetAsyncKeyState(VK_UP))
+    {
+        KeyDown1=true;
+    }
+    else if (!GetAsyncKeyState(VK_UP)&&KeyDown1==true)
+    {
+        if (mainIndex > 1) mainIndex--;
+        KeyDown1=false;
+    }
+    
+    if (GetAsyncKeyState(VK_DOWN))
+    {
+        keyDown=true;
+    }
+    else if(!GetAsyncKeyState(VK_DOWN)&&keyDown==true)
+    {
+        if (mainIndex < 4)mainIndex++;
+        keyDown=false;
+    }
+
     if (GetAsyncKeyState(VK_RETURN))
     {
         if (mainIndex == 1)
