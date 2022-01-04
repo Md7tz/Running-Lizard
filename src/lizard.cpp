@@ -1,4 +1,5 @@
 #include "Characters/lizard.h"
+#include <iostream>
 
 void Lizard::draw()
 {
@@ -105,4 +106,13 @@ int Lizard::getLength() {
 
 Lives* Lizard::getLivesADD() {
 	return lives;
+}
+void Lizard::drawLives()
+{
+	if(getLivesADD()->getLives()==3){readimagefile("Assets/Sprites/3heart.gif",400,400,530,460);}
+	else if (getLivesADD()->getLives()==2){readimagefile("Assets/Sprites/2H.gif",400,400,530,460);}
+	else if (getLivesADD()->getLives()==1){readimagefile("Assets/Sprites/1H.gif",400,400,530,460);}
+
+	
+
 }

@@ -60,6 +60,7 @@ start:
 		food.draw();
 
 		inputHandler(body);
+		body.drawLives();
 
 		if (playing == true && !body.update())
 			playing = false;
