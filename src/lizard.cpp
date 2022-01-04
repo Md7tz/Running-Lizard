@@ -102,3 +102,7 @@ int Lizard::getPosY() {
 int Lizard::getLength() {
 	return length;
 }
+
+Lives* Lizard::getLivesADD() {
+	return lives;
+}

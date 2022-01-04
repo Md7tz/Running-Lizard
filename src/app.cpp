@@ -30,7 +30,8 @@ int main()
 
 start:
 	Grid* grid;
-	Lizard body;
+	Lives lives;
+	Lizard body(&lives);
 	Edible food;
 	int length, count = 0;
 	bool playing = true;
@@ -45,8 +46,11 @@ start:
 		setvisualpage(1 - page);
 		cleardevice();
 
-		if (food.update(body.getPosX(), body.getPosY()))
+		if (food.update(body.getPosX(), body.getPosY())) {
 			food.generate(body.getPosX(), body.getPosY());
+			body.getLivesADD()->decreaseLives();
+			std::cout << body.getLivesADD()->getLives();
+		}
 
 		grid = new Grid();
 
