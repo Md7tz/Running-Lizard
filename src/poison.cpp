@@ -1,9 +1,7 @@
 #include "GameObjects/poison.h"
 
 Poison::Poison()
-{
-	// foodColor = GREEN;
-}
+{}
 
 Poison::~Poison() {}
 
