@@ -37,13 +37,25 @@ void Menu::arrow(int color, int i) const
 
 void Menu::options()
 {
-    if (GetAsyncKeyState(VK_ESCAPE)) gameOptions = false;
-
-    if (GetAsyncKeyState(VK_RETURN)) {
-        gameSound = !gameSound;
-        if (gameSound) PlaySound("Assets/SFX/background music.wav", NULL, SND_ASYNC);
+    if (GetAsyncKeyState(VK_ESCAPE)) 
+    {
+        gameOptions = false;
+        if(gameSound) prevGameSound=false;
+        else prevGameSound=true;
     }
 
+    if (GetAsyncKeyState(VK_RETURN))
+    {
+        returnDown = true;
+    }
+    else if (!GetAsyncKeyState(VK_RETURN) && returnDown == true) {
+        gameSound = !gameSound;
+        if (gameSound) PlaySound("Assets/SFX/background music.wav", NULL, SND_ASYNC);
+        returnDown = false;
+    }
+
+    if(prevGameSound!=gameSound) 
+    {
     cleardevice();
 
     setcolor(WHITE);
@@ -63,6 +75,7 @@ void Menu::options()
 
     setcolor(GREEN);
     setfillstyle(SOLID_FILL, GREEN);
+
     if (gameSound == false) {
         setcolor(DARKGRAY);
         setfillstyle(SOLID_FILL, DARKGRAY);
@@ -70,6 +83,9 @@ void Menu::options()
     }
     ellipse(textX, textY + 40, 0, 360, 40, 10);
     fillellipse(textX, textY + 40, 40, 10);
+
+    prevGameSound=gameSound;
+    }
 }
 
 void Menu::menuInputHandler()
@@ -90,12 +106,14 @@ void Menu::menuInputHandler()
     }
     else if (!GetAsyncKeyState(VK_DOWN) && arrowDown == true)
     {
-        if (mainIndex < 2)mainIndex++;
+        if (mainIndex < 2) mainIndex++;
         arrowDown = false;
     }
 
     if (GetAsyncKeyState(VK_RETURN))
     {
+        prevMainIndex = mainIndex + 1;
+
         if (mainIndex == 0)
             gameStart = true;
         else if (mainIndex == 1)
@@ -104,22 +122,28 @@ void Menu::menuInputHandler()
             exit(1);
     }
 }
+
 void Menu::pagesHandler()
 {
-    cleardevice();
-
     if (gameOptions) options();
 
-    if (!gameOptions) {
-        if (mainIndex == 0)
-            arrow(DARKGRAY, mainIndex);
-        else if (mainIndex == 1)
-            arrow(DARKGRAY, mainIndex);
-        else if (mainIndex == 2)
-            arrow(DARKGRAY, mainIndex);
-        menu(LIGHTGRAY, YELLOW);
+    if( (gameOptions==false) && (mainIndex!=prevMainIndex) )
+    {
+    cleardevice();
+
+    if (mainIndex == 0)
+        arrow(DARKGRAY, mainIndex);
+    else if (mainIndex == 1)
+        arrow(DARKGRAY, mainIndex);
+    else if (mainIndex == 2)
+        arrow(DARKGRAY, mainIndex);
+    
+    menu(LIGHTGRAY, YELLOW);
+
+    prevMainIndex=mainIndex;
     }
 }
+
 bool Menu::getGameState() const
 {
     return gameStart;
