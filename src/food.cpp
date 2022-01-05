@@ -2,10 +2,11 @@
 #include <graphics.h>
 // #include "Assets/apple.gif"
 
-void Food::draw() const
+void Food::draw(std::string filepath) const
 {
+	// "Assets/Sprites/posion_potion.gif"
 	setcolor(foodColor);
-	readimagefile("Assets/Sprites/a2KB.gif",foodPos.x, foodPos.y, foodPos.x + 30, foodPos.y + 30);
+	readimagefile(filepath.c_str(), foodPos.x, foodPos.y, foodPos.x + 30, foodPos.y + 30);
 	// setfillstyle(INTERLEAVE_FILL, foodColor);
 	// floodfill(foodPos.x + 15, foodPos.y + 15, foodColor);
 }
