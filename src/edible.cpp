@@ -1,7 +1,5 @@
 #include "GameObjects/edible.h"
 
-const uint8_t Edible::count = 2;
-
 Edible::Edible()
 {}
 
@@ -18,9 +16,4 @@ bool Edible::update(int16_t lizardHeadx, int16_t lizardHeady)
         return true;
     else
         return false;
-}
-
-uint8_t Edible::getCount()
-{
-    return count;
 }
