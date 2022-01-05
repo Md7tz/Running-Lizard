@@ -15,6 +15,7 @@ private:
 	// The lifetime of the position object is 
 	// over when the lizard is destroyed in memory
 	Position arr[31];
+	// Aggregation
 	Lives* lives;
 	int direction;
 	int length;

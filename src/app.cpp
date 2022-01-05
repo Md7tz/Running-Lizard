@@ -49,7 +49,7 @@ start:
 		if (food.update(body.getPosX(), body.getPosY())) {
 			food.generate(body.getPosX(), body.getPosY());
 			body.getLivesADD()->decreaseLives();
-			std::cout << body.getLivesADD()->getLives();
+			// std::cout << body.getLivesADD()->getLives();
 		}
 
 		grid = new Grid();
@@ -69,7 +69,7 @@ start:
 		setcolor(WHITE);
 		settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
 		settextjustify(0, 2);
-		outtextxy(326, 580, (char*)"PRESS 'ESC' to EXIT");
+		outtextxy(328, 580, (char*)"PRESS 'ESC' to EXIT");
 		// Restart
 		if (GetAsyncKeyState('R'))
 			goto start;

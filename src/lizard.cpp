@@ -109,10 +109,8 @@ Lives* Lizard::getLivesADD() {
 }
 void Lizard::drawLives()
 {
-	if(getLivesADD()->getLives()==3){readimagefile("Assets/Sprites/3heart.gif",400,400,530,460);}
-	else if (getLivesADD()->getLives()==2){readimagefile("Assets/Sprites/2H.gif",400,400,530,460);}
-	else if (getLivesADD()->getLives()==1){readimagefile("Assets/Sprites/1H.gif",400,400,530,460);}
-
-	
-
+	int x = 325, y = 540;
+	if (getLivesADD()->getLives() == 3) { readimagefile("Assets/Sprites/3heart.gif", x, y, x + 160, y - 40); }
+	else if (getLivesADD()->getLives() == 2) { readimagefile("Assets/Sprites/2H.gif", x, y, x + 160, y - 40); }
+	else if (getLivesADD()->getLives() == 1) { readimagefile("Assets/Sprites/1H.gif", x, y, x + 160, y - 40); }
 }
