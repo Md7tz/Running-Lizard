@@ -61,7 +61,7 @@ start:
 		{
 			poison.generate(body.getPosX(), body.getPosY());
 			generationHandler(food, poison, body);
-			body.getLivesADD()->decreaseLives();
+			lives.decreaseLives();
 			if (poison.getHit() == 3)
 			{
 				settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
@@ -78,7 +78,7 @@ start:
 		poison.draw("Assets/Sprites/posion_potion.gif");
 
 		inputHandler(body);
-		body.drawLives();
+		lives.drawLives();
 
 		if (playing == true && !body.update())
 			playing = false;

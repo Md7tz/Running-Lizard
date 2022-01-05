@@ -35,9 +35,7 @@ public:
 	int getPosX();
 	int getPosY();
 	int getLength();
-	Lives* getLivesADD();
-	void drawLives();
-
+	// Lives* getLivesADD();
 };
 
 #endif

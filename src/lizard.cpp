@@ -104,13 +104,7 @@ int Lizard::getLength() {
 	return length;
 }
 
-Lives* Lizard::getLivesADD() {
-	return lives;
-}
-void Lizard::drawLives()
-{
-	int x = 325, y = 540;
-	if (getLivesADD()->getLives() == 3) { readimagefile("Assets/Sprites/3heart.gif", x, y, x + 160, y - 40); }
-	else if (getLivesADD()->getLives() == 2) { readimagefile("Assets/Sprites/2H.gif", x, y, x + 160, y - 40); }
-	else if (getLivesADD()->getLives() == 1) { readimagefile("Assets/Sprites/1H.gif", x, y, x + 160, y - 40); }
-}
+// Lives* Lizard::getLivesADD() {
+// 	return lives;
+// }
+
