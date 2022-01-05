@@ -1,6 +1,8 @@
 #include "GameObjects/menu.h"
 
-Menu::Menu() {};
+Menu::Menu() {
+    PlaySound("Assets/SFX/background music.wav", NULL, SND_ASYNC);
+};
 void Menu::menu(int titleC, int buttonsC) const
 {
     setcolor(titleC);
@@ -37,11 +39,11 @@ void Menu::arrow(int color, int i) const
 
 void Menu::options()
 {
-    if (GetAsyncKeyState(VK_ESCAPE)) 
+    if (GetAsyncKeyState(VK_ESCAPE))
     {
         gameOptions = false;
-        if(gameSound) prevGameSound=false;
-        else prevGameSound=true;
+        if (gameSound) prevGameSound = false;
+        else prevGameSound = true;
     }
 
     if (GetAsyncKeyState(VK_RETURN))
@@ -54,37 +56,37 @@ void Menu::options()
         returnDown = false;
     }
 
-    if(prevGameSound!=gameSound) 
+    if (prevGameSound != gameSound)
     {
-    cleardevice();
+        cleardevice();
 
-    setcolor(WHITE);
-    settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-    settextjustify(0, 2);
-    outtextxy(10, 10, (char*)"Press 'ESC' to go back");
+        setcolor(WHITE);
+        settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+        settextjustify(0, 2);
+        outtextxy(10, 10, (char*)"Press 'ESC' to go back");
 
-    setcolor(YELLOW);
-    settextstyle(10, HORIZ_DIR, 5);
-    settextjustify(1, 1);
-    outtextxy(textX, textY, (char*)"Sound");
+        setcolor(YELLOW);
+        settextstyle(10, HORIZ_DIR, 5);
+        settextjustify(1, 1);
+        outtextxy(textX, textY, (char*)"Sound");
 
-    setcolor(WHITE);
-    settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-    settextjustify(1, 1);
-    outtextxy(textX, textY + textSpacing, (char*)"Press 'ENTER' to turn ON/OFF the Game Sound");
+        setcolor(WHITE);
+        settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+        settextjustify(1, 1);
+        outtextxy(textX, textY + textSpacing, (char*)"Press 'ENTER' to turn ON/OFF the Game Sound");
 
-    setcolor(GREEN);
-    setfillstyle(SOLID_FILL, GREEN);
+        setcolor(GREEN);
+        setfillstyle(SOLID_FILL, GREEN);
 
-    if (gameSound == false) {
-        setcolor(DARKGRAY);
-        setfillstyle(SOLID_FILL, DARKGRAY);
-        PlaySound(NULL, 0, 0);
-    }
-    ellipse(textX, textY + 40, 0, 360, 40, 10);
-    fillellipse(textX, textY + 40, 40, 10);
+        if (gameSound == false) {
+            setcolor(DARKGRAY);
+            setfillstyle(SOLID_FILL, DARKGRAY);
+            PlaySound(NULL, 0, 0);
+        }
+        ellipse(textX, textY + 40, 0, 360, 40, 10);
+        fillellipse(textX, textY + 40, 40, 10);
 
-    prevGameSound=gameSound;
+        prevGameSound = gameSound;
     }
 }
 
@@ -127,20 +129,20 @@ void Menu::pagesHandler()
 {
     if (gameOptions) options();
 
-    if( (gameOptions==false) && (mainIndex!=prevMainIndex) )
+    if ((gameOptions == false) && (mainIndex != prevMainIndex))
     {
-    cleardevice();
+        cleardevice();
 
-    if (mainIndex == 0)
-        arrow(DARKGRAY, mainIndex);
-    else if (mainIndex == 1)
-        arrow(DARKGRAY, mainIndex);
-    else if (mainIndex == 2)
-        arrow(DARKGRAY, mainIndex);
-    
-    menu(LIGHTGRAY, YELLOW);
+        if (mainIndex == 0)
+            arrow(DARKGRAY, mainIndex);
+        else if (mainIndex == 1)
+            arrow(DARKGRAY, mainIndex);
+        else if (mainIndex == 2)
+            arrow(DARKGRAY, mainIndex);
 
-    prevMainIndex=mainIndex;
+        menu(LIGHTGRAY, YELLOW);
+
+        prevMainIndex = mainIndex;
     }
 }
 

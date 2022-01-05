@@ -8,7 +8,8 @@ class Menu
 private:
     bool gameStart = false;
     bool gameOptions = false;
-    bool gameSound = true, prevGameSound = false;
+    bool gameSound = true;
+    bool prevGameSound = false;
     bool arrowDown = false;
     bool arrowUp = false;
     bool returnDown = false;
