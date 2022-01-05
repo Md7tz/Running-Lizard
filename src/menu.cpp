@@ -20,7 +20,6 @@ void Menu::menu(int titleC, int buttonsC) const
     settextstyle(textFont, HORIZ_DIR, textSize);
     if (mainIndex == 2) settextstyle(10, HORIZ_DIR, 5);
     outtextxy(textX, textY + 2 * textSpacing, (char*)"EXIT");
-
 }
 
 void Menu::arrow(int color, int i) const
