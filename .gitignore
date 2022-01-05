@@ -3,4 +3,5 @@
 *.out
 *.app
 # bin/Debug/*.exe
+todo.md
 .VSCodeCounter

@@ -1,4 +1,5 @@
 #include "Characters/lizard.h"
+#include <iostream>
 
 void Lizard::draw()
 {
@@ -102,3 +103,8 @@ int Lizard::getPosY() {
 int Lizard::getLength() {
 	return length;
 }
+
+// Lives* Lizard::getLivesADD() {
+// 	return lives;
+// }
+

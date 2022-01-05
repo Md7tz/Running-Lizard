@@ -2,6 +2,7 @@
 #define FOOD_H
 
 #include <cstdint>
+#include <string>
 #include <graphics.h>
 #include "../Utilities/position.h"
 
@@ -13,7 +14,7 @@ protected:
 
 public:
 	Position foodPos;
-	void draw() const;				 		 // Draw the food
+	void draw(std::string filepath) const;				 		 // Draw the food
 	void generate(int16_t, int16_t); 		 // Generate food position
 	virtual bool update(int16_t, int16_t);	 // Status of food
 
