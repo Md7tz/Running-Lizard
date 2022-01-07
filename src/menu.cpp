@@ -3,7 +3,10 @@
 Menu::Menu() {
     PlaySound("Assets/SFX/background music.wav", NULL, SND_ASYNC);
 };
-void Menu::menu(int titleC, int buttonsC) const
+
+Menu::~Menu() {}
+
+void Menu::displayMenu(int titleC, int buttonsC) const
 {
     /*
 
@@ -27,7 +30,7 @@ void Menu::menu(int titleC, int buttonsC) const
     outtextxy(textX, textY + 2 * textSpacing, (char*)"EXIT");
 }
 
-void Menu::arrow(int color, int i) const
+void Menu::arrows(int color, int i) const
 {
     /*
     draw the aside arrows 
@@ -43,7 +46,7 @@ void Menu::arrow(int color, int i) const
     fillpoly(3, right);
 }
 
-void Menu::options()
+void Menu::displayOptionsPage()
 {
     /*
     provide the user with the option
@@ -146,20 +149,20 @@ void Menu::pagesHandler()
     to update the graphical page based on the user
     choice of menu options
     */
-    if (gameOptions) options();
+    if (gameOptions) displayOptionsPage();
 
     if ((gameOptions == false) && (mainIndex != prevMainIndex))
     {
         cleardevice();
 
         if (mainIndex == 0)
-            arrow(DARKGRAY, mainIndex);
+            arrows(DARKGRAY, mainIndex);
         else if (mainIndex == 1)
-            arrow(DARKGRAY, mainIndex);
+            arrows(DARKGRAY, mainIndex);
         else if (mainIndex == 2)
-            arrow(DARKGRAY, mainIndex);
+            arrows(DARKGRAY, mainIndex);
 
-        menu(LIGHTGRAY, YELLOW);
+        displayMenu(LIGHTGRAY, YELLOW);
 
         prevMainIndex = mainIndex;
     }
