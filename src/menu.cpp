@@ -5,6 +5,9 @@ Menu::Menu() {
 };
 void Menu::menu(int titleC, int buttonsC) const
 {
+    /*
+
+    */
     setcolor(titleC);
     settextstyle(textFont, HORIZ_DIR, 30);
     settextjustify(1, 1);
@@ -26,6 +29,9 @@ void Menu::menu(int titleC, int buttonsC) const
 
 void Menu::arrow(int color, int i) const
 {
+    /*
+    draw the aside arrows 
+    */
     int left[8] = { textX - 135, textY + i * textSpacing - 26, textX - 120, textY + i * textSpacing - 13, textX - 135, textY + i * textSpacing };
     int right[8] = { textX + 135, textY + i * textSpacing - 26, textX + 120, textY + i * textSpacing - 13, textX + 135, textY + i * textSpacing };
 
@@ -39,6 +45,11 @@ void Menu::arrow(int color, int i) const
 
 void Menu::options()
 {
+    /*
+    provide the user with the option
+    settings in case the user has hit
+    the home key on the option choice
+    */
     if (GetAsyncKeyState(VK_ESCAPE))
     {
         gameOptions = false;
@@ -92,6 +103,10 @@ void Menu::options()
 
 void Menu::menuInputHandler()
 {
+    /* 
+    determine which choice of the menu 
+    the user has chosen
+    */
     if (GetAsyncKeyState(VK_UP))
     {
         arrowUp = true;
@@ -127,6 +142,10 @@ void Menu::menuInputHandler()
 
 void Menu::pagesHandler()
 {
+    /*
+    to update the graphical page based on the user
+    choice of menu options
+    */
     if (gameOptions) options();
 
     if ((gameOptions == false) && (mainIndex != prevMainIndex))
