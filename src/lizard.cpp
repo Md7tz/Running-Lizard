@@ -4,10 +4,10 @@
 void Lizard::draw()
 {
 	/*
-	* DRAWING THE WHOLE lizard
-	* Colors
-	* 179, 170, 0
-	* 245, 232, 0
+	 DRAWING THE WHOLE lizard
+	 Colors
+	 179, 170, 0
+	 245, 232, 0
 	*/
 	for (int i = 0; i < length; i++)
 	{
@@ -23,7 +23,9 @@ void Lizard::draw()
 
 void Lizard::changeDir(int newdir)
 {
-
+	/*
+	update the direction based on the pramater
+	*/
 	if (newdir == LEFT || newdir == RIGHT)
 	{
 		if (direction == UP || direction == DOWN)
