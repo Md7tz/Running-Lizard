@@ -4,7 +4,7 @@
 #include "food.h"
 #include "edible.h"
 
-class Poison : public Edible
+class Poison : public Food
 {
 private:
 	uint8_t hit = 0;

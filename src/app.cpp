@@ -72,8 +72,8 @@ start:
 		// UI
 		grid->draw();
 		body.draw();
-		food.draw("Assets/Sprites/a2KB.gif");
-		poison.draw("Assets/Sprites/posion_potion.gif");
+		food.draw("Assets/Sprites/apple.gif");
+		poison.draw("Assets/Sprites/poison.gif");
 
 		inputHandler(body);
 		lives.drawLives();
