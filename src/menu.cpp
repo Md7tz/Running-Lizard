@@ -132,7 +132,7 @@ void Menu::menuInputHandler()
 
     if (GetAsyncKeyState(VK_RETURN))
     {
-        prevMainIndex = mainIndex + 1;
+        prevMainIndex = mainIndex + 1; //reset prevIndex to be different than mainIndex
 
         if (mainIndex == 0)
             gameStart = true;
