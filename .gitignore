@@ -34,3 +34,6 @@
 *.exe
 *.out
 *.app
+
+# others
+todo.md

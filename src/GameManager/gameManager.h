@@ -95,7 +95,7 @@ inline void generationHandler(Edible& f1, Edible& f2, Poison& p, Player& b)
     }
 }
 
-inline void inputHandler(Player& player, Enemy& enemy, bool& exit, bool& restart, bool& gameState) {
+inline void inputHandler(Player& player, bool& restart, bool& gameState) {
     // Input Handler
     if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A'))
         player.changeDir(LEFT);
@@ -106,7 +106,7 @@ inline void inputHandler(Player& player, Enemy& enemy, bool& exit, bool& restart
     if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
         player.changeDir(DOWN);
     if (GetAsyncKeyState(VK_ESCAPE))
-        exit = true;
+        exit(1); // Exit from game
     if (GetAsyncKeyState('R'))
         restart = true;
     if (gameState == true && !player.update())
@@ -138,7 +138,7 @@ void collisionHandler(Player& player, Enemy& enemy, bool& collide, bool& skip, b
 }
 
 void uiHandler(Player& player, Poison& poison, Edible fruit[2], uint8_t& bodyLength, char score[4], char speed[10], int16_t& lives, uint8_t& padding, int16_t& delay, bool& reveal, bool& gameState) {
-    settextjustify(0,2);
+    settextjustify(0, 2);
     // Score
     settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 1);
     setcolor(WHITE);

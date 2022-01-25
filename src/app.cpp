@@ -25,11 +25,12 @@
 #include "Characters/lizard.h"
 #include "Characters/player.h"
 #include "Characters/enemy.h"
+#include "GameObjects/menu.h"
 #include "GameObjects/grid.h"
 #include "GameObjects/food.h"
 #include "GameObjects/edible.h"
 #include "GameObjects/poison.h"
-#include "GameObjects/menu.h"
+
 #include "GameManager/gameManager.h"
 
 void update() {
@@ -43,9 +44,9 @@ void update() {
 		#if DEBUG
 			Timer timer;
 		#endif
-		menu->PagesHandler();
-		menu->MenuInputHandler();
-		Sleep(100);
+		menu->pagesHandler();
+		menu->menuInputHandler();
+		delay(100);
 	}
 	delete menu;
 
@@ -70,7 +71,6 @@ void update() {
 	bool isPlaying = true;							// Status of the player
 	bool revealEnemy = false; 						// blocks the enemy from instantiating , until the speed of lizard becomes insane
 	bool collide = false;							// Checks if the player collided with the enemy and only changes after exiting the collision
-	bool exit = false;								// Exits the game if true
 	bool restart = false;							// Restarts the game if true
 
 	char score[4] = "0";
@@ -96,14 +96,13 @@ void update() {
 		grid = new Grid();
 		grid->draw();
 
-		inputHandler(player, enemy, exit, restart, isPlaying);
+		inputHandler(player, restart, isPlaying);
 		collisionHandler(player, enemy, collide, skipFrame, revealEnemy, isPlaying, lifeCount);
 		gameObjectsHandler(player, enemy, poison, fruit, isPlaying, revealEnemy, fruitCount);
 		uiHandler(player, poison, fruit, bodyLength, score, speed, lifeCount, lifePadding, delayAmt, revealEnemy, isPlaying);
 
 		// Checks game state
-		if (exit) goto G_MENU;
-		else if (restart) {
+		if (restart) {
 			cleardevice();
 			goto G_START;
 		};
