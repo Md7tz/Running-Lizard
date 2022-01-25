@@ -121,7 +121,7 @@ void collisionHandler(Player& player, Enemy& enemy, bool& collide, bool& skip, b
         skip = !skip;
 
         // change the direciton randomly
-        enemy.changeDir();
+        enemy.changeDir(0);
 
         // Decrease a life if there is any collsion between the body and enemy
         if (!enemy.checkBody(player) && collide == false)

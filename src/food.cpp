@@ -16,11 +16,3 @@ void Food::generate(int16_t headX, int16_t headY)
 	if (foodPos.x == headX && foodPos.y == headY)
 		generate(headX, headY);
 }
-
-bool Food::update(int16_t lizardHeadx, int16_t lizardHeady)
-{
-	if (foodPos.x == lizardHeadx && foodPos.y == lizardHeady)
-		return true;
-	else
-		return false;
-}

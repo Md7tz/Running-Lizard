@@ -5,8 +5,10 @@
 
 class Player : public Lizard
 {
+private:
+	Lives* lives;
 public:
-	Player();
+	Player(Lives* lives);
 	~Player();
 
 	void changeDir(uint8_t); // Changes direction

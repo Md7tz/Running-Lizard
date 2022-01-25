@@ -14,20 +14,6 @@ void Lizard::draw() const
     }
 }
 
-void Lizard::changeDir(uint8_t newdir)
-{
-    if (newdir == LEFT || newdir == RIGHT)
-    {
-        if (direction == UP || direction == DOWN)
-            direction = newdir;
-    }
-    else if (newdir == UP || newdir == DOWN)
-    {
-        if (direction == LEFT || direction == RIGHT)
-            direction = newdir;
-    }
-}
-
 bool Lizard::update()
 {
     for (int8_t i = 1; i < length; ++i)

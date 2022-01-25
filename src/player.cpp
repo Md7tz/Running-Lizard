@@ -1,6 +1,6 @@
 #include "Characters/player.h"
 
-Player::Player()
+Player::Player(Lives* lives)
 {
     bodyPos[0].x = 30;	   // Initial x value for head
     bodyPos[0].y = 30;	   // Initial y value for head
@@ -9,6 +9,7 @@ Player::Player()
     H[0] = 179; H[1] = 170; H[2] = 0;
     B[0] = 245; B[1] = 232; B[2] = 0;
     fillColor = YELLOW;
+    this->lives = lives;
 }
 
 Player::~Player() {}

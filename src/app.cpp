@@ -30,6 +30,7 @@
 #include "GameObjects/food.h"
 #include "GameObjects/edible.h"
 #include "GameObjects/poison.h"
+#include "GameObjects/lives.h"
 
 #include "GameManager/gameManager.h"
 
@@ -56,10 +57,14 @@ void update() {
 	const int8_t fruitCount = Edible::getCount();
 	
 	// GameObjects
-	Player player;
+	Lives lives;
+	
+	
+	Player player(&lives);
+	Enemy enemy(300, 300);
+
 	Edible fruit[2] = { Edible(1), Edible(5) }; 	// Two Food objects initialized in a random position
 	Poison poison;
-	Enemy enemy(300, 300);
 
 	int8_t page = 1;   		 						// Signed char  == int8_t | 1 byte | -128 to 127
 	uint8_t bodyLength; 							// Unsigned char == uint8_t | 1 byte | 0 to 255
