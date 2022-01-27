@@ -70,11 +70,12 @@ void collisionHandler(Player& player, Enemy& enemy, bool& collide, bool& skip, b
 }
 
 void uiHandler(Player& player, Poison& poison, Edible fruit[2], uint8_t& bodyLength, char score[4], char speed[10], Lives& lives, uint8_t& padding, int16_t& delay, bool& reveal, bool& gameState) {
-    setbkcolor(colors::DARKGRAY);
+    setbkcolor(COLOR(18,39,34)); //18 39 34
     settextjustify(0, 2);
     // Score
     settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 1);
-    setcolor(BLACK);
+    setcolor(WHITE);
+    readimagefile("Assets/Sprites/Border1.gif", 0, 535, 816, 598);
 
     // Calculate score from body length
     bodyLength = player.getLength();
@@ -104,7 +105,7 @@ void uiHandler(Player& player, Poison& poison, Edible fruit[2], uint8_t& bodyLen
     if (gameState)
     {
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-        outtextxy(160, 545, (char*)"PLAYING");
+        outtextxy(170, 545, (char*)"PLAYING");
     }
 
     // Progressive speed
@@ -121,20 +122,20 @@ void uiHandler(Player& player, Poison& poison, Edible fruit[2], uint8_t& bodyLen
     }
 
     // Draw Speed
-    setcolor(BLACK);
+    // setcolor(BLACK);
     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
     outtextxy(20, 575, (char*)"Speed");
     outtextxy(90, 575, speed);
 
     // Draw Exit Key
-    setcolor(BLACK);
+    // setcolor(WHITE);
     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
     outtextxy(20, 545, (char*)" PRESS 'ESC' to EXIT ");
 
     // Check if player reached max length -> Won
     if (player.getLength() == 32)
     {
-        setcolor(BLACK);
+        // setcolor(BLACK);
         outtextxy(160, 545, (char*)"Victory!");
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
         outtextxy(155, 200, (char*)"You Won! Press R to Restart");
@@ -143,17 +144,18 @@ void uiHandler(Player& player, Poison& poison, Edible fruit[2], uint8_t& bodyLen
     // Retry prompt
     if (!gameState && player.getLength() != 32)
     {
-        setcolor(BLACK);
+        // setcolor(BLACK);
         outtextxy(160, 545, (char*)"GAME OVER");
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
         outtextxy(250, 200, (char*)" Press R to Retry ");
     }
 
     // Draw Controls - WASD
-    readimagefile("Assets/Sprites/WASD.gif", 720, 540, 810, 600);
+    readimagefile("Assets/Sprites/WASD.gif", 720, 540, 810, 595);
 
     // Draw Controls - Arrow Keys
-    readimagefile("Assets/Sprites/Arrows.gif", 620, 540, 710, 598);
+    readimagefile("Assets/Sprites/Arrows.gif", 620, 540, 710, 593);
+
 
     // Draw lives
     lives.draw();

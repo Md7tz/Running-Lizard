@@ -1,7 +1,7 @@
 #include "GameObjects/menu.h"
 
 Menu::Menu() {
-    PlaySound("Assets/SFX/background music.wav", NULL, SND_ASYNC);
+    // PlaySound("Assets/SFX/background music.wav", NULL, SND_ASYNC);
 };
 
 Menu::~Menu() {}
@@ -92,8 +92,8 @@ void Menu::displayOptionsPage()
         setfillstyle(SOLID_FILL, GREEN);
 
         if (gameSound == false) {
-            setcolor(DARKGRAY);
-            setfillstyle(SOLID_FILL, DARKGRAY);
+            setcolor(GREEN);
+            setfillstyle(SOLID_FILL, GREEN);
             PlaySound(NULL, 0, 0);
         }
         ellipse(textX, textY + 40, 0, 360, 40, 10);
@@ -155,11 +155,11 @@ void Menu::pagesHandler()
         cleardevice();
 
         if (mainIndex == 0)
-            arrows(DARKGRAY, mainIndex);
+            arrows(GREEN, mainIndex);
         else if (mainIndex == 1)
-            arrows(DARKGRAY, mainIndex);
+            arrows(GREEN, mainIndex);
         else if (mainIndex == 2)
-            arrows(DARKGRAY, mainIndex);
+            arrows(GREEN, mainIndex);
 
         displayMenu(LIGHTGRAY, YELLOW);
 

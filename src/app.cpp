@@ -13,6 +13,7 @@
 #if ENV == 0
 	#define DEBUG true
 #elif ENV == 1 			// 1 == prod
+	#include <iostream>
 	#define DEBUG false
 #endif
 

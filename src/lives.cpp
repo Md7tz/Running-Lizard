@@ -20,7 +20,7 @@ void Lives::draw()
     /*
     draw the heart images on the screen
     */
-	int x = 325, y = 540;
+	int x = 325, y = 550;
 	if (numLives == 3) { readimagefile("Assets/Sprites/3heart.gif", x, y, x + 160, y - 40); }
 	else if (numLives == 2) { readimagefile("Assets/Sprites/2heart.gif", x, y, x + 160, y - 40); }
 	else if (numLives == 1) { readimagefile("Assets/Sprites/1heart.gif", x, y, x + 160, y - 40); }
