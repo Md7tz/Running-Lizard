@@ -12,7 +12,7 @@ public:
     ~Enemy();
     
     bool checkBody(Player& body);
-    void changeDir();
+    void changeDir(uint8_t = 0);
 };
 
 #endif

@@ -24,7 +24,7 @@ bool Enemy::checkBody(Player& body)
     return true;
 }
 
-void Enemy::changeDir()
+void Enemy::changeDir(uint8_t)
 {
     // Generate a random number in range from 0-3 direction for the enemy lizard
     srand(time(NULL));
