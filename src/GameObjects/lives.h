@@ -10,10 +10,12 @@ private:
 
 public:
     Lives();
-    void decreaseLives();
+    void operator -=(int);
+    bool operator ==(int);
+    void decrease();
     void reset();
-    int getLives();
-	void drawLives();
+    int getCount();
+    void draw();
 };
 
 #endif

@@ -37,7 +37,7 @@ void Menu::arrows(int color, int i) const
     int left[8] = { textX - 135, textY + i * textSpacing - 26, textX - 120, textY + i * textSpacing - 13, textX - 135, textY + i * textSpacing };
     int right[8] = { textX + 135, textY + i * textSpacing - 26, textX + 120, textY + i * textSpacing - 13, textX + 135, textY + i * textSpacing };
 
-    setcolor(WHITE);
+    setcolor(LIGHTGRAY);
     setfillstyle(SOLID_FILL, WHITE);
     drawpoly(3, left);
     fillpoly(3, left);
@@ -73,7 +73,7 @@ void Menu::displayOptionsPage()
     {
         cleardevice();
 
-        setcolor(WHITE);
+        setcolor(LIGHTGRAY);
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
         settextjustify(0, 2);
         outtextxy(10, 10, (char*)"Press 'ESC' to go back");
@@ -83,7 +83,7 @@ void Menu::displayOptionsPage()
         settextjustify(1, 1);
         outtextxy(textX, textY, (char*)"Sound");
 
-        setcolor(WHITE);
+        setcolor(LIGHTGRAY);
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
         settextjustify(1, 1);
         outtextxy(textX, textY + textSpacing, (char*)"Press 'ENTER' to turn ON/OFF the Game Sound");

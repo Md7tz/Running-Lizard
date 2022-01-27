@@ -15,7 +15,7 @@ public:
 	virtual bool update(int16_t, int16_t) = 0;	 // Status of food
 	
 	Position foodPos;
-	void draw() const;				 		 	 // Draw the food
+	void draw(std::string filepath) const;		 // Draw the food
 	void generate(int16_t, int16_t); 		 	 // Generate food position
 };
 

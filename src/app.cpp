@@ -58,11 +58,8 @@ void update() {
 	
 	// GameObjects
 	Lives lives;
-	
-	
 	Player player(&lives);
 	Enemy enemy(300, 300);
-
 	Edible fruit[2] = { Edible(1), Edible(5) }; 	// Two Food objects initialized in a random position
 	Poison poison;
 
@@ -102,9 +99,9 @@ void update() {
 		grid->draw();
 
 		inputHandler(player, restart, isPlaying);
-		collisionHandler(player, enemy, collide, skipFrame, revealEnemy, isPlaying, lifeCount);
+		collisionHandler(player, enemy, collide, skipFrame, revealEnemy, isPlaying, lives);
 		gameObjectsHandler(player, enemy, poison, fruit, isPlaying, revealEnemy, fruitCount);
-		uiHandler(player, poison, fruit, bodyLength, score, speed, lifeCount, lifePadding, delayAmt, revealEnemy, isPlaying);
+		uiHandler(player, poison, fruit, bodyLength, score, speed, lives, lifePadding, delayAmt, revealEnemy, isPlaying);
 
 		// Checks game state
 		if (restart) {
