@@ -8,7 +8,7 @@ class Player : public Lizard
 private:
 	Lives* lives;
 public:
-	Player(Lives* lives);
+	Player(Lives* lives=NULL);
 	~Player();
 
 	void changeDir(uint8_t); // Changes direction
