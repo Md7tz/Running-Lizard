@@ -6,18 +6,18 @@
 class Menu
 {
 private:
-    bool gameStart = false;             
-    bool gameOptions = false;           
-    bool gameSound = true;              
-    bool prevGameSound = false;         
-    bool arrowDown = false;             
-    bool arrowUp = false;               
-    bool returnDown = false;                 
+    bool gameStart;             
+    bool gameOptions;           
+    bool gameSound;              
+    bool prevGameSound;         
+    bool arrowDown;             
+    bool arrowUp;               
+    bool returnDown;                 
 
-    int mainIndex = 0, prevMainIndex;   
-    int textX = 405, textY = 250;       
-    int textSpacing = 85;               
-    int textFont = 2, textSize = 10;    
+    int mainIndex, prevMainIndex;   
+    int textX, textY;       
+    int textSpacing;               
+    int textFont, textSize;    
 
 public:
     Menu();                                         

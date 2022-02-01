@@ -1,8 +1,7 @@
 /******************** Running Lizard Game ********************/
 #include "GameManager/gameManager.h"
 
-int main()
-{
+int main() {
 	WINBGI_H	::initwindow(WIDTH, HEIGHT, TITLE, CENTERX, CENTERY);
 	GameManager ::initGame();
 	WINBGI_H	::getch();

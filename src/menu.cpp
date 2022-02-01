@@ -1,32 +1,44 @@
 #include "GameObjects/menu.h"
 
-Menu::Menu() {
-    // PlaySound("Assets/SFX/background music.wav", NULL, SND_ASYNC);
-};
+Menu::Menu() : gameStart(false),
+               gameOptions(false),
+               gameSound(true),
+               prevGameSound(false),
+               arrowDown(false),
+               arrowUp(false),
+               returnDown(false),
+               mainIndex(0),
+               prevMainIndex(-1), 
+               textX(405),
+               textY(250),
+               textSpacing(85),
+               textFont(2),
+               textSize(10) {};
 
 Menu::~Menu() {}
 
 void Menu::displayMenu(int titleC, int buttonsC) const
 {
-    /*
-    */
     setcolor(titleC);
     settextstyle(textFont, HORIZ_DIR, 30);
     settextjustify(1, 1);
-    outtextxy(textX, 100, (char*)"Running Lizard");
+    outtextxy(textX, 100, (char *)"Running Lizard");
 
     setcolor(buttonsC);
     settextstyle(textFont, HORIZ_DIR, textSize);
-    if (mainIndex == 0) settextstyle(10, HORIZ_DIR, 5);
-    outtextxy(textX, textY, (char*)"START");
+    if (mainIndex == 0)
+        settextstyle(10, HORIZ_DIR, 5);
+    outtextxy(textX, textY, (char *)"START");
 
     settextstyle(textFont, HORIZ_DIR, textSize);
-    if (mainIndex == 1) settextstyle(10, HORIZ_DIR, 5);
-    outtextxy(textX, textY + textSpacing, (char*)"OPTIONS");
+    if (mainIndex == 1)
+        settextstyle(10, HORIZ_DIR, 5);
+    outtextxy(textX, textY + textSpacing, (char *)"OPTIONS");
 
     settextstyle(textFont, HORIZ_DIR, textSize);
-    if (mainIndex == 2) settextstyle(10, HORIZ_DIR, 5);
-    outtextxy(textX, textY + 2 * textSpacing, (char*)"EXIT");
+    if (mainIndex == 2)
+        settextstyle(10, HORIZ_DIR, 5);
+    outtextxy(textX, textY + 2 * textSpacing, (char *)"EXIT");
 }
 
 void Menu::arrows(int color, int i) const
@@ -34,8 +46,8 @@ void Menu::arrows(int color, int i) const
     /*
     draw the aside arrows
     */
-    int left[8] = { textX - 135, textY + i * textSpacing - 26, textX - 120, textY + i * textSpacing - 13, textX - 135, textY + i * textSpacing };
-    int right[8] = { textX + 135, textY + i * textSpacing - 26, textX + 120, textY + i * textSpacing - 13, textX + 135, textY + i * textSpacing };
+    int left[8] = {textX - 135, textY + i * textSpacing - 26, textX - 120, textY + i * textSpacing - 13, textX - 135, textY + i * textSpacing};
+    int right[8] = {textX + 135, textY + i * textSpacing - 26, textX + 120, textY + i * textSpacing - 13, textX + 135, textY + i * textSpacing};
 
     setcolor(LIGHTGRAY);
     setfillstyle(SOLID_FILL, WHITE);
@@ -55,17 +67,21 @@ void Menu::displayOptionsPage()
     if (GetAsyncKeyState(VK_ESCAPE))
     {
         gameOptions = false;
-        if (gameSound) prevGameSound = false;
-        else prevGameSound = true;
+        if (gameSound)
+            prevGameSound = false;
+        else
+            prevGameSound = true;
     }
 
     if (GetAsyncKeyState(VK_RETURN))
     {
         returnDown = true;
     }
-    else if (!GetAsyncKeyState(VK_RETURN) && returnDown == true) {
+    else if (!GetAsyncKeyState(VK_RETURN) && returnDown == true)
+    {
         gameSound = !gameSound;
-        if (gameSound) PlaySound("Assets/SFX/background music.wav", NULL, SND_ASYNC);
+        if (gameSound)
+            PlaySound("Assets/SFX/background music.wav", NULL, SND_ASYNC);
         returnDown = false;
     }
 
@@ -76,22 +92,23 @@ void Menu::displayOptionsPage()
         setcolor(LIGHTGRAY);
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
         settextjustify(0, 2);
-        outtextxy(10, 10, (char*)"Press 'ESC' to go back");
+        outtextxy(10, 10, (char *)"Press 'ESC' to go back");
 
         setcolor(YELLOW);
         settextstyle(10, HORIZ_DIR, 5);
         settextjustify(1, 1);
-        outtextxy(textX, textY, (char*)"Sound");
+        outtextxy(textX, textY, (char *)"Sound");
 
         setcolor(LIGHTGRAY);
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
         settextjustify(1, 1);
-        outtextxy(textX, textY + textSpacing, (char*)"Press 'ENTER' to turn ON/OFF the Game Sound");
+        outtextxy(textX, textY + textSpacing, (char *)"Press 'ENTER' to turn ON/OFF the Game Sound");
 
         setcolor(GREEN);
         setfillstyle(SOLID_FILL, GREEN);
 
-        if (gameSound == false) {
+        if (gameSound == false)
+        {
             setcolor(GREEN);
             setfillstyle(SOLID_FILL, GREEN);
             PlaySound(NULL, 0, 0);
@@ -115,7 +132,8 @@ void Menu::menuInputHandler()
     }
     else if (!GetAsyncKeyState(VK_UP) && arrowUp == true)
     {
-        if (mainIndex > 0) mainIndex--;
+        if (mainIndex > 0)
+            mainIndex--;
         arrowUp = false;
     }
 
@@ -125,7 +143,8 @@ void Menu::menuInputHandler()
     }
     else if (!GetAsyncKeyState(VK_DOWN) && arrowDown == true)
     {
-        if (mainIndex < 2) mainIndex++;
+        if (mainIndex < 2)
+            mainIndex++;
         arrowDown = false;
     }
 
@@ -148,7 +167,8 @@ void Menu::pagesHandler()
     to update the graphical page based on the user
     choice of menu options
     */
-    if (gameOptions) displayOptionsPage();
+    if (gameOptions)
+        displayOptionsPage();
 
     if ((gameOptions == false) && (mainIndex != prevMainIndex))
     {

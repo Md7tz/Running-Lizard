@@ -129,7 +129,7 @@ void GameManager::uiHandler() {
     // Score
     settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 1);
     setcolor(WHITE);
-    readimagefile("Assets/Sprites/Border1.gif", 0, 535, 816, 598);
+    readimagefile("Assets/Sprites/border.gif", 0, 535, 816, 598);
 
     // Calculate score from body length
     bodyLength = player.getLength();
