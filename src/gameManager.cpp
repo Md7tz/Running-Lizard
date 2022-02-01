@@ -47,7 +47,7 @@ void GameManager::setAll() {
     collide         = false;							
     restart         = false;							
     score[4]        = '0';
-    strcpy(speed, "Normal");
+    readimagefile("Assets/Sprites/border.gif", 0, 535, 816, 598);
 }
 
 void GameManager::generationHandler()
@@ -129,8 +129,6 @@ void GameManager::uiHandler() {
     // Score
     settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 1);
     setcolor(WHITE);
-    readimagefile("Assets/Sprites/border.gif", 0, 535, 816, 598);
-
     // Calculate score from body length
     bodyLength = player.getLength();
     strncpy(score, std::to_string((bodyLength - 2) * 10).c_str(), 4);
@@ -156,41 +154,42 @@ void GameManager::uiHandler() {
         }
     }
 
-    if (isPlaying)
-    {
-        settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-        outtextxy(170, 545, (char*)"PLAYING");
-    }
-
+    // if (isPlaying)
+    // {
+    //     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+    //     // outtextxy(170, 545, (char*)"PLAYING");
+    // }
+    readimagefile("Assets/Sprites/border.gif", 0, 535, 816, 598);
     // Progressive speed
-    if (atoi(score) >= 100)
+    if (atoi(score) < 100) readimagefile("Assets/Sprites/normal.gif", 120, 550, 190, 595);
+    if (atoi(score) >= 100 && atoi(score) < 200)
     {
         delayAmt = 40;
-        strcpy(speed, "Fast");
+        readimagefile("Assets/Sprites/fast.gif", 120, 550, 190, 595);
     }
     if (atoi(score) >= 200)
     {
         delayAmt = 25;
-        strcpy(speed, "Insane");
+        readimagefile("Assets/Sprites/insane.gif", 120, 550, 190, 595);
         revealEnemy = true; // now enemy will be revealed
     }
 
     // Draw Speed
     // setcolor(BLACK);
-    settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-    outtextxy(20, 575, (char*)"Speed");
-    outtextxy(90, 575, speed);
+    // settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
+    readimagefile("Assets/Sprites/speed.gif", 0, 550, 100, 595);
+    // outtextxy(90, 575, speed);
 
     // Draw Exit Key
     // setcolor(WHITE);
     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-    outtextxy(20, 545, (char*)" PRESS 'ESC' to EXIT ");
+    // outtextxy(20, 545, (char*)" PRESS 'ESC' to EXIT ");
 
     // Check if player reached max length -> Won
     if (player.getLength() == 32)
     {
         // setcolor(BLACK);
-        outtextxy(160, 545, (char*)"Victory!");
+        readimagefile("Assets/Sprites/victory.gif", 355, 250, 455, 350);
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
         outtextxy(155, 200, (char*)"You Won! Press R to Restart");
         isPlaying = false;
@@ -199,7 +198,7 @@ void GameManager::uiHandler() {
     if (!isPlaying && player.getLength() != 32)
     {
         // setcolor(BLACK);
-        outtextxy(160, 545, (char*)"GAME OVER");
+        readimagefile("Assets/Sprites/gameOver.gif", 355, 250, 455, 350);
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
         outtextxy(250, 200, (char*)" Press R to Retry ");
     }
