@@ -128,10 +128,12 @@ void Menu::menuInputHandler()
     */
     if (GetAsyncKeyState(VK_UP))
     {
+        if(SFX) PlaySound("Assets/SFX/menu sound.wav", NULL, SND_ASYNC);
         arrowUp = true;
     }
     else if (!GetAsyncKeyState(VK_UP) && arrowUp == true)
     {
+        if(SFX) PlaySound("Assets/SFX/menu sound.wav", NULL, SND_ASYNC);
         if (mainIndex > 0)
             mainIndex--;
         arrowUp = false;
@@ -139,10 +141,12 @@ void Menu::menuInputHandler()
 
     if (GetAsyncKeyState(VK_DOWN))
     {
+        if(SFX) PlaySound("Assets/SFX/menu sound.wav", NULL, SND_ASYNC);
         arrowDown = true;
     }
     else if (!GetAsyncKeyState(VK_DOWN) && arrowDown == true)
     {
+        if(SFX) PlaySound("Assets/SFX/menu sound.wav", NULL, SND_ASYNC);
         if (mainIndex < 2)
             mainIndex++;
         arrowDown = false;

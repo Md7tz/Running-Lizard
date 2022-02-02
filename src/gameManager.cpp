@@ -120,9 +120,8 @@ void GameManager::gameObjectsHandler() {
     poison.draw("Assets/Sprites/poison.gif");
 
     player.draw();
-    if (revealEnemy)
+    if (revealEnemy) 
         enemy.draw();
-
 }
 
 void GameManager::uiHandler() {
@@ -144,26 +143,20 @@ void GameManager::uiHandler() {
         poison.generate(player.getPosx(), player.getPosy());
         generationHandler();
         lives-=1;
-        if (poison.getHit() == 3)
-        {
-            settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-            outtextxy(160, 545, (char*)"GAME OVER");
-            isPlaying = false;
-        }
     }
 
     readimagefile("Assets/Sprites/border.gif", 0, 535, 816, 598);
 
     if (atoi(score) < 100) 
-        readimagefile("Assets/Sprites/normal.gif", 120, 550, 190, 595);
+        readimagefile("Assets/Sprites/normal.gif", 125, 550, 195, 595);
     if (atoi(score) >= 100 && atoi(score) < 200)
     {
-        readimagefile("Assets/Sprites/fast.gif", 120, 550, 190, 595);
+        readimagefile("Assets/Sprites/fast.gif", 125, 550, 195, 595);
         delayAmt = 40;
     }
     if (atoi(score) >= 200)
     {
-        readimagefile("Assets/Sprites/insane.gif", 120, 550, 190, 595);
+        readimagefile("Assets/Sprites/insane.gif", 125, 550, 195, 595);
         delayAmt = 25;
         revealEnemy = true; 
     }
@@ -176,23 +169,31 @@ void GameManager::uiHandler() {
         isPlaying = false;
     }
     // Retry prompt
-    if (!isPlaying && player.getLength() != 32)
+    if (!isPlaying && player.getLength() != 32||poison.getHit() == 3)
     {
         readimagefile("Assets/Sprites/gameOver.gif", 310, 250, 500, 350);
+        if(poison.getHit()!=3 || isPlaying==true)
+        {
+            PlaySound("Assets/SFX/game over.wav", NULL, SND_ASYNC);
+            poison.setHit();
+        }
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
         outtextxy(250, 200, (char*)" Press R to Retry ");
+        isPlaying=false;
     }
 
     // Draw Controls 
     readimagefile("Assets/Sprites/Arrows.gif", 640, 550, 710, 595);
     readimagefile("Assets/Sprites/WASD.gif", 730, 550, 800, 595);
-    readimagefile("Assets/Sprites/speed.gif", 5, 555, 105, 590);
+    readimagefile("Assets/Sprites/speed.gif", 10, 555, 110, 590);
 
     // Draw lives
     lives.draw();
 }
 
 void GameManager::initGame() {
+
+    PlaySound("Assets/SFX/game opener.wav", NULL, SND_ASYNC);
     G_MENU:
     menu = new Menu();
     while (!(menu->getGameState())) {
@@ -231,7 +232,7 @@ void GameManager::initGame() {
         collisionHandler();
         gameObjectsHandler();
         uiHandler();
-
+        
         // Checks game state
         if (restart) {
             cleardevice();

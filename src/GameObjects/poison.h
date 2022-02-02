@@ -14,6 +14,7 @@ public:
 	
 	bool update(int16_t, int16_t); // Status of food
 	uint8_t getHit() const;
+	void setHit();
 };
 
 #endif

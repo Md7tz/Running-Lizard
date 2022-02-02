@@ -21,3 +21,7 @@ uint8_t Poison::getHit() const
 {
 	return hit;
 }
+void Poison::setHit()
+{
+	hit=3;
+}
