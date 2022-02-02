@@ -59,6 +59,7 @@ private:
     static bool revealEnemy; 		// blocks the enemy from instantiating , until the speed of lizard becomes insane
     static bool collide;			// Checks if the player collided with the enemy and only changes after exiting the collision
     static bool restart;			// Restarts the game if true
+    static bool SFX;
 
     static char score[4];
     static char speed[10];

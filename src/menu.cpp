@@ -1,5 +1,5 @@
 #include "GameObjects/menu.h"
-
+#include <iostream>
 Menu::Menu() : gameStart(false),
                gameOptions(false),
                gameSound(true),
@@ -57,7 +57,7 @@ void Menu::arrows(int color, int i) const
     fillpoly(3, right);
 }
 
-void Menu::displayOptionsPage()
+void Menu::displayOptionsPage(bool & SFX)
 {
     /*
     provide the user with the option
@@ -71,6 +71,9 @@ void Menu::displayOptionsPage()
             prevGameSound = false;
         else
             prevGameSound = true;
+        SFX=gameSound;
+        std::cout<<SFX<<"\n";
+        
     }
 
     if (GetAsyncKeyState(VK_RETURN))
@@ -80,8 +83,8 @@ void Menu::displayOptionsPage()
     else if (!GetAsyncKeyState(VK_RETURN) && returnDown == true)
     {
         gameSound = !gameSound;
-        if (gameSound)
-            PlaySound("Assets/SFX/background music.wav", NULL, SND_ASYNC);
+        // if (gameSound)
+            // PlaySound("Assets/SFX/background music.wav", NULL, SND_ASYNC);
         returnDown = false;
     }
 
@@ -109,9 +112,9 @@ void Menu::displayOptionsPage()
 
         if (gameSound == false)
         {
-            setcolor(GREEN);
-            setfillstyle(SOLID_FILL, GREEN);
-            PlaySound(NULL, 0, 0);
+            setcolor(LIGHTGRAY);
+            setfillstyle(SOLID_FILL, LIGHTGRAY);
+            // PlaySound(NULL, 0, 0);
         }
         ellipse(textX, textY + 40, 0, 360, 40, 10);
         fillellipse(textX, textY + 40, 40, 10);
@@ -161,14 +164,14 @@ void Menu::menuInputHandler()
     }
 }
 
-void Menu::pagesHandler()
+void Menu::pagesHandler(bool &SFX)
 {
     /*
     to update the graphical page based on the user
     choice of menu options
     */
     if (gameOptions)
-        displayOptionsPage();
+        displayOptionsPage(SFX);
 
     if ((gameOptions == false) && (mainIndex != prevMainIndex))
     {

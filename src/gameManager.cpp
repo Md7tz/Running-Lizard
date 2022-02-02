@@ -19,8 +19,8 @@ bool GameManager::skipFrame;
 bool GameManager::isPlaying;							        
 bool GameManager::revealEnemy; 						        
 bool GameManager::collide;							        
-bool GameManager::restart;							        
-
+bool GameManager::restart;	
+bool GameManager::SFX=true;	 // set SFX  to be true by default 
 char GameManager::score[4];
 char GameManager::speed[10];
 
@@ -39,10 +39,10 @@ void GameManager::setAll() {
     fruit[1]        = Edible(5); 	
     poison          = Poison();
     page            = 1;   		 																		
-    delayAmt        = 90;							
+    delayAmt        = 60;							
     lifeCount       = 3; 							
     skipFrame       = true;							
-    isPlaying       = true;							
+    isPlaying       = true;	
     revealEnemy     = false; 						
     collide         = false;							
     restart         = false;							
@@ -105,6 +105,7 @@ void GameManager::gameObjectsHandler() {
     {
         if (fruit[i].update(player.getPosx(), player.getPosy()))
         {
+           if(SFX) PlaySound("Assets/SFX/eat sound.wav", NULL, SND_ASYNC);
             fruit[i].generate(player.getPosx(), player.getPosy());
             player.append();
         }
@@ -134,7 +135,6 @@ void GameManager::uiHandler() {
     strncpy(score, std::to_string((bodyLength - 2) * 10).c_str(), 4);
 
     // Display score
-    // outtextxy(20, 545, (char*)"SCORE");
     outtextxy(398, 0, score);
 
     // Game State
@@ -143,6 +143,8 @@ void GameManager::uiHandler() {
     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
     if (poison.update(player.getPosx(), player.getPosy()))
     {
+           if(SFX) PlaySound("Assets/SFX/poison eat.wav", NULL, SND_ASYNC);
+        
         poison.generate(player.getPosx(), player.getPosy());
         generationHandler();
         lives-=1;
@@ -154,13 +156,7 @@ void GameManager::uiHandler() {
         }
     }
 
-    // if (isPlaying)
-    // {
-    //     settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-    //     // outtextxy(170, 545, (char*)"PLAYING");
-    // }
     readimagefile("Assets/Sprites/border.gif", 0, 535, 816, 598);
-    // Progressive speed
     if (atoi(score) < 100) readimagefile("Assets/Sprites/normal.gif", 120, 550, 190, 595);
     if (atoi(score) >= 100 && atoi(score) < 200)
     {
@@ -175,20 +171,13 @@ void GameManager::uiHandler() {
     }
 
     // Draw Speed
-    // setcolor(BLACK);
-    // settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-    readimagefile("Assets/Sprites/speed.gif", 0, 550, 100, 595);
-    // outtextxy(90, 575, speed);
+    readimagefile("Assets/Sprites/speed.gif", 5, 555, 105, 590);
 
     // Draw Exit Key
-    // setcolor(WHITE);
-    settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
-    // outtextxy(20, 545, (char*)" PRESS 'ESC' to EXIT ");
 
     // Check if player reached max length -> Won
     if (player.getLength() == 32)
     {
-        // setcolor(BLACK);
         readimagefile("Assets/Sprites/victory.gif", 355, 250, 455, 350);
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
         outtextxy(155, 200, (char*)"You Won! Press R to Restart");
@@ -197,8 +186,7 @@ void GameManager::uiHandler() {
     // Retry prompt
     if (!isPlaying && player.getLength() != 32)
     {
-        // setcolor(BLACK);
-        readimagefile("Assets/Sprites/gameOver.gif", 355, 250, 455, 350);
+        readimagefile("Assets/Sprites/gameOver.gif", 330, 250, 480, 350);
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
         outtextxy(250, 200, (char*)" Press R to Retry ");
     }
@@ -218,7 +206,7 @@ void GameManager::initGame() {
         #if DEBUG
             Timer timer;
         #endif
-        menu->pagesHandler();
+        menu->pagesHandler(SFX);
         menu->menuInputHandler();
         delay(100);
     }

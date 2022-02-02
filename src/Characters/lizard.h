@@ -18,7 +18,7 @@ protected:
     uint8_t fillColor;
 
 public:
-    virtual void changeDir(uint8_t) = 0;       // Changes direction
+    void changeDir(uint8_t);       // Changes direction
     bool update();
 
     void draw() const;

@@ -24,9 +24,9 @@ public:
     ~Menu();                                        
     void displayMenu(int colorA, int colorB) const; 
     void arrows(int color, int i) const;            
-    void displayOptionsPage();                      
+    void displayOptionsPage(bool &SFX);                      
     void menuInputHandler();                        
-    void pagesHandler();                            
+    void pagesHandler(bool &SFX);                            
     bool getGameState() const;                      
 };
 
