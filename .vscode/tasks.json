@@ -63,6 +63,7 @@
             "command": "g++",
             "args": [
                 "-g",
+                "-std=c++17",
                 "${workspaceFolder}/src/*.cpp",
                 "-o",
                 "bin/Debug/${workspaceFolderBasename}.exe",

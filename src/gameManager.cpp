@@ -1,7 +1,9 @@
 #include "GameManager/gameManager.h"
+using namespace GAME;
 
-Menu* GameManager:: menu;
-Grid* GameManager:: grid;
+#pragma region Fields
+Menu* GameManager::menu;
+Grid* GameManager::grid;
 
 Lives GameManager::lives;
 Player GameManager::player;
@@ -19,10 +21,10 @@ bool GameManager::skipFrame;
 bool GameManager::isPlaying;							        
 bool GameManager::revealEnemy; 						        
 bool GameManager::collide;							        
-bool GameManager::restart;	
-bool GameManager::SFX=true;	 // set SFX  to be true by default 
+bool GameManager::restart;	 
 char GameManager::score[4];
 char GameManager::speed[10];
+#pragma endregion
 
 void GameManager::setup() {
     setactivepage(page);
@@ -47,7 +49,6 @@ void GameManager::setAll() {
     collide         = false;							
     restart         = false;							
     score[4]        = '0';
-    readimagefile("Assets/Sprites/border.gif", 0, 535, 816, 598);
 }
 
 void GameManager::generationHandler()
@@ -105,7 +106,7 @@ void GameManager::gameObjectsHandler() {
     {
         if (fruit[i].update(player.getPosx(), player.getPosy()))
         {
-           if(SFX) PlaySound("Assets/SFX/eat sound.wav", NULL, SND_ASYNC);
+            if(SFX) PlaySound("Assets/SFX/eat sound.wav", NULL, SND_ASYNC);
             fruit[i].generate(player.getPosx(), player.getPosy());
             player.append();
         }
@@ -125,26 +126,21 @@ void GameManager::gameObjectsHandler() {
 }
 
 void GameManager::uiHandler() {
-    setbkcolor(COLOR(18,39,34)); //18 39 34
-    settextjustify(0, 2);
-    // Score
-    settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 1);
     setcolor(WHITE);
+    setbkcolor(COLOR(18,39,34)); 
+    settextjustify(0, 2);
+    settextstyle(font_names::SANS_SERIF_FONT, HORIZ_DIR, 1);
+
     // Calculate score from body length
     bodyLength = player.getLength();
     strncpy(score, std::to_string((bodyLength - 2) * 10).c_str(), 4);
-
-    // Display score
     outtextxy(398, 0, score);
 
-    // Game State
     // Regenerate new poison position
     // Check if player ate 3 poison
-    settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 1);
     if (poison.update(player.getPosx(), player.getPosy()))
     {
-           if(SFX) PlaySound("Assets/SFX/poison eat.wav", NULL, SND_ASYNC);
-        
+        if(SFX) PlaySound("Assets/SFX/poison eat.wav", NULL, SND_ASYNC);
         poison.generate(player.getPosx(), player.getPosy());
         generationHandler();
         lives-=1;
@@ -157,24 +153,20 @@ void GameManager::uiHandler() {
     }
 
     readimagefile("Assets/Sprites/border.gif", 0, 535, 816, 598);
-    if (atoi(score) < 100) readimagefile("Assets/Sprites/normal.gif", 120, 550, 190, 595);
+
+    if (atoi(score) < 100) 
+        readimagefile("Assets/Sprites/normal.gif", 120, 550, 190, 595);
     if (atoi(score) >= 100 && atoi(score) < 200)
     {
-        delayAmt = 40;
         readimagefile("Assets/Sprites/fast.gif", 120, 550, 190, 595);
+        delayAmt = 40;
     }
     if (atoi(score) >= 200)
     {
-        delayAmt = 25;
         readimagefile("Assets/Sprites/insane.gif", 120, 550, 190, 595);
-        revealEnemy = true; // now enemy will be revealed
+        delayAmt = 25;
+        revealEnemy = true; 
     }
-
-    // Draw Speed
-    readimagefile("Assets/Sprites/speed.gif", 5, 555, 105, 590);
-
-    // Draw Exit Key
-
     // Check if player reached max length -> Won
     if (player.getLength() == 32)
     {
@@ -186,7 +178,7 @@ void GameManager::uiHandler() {
     // Retry prompt
     if (!isPlaying && player.getLength() != 32)
     {
-        readimagefile("Assets/Sprites/gameOver.gif", 330, 250, 480, 350);
+        readimagefile("Assets/Sprites/gameOver.gif", 310, 250, 500, 350);
         settextstyle(SANS_SERIF_FONT, HORIZ_DIR, 4);
         outtextxy(250, 200, (char*)" Press R to Retry ");
     }
@@ -194,6 +186,7 @@ void GameManager::uiHandler() {
     // Draw Controls 
     readimagefile("Assets/Sprites/Arrows.gif", 640, 550, 710, 595);
     readimagefile("Assets/Sprites/WASD.gif", 730, 550, 800, 595);
+    readimagefile("Assets/Sprites/speed.gif", 5, 555, 105, 590);
 
     // Draw lives
     lives.draw();
@@ -206,7 +199,7 @@ void GameManager::initGame() {
         #if DEBUG
             Timer timer;
         #endif
-        menu->pagesHandler(SFX);
+        menu->pagesHandler();
         menu->menuInputHandler();
         delay(100);
     }
@@ -231,7 +224,6 @@ void GameManager::initGame() {
         #endif
         setup();
 
-        // Create a grid in dynamic memory
         grid = new Grid();
         grid->draw();
 
@@ -249,10 +241,8 @@ void GameManager::initGame() {
         // Control speed between frames
         delay(delayAmt);
 
-        // Free grid from memory
-        delete grid;
-
         // Reset page
+        delete grid;
         page = 1 - page;
     }
 }
