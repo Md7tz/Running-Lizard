@@ -33,12 +33,12 @@ void GameManager::setup() {
 }
 
 void GameManager::setAll() {
-    fruitCount      = Edible::getCount();
     lives           = Lives();
     player          = Player(&lives);
     enemy           = Enemy(300, 300);
     fruit[0]        = Edible(1);
     fruit[1]        = Edible(5); 	
+    fruitCount      = Edible::getCount();
     poison          = Poison();
     page            = 1;   		 																		
     delayAmt        = 60;							
