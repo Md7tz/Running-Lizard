@@ -1,13 +1,12 @@
 #include "GameObjects/edible.h"
 
-uint8_t Edible::count = 0;
+const uint8_t Edible::count = 2;
 
 Edible::Edible() {}
 Edible::Edible(uint8_t _randInt)
 {
     randInt = _randInt;
     foodColor = RED;
-    count++;
 }
 
 Edible::~Edible() {}

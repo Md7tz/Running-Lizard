@@ -6,7 +6,7 @@
 class Edible : public Food
 {
 private:
-    static  uint8_t count;
+    const static uint8_t count;
 public:
     Edible();
     Edible(uint8_t _randInt);
