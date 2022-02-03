@@ -1,85 +1,58 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [{
-            "label": "single_file_console_build",
-            "type": "shell",
-            "command": "g++",
-            "args": [
-                "-g",
-                "${fileBasename}",
-                "-o",
-                "${fileBasenameNoExtension}",
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": "$gcc"
-        },
-        {
-            "label": "single_file_graphic_build",
-            "type": "shell",
-            "command": "g++",
-            "args": [
-                "-g",
-                "${fileBasename}",
-                "-o",
-                "bin/Debug/${fileBasenameNoExtension}",
-                "-lbgi",
-                "-lgdi32",
-                "-lcomdlg32",
-                "-luuid",
-                "-loleaut32",
-                "-lole32",
-                "-lwinmm"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": "$gcc"
-        },
-        {
-            "label": "multi_file_console_build",
-            "type": "shell",
-            "command": "g++",
-            "args": [
-                "-g",
-                "*.cpp",
-                "-o",
-                "${workspaceFolderBasename}"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": "$gcc"
-        },
-        {
-            "label": "multi_file_graphic_build",
-            "type": "shell",
-            "command": "g++",
-            "args": [
-                "-g",
-                "-std=c++17",
-                "${workspaceFolder}/src/*.cpp",
-                "-o",
-                "bin/Debug/${workspaceFolderBasename}.exe",
-                "-lbgi",
-                "-lgdi32",
-                "-lcomdlg32",
-                "-luuid",
-                "-loleaut32",
-                "-lole32",
-                "-lwinmm" 
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": "$gcc"
-        }
-    ]
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "GUI with console",
+      "type": "shell",
+      "detail": "opens a graphical user interface with a console for debugging for multi file project",
+      "command": "g++",
+      "args": [
+        "-g",
+        "-std=c++17",
+        "${workspaceFolder}/src/*.cpp",
+        "-o",
+        "bin/Debug/${workspaceFolderBasename}.exe",
+        "-lbgi",
+        "-lgdi32",
+        "-lcomdlg32",
+        "-luuid",
+        "-loleaut32",
+        "-lole32",
+        "-lwinmm"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "GUI without console",
+      "type": "shell",
+      "detail": "opens a graphical user interface without a console for multi file project",
+      "command": "g++",
+      "args": [
+        "-g",
+        "-std=c++17",
+        "-mwindows",
+        "${workspaceFolder}/src/*.cpp",
+        "-o",
+        "bin/Debug/${workspaceFolderBasename}.exe",
+        "-lbgi",
+        "-lgdi32",
+        "-lcomdlg32",
+        "-luuid",
+        "-loleaut32",
+        "-lole32",
+        "-lwinmm"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$gcc"
+    }
+  ]
 }
